@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anera Life — Longevity Is the New Flex</title>
+  <style>
+    /* ─── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --black:  #0a0a0a;
+      --white:  #ffffff;
+      --off:    #f5f5f0;
+      --gray:   #888880;
+      --accent: #c8a96e;   /* warm gold — longevity / premium */
+      --accent2:#4a9eff;   /* cool blue  — science */
+      --font:   "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --serif:  Georgia, "Times New Roman", serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    img, video { display: block; max-width: 100%; }
+
+    /* ─── Loading Screen ─────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo {
+      font-size: 28px; font-weight: 700; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--white);
+      margin-bottom: 32px;
+    }
+    .loader-bar-wrap {
+      width: 200px; height: 1px;
+      background: rgba(255,255,255,.15);
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; width: 0%;
+      background: var(--accent);
+      transition: width .05s linear;
+    }
+
+    /* ─── Nav ────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+      padding: 0 48px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, backdrop-filter .4s;
+    }
+    .nav.scrolled {
+      background: rgba(10,10,10,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav__logo {
+      font-size: 18px; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .nav__links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav__links a {
+      font-size: 12px; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.7);
+      transition: color .2s;
+    }
+    .nav__links a:hover { color: var(--white); }
+    .nav__cta {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 10px 24px;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 2px;
+      color: var(--white);
+      transition: background .2s, border-color .2s;
+    }
+    .nav__cta:hover {
+      background: var(--white); color: var(--black);
+      border-color: var(--white);
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 0 24px; }
+      .nav__links { display: none; }
+    }
+
+    /* ─── Hero — Full-bleed Video ────────────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero__video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    /* Cinematic gradient overlays */
+    .hero__overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(10,10,10,.25) 0%,
+          rgba(10,10,10,.0) 30%,
+          rgba(10,10,10,.0) 55%,
+          rgba(10,10,10,.85) 100%
+        );
+    }
+    .hero__content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 900px;
+    }
+    .hero__eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .9s .4s forwards;
+    }
+    .hero__title {
+      font-size: clamp(48px, 9vw, 110px);
+      font-weight: 800;
+      line-height: .95;
+      letter-spacing: -.04em;
+      color: var(--white);
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s .6s forwards;
+    }
+    .hero__title span { color: var(--accent); }
+    .hero__sub {
+      font-size: clamp(15px, 2vw, 19px);
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255,255,255,.75);
+      max-width: 560px; margin: 0 auto 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .9s .85s forwards;
+    }
+    .hero__ctas {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .9s 1.05s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 36px;
+      background: var(--accent); color: var(--black);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      border-radius: 2px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(200,169,110,.35);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 36px;
+      border: 1px solid rgba(255,255,255,.4);
+      color: var(--white);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      border-radius: 2px;
+      transition: background .2s, border-color .2s;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.7);
+    }
+    /* Scroll indicator */
+    .hero__scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeUp .9s 1.5s forwards;
+    }
+    .hero__scroll-text {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+    .hero__scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: .4; transform: scaleY(1); }
+      50%      { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* ─── Reveal utility ─────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0; transform: translateX(-40px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0; transform: translateX(40px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── Marquee strip ──────────────────────────────────────────── */
+    .marquee-strip {
+      background: var(--accent);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 14px 0;
+    }
+    .marquee-track {
+      display: inline-flex; gap: 0;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-track span {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--black);
+      padding: 0 36px;
+    }
+    .marquee-track span::after {
+      content: '·'; margin-left: 36px;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─── Section base ───────────────────────────────────────────── */
+    .section {
+      padding: 120px 48px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    @media (max-width: 768px) { .section { padding: 80px 24px; } }
+
+    .label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 800; line-height: 1.0;
+      letter-spacing: -.04em;
+    }
+    .h2 {
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+    .body-lg {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 300; line-height: 1.7;
+      color: rgba(255,255,255,.65);
+    }
+    .body-sm {
+      font-size: 14px; font-weight: 300; line-height: 1.7;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* ─── Intro Statement ────────────────────────────────────────── */
+    .intro {
+      background: var(--black);
+      padding: 140px 48px;
+      text-align: center;
+    }
+    .intro__inner { max-width: 900px; margin: 0 auto; }
+    .intro__quote {
+      font-size: clamp(28px, 5vw, 60px);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .intro__quote em {
+      font-style: normal; color: var(--accent);
+    }
+    .intro__body {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 300; line-height: 1.75;
+      color: rgba(255,255,255,.6);
+      max-width: 680px; margin: 0 auto;
+    }
+
+    /* ─── Stats Row ──────────────────────────────────────────────── */
+    .stats-row {
+      background: #111;
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 80px 48px;
+    }
+    .stats-row__inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    @media (max-width: 768px) {
+      .stats-row__inner { grid-template-columns: repeat(2, 1fr); gap: 48px 0; }
+    }
+    .stat {
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .stat:last-child { border-right: none; }
+    .stat__num {
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 800; line-height: 1;
+      letter-spacing: -.05em; color: var(--white);
+    }
+    .stat__num sup {
+      font-size: .4em; vertical-align: super; color: var(--accent);
+    }
+    .stat__label {
+      font-size: 11px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gray);
+      margin-top: 10px; line-height: 1.5;
+    }
+
+    /* ─── Products ───────────────────────────────────────────────── */
+    .products-section {
+      background: var(--off);
+      padding: 120px 48px;
+    }
+    .products-section__inner { max-width: 1200px; margin: 0 auto; }
+    .products-section .label { color: #888; }
+    .products-section .h2 { color: var(--black); margin-bottom: 60px; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) { .products-grid { grid-template-columns: 1fr; } }
+    .product-card {
+      background: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.15);
+    }
+    .product-card__visual {
+      height: 320px;
+      background: linear-gradient(135deg, #0d0d14 0%, #1a1a2e 50%, #0d1117 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .product-card__visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 60%, rgba(200,169,110,.12) 0%, transparent 65%);
+    }
+    /* CSS bottle */
+    .bottle-3d {
+      width: 90px; height: 160px;
+      background: linear-gradient(160deg, #2a2a3e 0%, #0f0f1a 100%);
+      border-radius: 12px 12px 14px 14px;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.06),
+        0 20px 60px rgba(0,0,0,.6),
+        inset 2px 0 0 rgba(255,255,255,.05);
+    }
+    .bottle-3d::before {
+      content: '';
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      width: 42px; height: 18px;
+      background: linear-gradient(160deg, #3a3a50, #1a1a2e);
+      border-radius: 4px 4px 0 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    }
+    .bottle-3d::after {
+      content: '';
+      position: absolute; top: 20px; left: 8px; right: 8px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+    }
+    .bottle-label {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      text-align: center; white-space: nowrap;
+    }
+    .bottle-label-brand {
+      font-size: 7px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.35); display: block;
+    }
+    .bottle-label-name {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.8); display: block;
+      margin-top: 3px;
+    }
+    .bottle-label-dose {
+      font-size: 8px; color: rgba(255,255,255,.3); display: block; margin-top: 2px;
+    }
+    .product-card__body {
+      padding: 32px 36px 40px;
+      flex: 1; display: flex; flex-direction: column;
+    }
+    .product-card__tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px;
+      margin-bottom: 16px; align-self: flex-start;
+    }
+    .tag-gold { background: rgba(200,169,110,.12); color: #c8a96e; }
+    .tag-blue { background: rgba(74,158,255,.1); color: #4a9eff; }
+    .product-card__name {
+      font-size: 28px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--black);
+      margin-bottom: 8px;
+    }
+    .product-card__desc {
+      font-size: 15px; color: #666; line-height: 1.6;
+      margin-bottom: 28px; flex: 1;
+    }
+    .product-card__price {
+      font-size: 26px; font-weight: 700; color: var(--black);
+      margin-bottom: 24px;
+    }
+    .product-card__price small {
+      font-size: 14px; font-weight: 400; color: #999; margin-left: 4px;
+    }
+    .product-card__actions { display: flex; gap: 12px; }
+    .btn-dark {
+      flex: 1; padding: 14px 20px;
+      background: var(--black); color: var(--white);
+      font-size: 11px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; text-align: center;
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .btn-dark:hover { background: #222; }
+    .btn-outline-dark {
+      flex: 1; padding: 14px 20px;
+      border: 1px solid rgba(0,0,0,.2); color: var(--black);
+      font-size: 11px; font-weight: 600; letter-spacing: .15em;
+      text-transform: uppercase; text-align: center;
+      border-radius: 2px;
+      transition: border-color .2s;
+    }
+    .btn-outline-dark:hover { border-color: var(--black); }
+
+    /* ─── Video Parallax Section ─────────────────────────────────── */
+    .video-parallax {
+      position: relative;
+      height: 70vh; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .video-parallax__bg {
+      position: absolute; inset: -10%;
+      width: 120%; height: 120%;
+      object-fit: cover;
+      will-change: transform;
+    }
+    .video-parallax__overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,.6);
+    }
+    .video-parallax__content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 24px;
+    }
+    .video-parallax__content .h1 { margin-bottom: 20px; }
+    .video-parallax__content .body-lg { max-width: 560px; margin: 0 auto 36px; }
+
+    /* ─── Science Section ────────────────────────────────────────── */
+    .science-section {
+      background: var(--black);
+      padding: 140px 48px;
+    }
+    .science-section__inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .science-section__inner { grid-template-columns: 1fr; gap: 60px; }
+    }
+    .science-visual {
+      position: relative;
+    }
+    .science-big {
+      font-size: clamp(100px, 18vw, 200px);
+      font-weight: 900; line-height: .85;
+      letter-spacing: -.07em;
+      color: rgba(255,255,255,.06);
+      user-select: none;
+      position: relative;
+    }
+    .science-big-overlay {
+      position: absolute; top: 50%; left: 0;
+      transform: translateY(-50%);
+      padding: 32px 40px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 4px;
+      backdrop-filter: blur(10px);
+    }
+    .science-big-overlay .num {
+      font-size: 64px; font-weight: 900;
+      letter-spacing: -.05em; color: var(--white);
+      line-height: 1;
+    }
+    .science-big-overlay .unit {
+      font-size: 20px; font-weight: 600;
+      color: var(--accent); margin-top: 4px;
+    }
+    .science-big-overlay .caption {
+      font-size: 12px; color: var(--gray); margin-top: 8px;
+      letter-spacing: .05em;
+    }
+    .science-text .label { margin-bottom: 16px; }
+    .science-text .h2 { margin-bottom: 24px; }
+    .science-text .body-lg { margin-bottom: 32px; }
+    .science-callout {
+      padding: 20px 24px;
+      border-left: 2px solid var(--accent);
+      background: rgba(200,169,110,.05);
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 36px;
+    }
+    .science-callout p {
+      font-size: 14px; line-height: 1.7;
+      color: rgba(255,255,255,.7);
+    }
+    .science-callout strong { color: var(--accent); }
+
+    /* ─── Pillars ────────────────────────────────────────────────── */
+    .pillars-section {
+      background: #0d0d0d;
+      padding: 140px 48px;
+    }
+    .pillars-section__inner { max-width: 1200px; margin: 0 auto; }
+    .pillars-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: end;
+      margin-bottom: 80px;
+    }
+    @media (max-width: 768px) {
+      .pillars-header { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .pillars-header .body-lg { max-width: 400px; }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 4px; overflow: hidden;
+    }
+    @media (max-width: 900px) {
+      .pillars-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .pillar {
+      background: #0d0d0d;
+      padding: 40px 28px;
+      transition: background .3s;
+    }
+    .pillar:hover { background: rgba(200,169,110,.06); }
+    .pillar__num {
+      font-size: 11px; font-weight: 700; letter-spacing: .2em;
+      color: var(--accent); margin-bottom: 20px;
+    }
+    .pillar__icon { font-size: 28px; margin-bottom: 16px; }
+    .pillar__name {
+      font-size: 18px; font-weight: 700; color: var(--white);
+      margin-bottom: 10px; letter-spacing: -.01em;
+    }
+    .pillar__desc {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ─── Comparison Table ───────────────────────────────────────── */
+    .compare-section {
+      background: var(--black);
+      padding: 140px 48px;
+    }
+    .compare-section__inner { max-width: 1000px; margin: 0 auto; }
+    .compare-section .h2 { margin-bottom: 60px; text-align: center; }
+    .compare-table {
+      width: 100%; border-collapse: collapse;
+    }
+    .compare-table thead th {
+      font-size: 11px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gray);
+      padding: 0 0 20px; text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .compare-table thead th:first-child { width: 40%; }
+    .compare-table tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      transition: background .2s;
+    }
+    .compare-table tbody tr:hover { background: rgba(255,255,255,.02); }
+    .compare-table tbody td {
+      padding: 18px 0; font-size: 15px; color: rgba(255,255,255,.75);
+      vertical-align: middle;
+    }
+    .compare-table tbody td:not(:first-child) { text-align: center; }
+    .check { color: var(--accent); font-size: 18px; }
+    .cross { color: rgba(255,255,255,.2); font-size: 18px; }
+    .compare-table thead th:nth-child(2) { color: var(--accent); }
+    .compare-table tbody td:nth-child(2) { color: var(--white); font-weight: 600; }
+
+    /* ─── Superfood ──────────────────────────────────────────────── */
+    .superfood-section {
+      background: #0d0d0d;
+      padding: 140px 48px;
+    }
+    .superfood-section__inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .superfood-section__inner { grid-template-columns: 1fr; }
+    }
+    .sf-table { width: 100%; border-collapse: collapse; }
+    .sf-table thead th {
+      font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gray);
+      padding-bottom: 16px; text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .sf-table tbody tr { border-bottom: 1px solid rgba(255,255,255,.05); }
+    .sf-table tbody td {
+      padding: 18px 0; font-size: 16px; color: rgba(255,255,255,.8);
+    }
+    .sf-table tbody td:last-child {
+      text-align: right; color: var(--accent); font-weight: 600;
+    }
+    .sf-visual {
+      text-align: center;
+    }
+    .sf-circle {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,169,110,.3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    .sf-circle::before {
+      content: '';
+      position: absolute; inset: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,169,110,.15);
+    }
+    .sf-circle-num {
+      font-size: 52px; font-weight: 900;
+      letter-spacing: -.05em; color: var(--white);
+      line-height: 1;
+    }
+    .sf-circle-unit {
+      font-size: 14px; font-weight: 600; color: var(--accent);
+      margin-top: 4px;
+    }
+    .sf-caption {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ─── FAQ ────────────────────────────────────────────────────── */
+    .faq-section {
+      background: var(--black);
+      padding: 140px 48px;
+    }
+    .faq-section__inner { max-width: 800px; margin: 0 auto; }
+    .faq-section .h2 { margin-bottom: 60px; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      text-align: left; padding: 24px 0;
+      font-size: 18px; font-weight: 500; color: var(--white);
+      font-family: var(--font);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 20px; transition: color .2s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-icon {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--gray);
+      transition: transform .4s, border-color .2s, color .2s;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      border-color: var(--accent); color: var(--accent);
+    }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .5s cubic-bezier(.16,1,.3,1), padding .3s;
+      font-size: 16px; color: var(--gray); line-height: 1.75;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
+
+    /* ─── Media Hub ──────────────────────────────────────────────── */
+    .media-section {
+      background: #0d0d0d;
+      padding: 140px 48px;
+    }
+    .media-section__inner { max-width: 1200px; margin: 0 auto; }
+    .media-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 60px;
+    }
+    .media-link {
+      font-size: 12px; font-weight: 600; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--accent);
+      border-bottom: 1px solid rgba(200,169,110,.3);
+      padding-bottom: 2px;
+      transition: border-color .2s;
+    }
+    .media-link:hover { border-color: var(--accent); }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 768px) {
+      .media-grid { grid-template-columns: 1fr; }
+    }
+    .article-card {
+      background: #111;
+      overflow: hidden;
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+      display: block;
+    }
+    .article-card:hover { transform: scale(.98); }
+    .article-card__img {
+      height: 220px;
+      background: linear-gradient(135deg, #0d0d14, #1a1a2e);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+      position: relative; overflow: hidden;
+    }
+    .article-card__img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.6));
+    }
+    .article-card__body { padding: 24px 28px 32px; }
+    .article-card__date {
+      font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 10px;
+    }
+    .article-card__title {
+      font-size: 18px; font-weight: 600; color: var(--white);
+      line-height: 1.4; margin-bottom: 14px;
+    }
+    .article-card__link {
+      font-size: 11px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    /* ─── Mission ────────────────────────────────────────────────── */
+    .mission-section {
+      position: relative;
+      background: var(--black);
+      padding: 160px 48px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .mission-section::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,169,110,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .mission-section__inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .mission-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .mission-title {
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 900; line-height: .95;
+      letter-spacing: -.05em; color: var(--white);
+      margin-bottom: 32px;
+    }
+    .mission-title em { font-style: normal; color: var(--accent); }
+    .mission-body {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 300; line-height: 1.75;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 52px;
+    }
+
+    /* ─── Newsletter ─────────────────────────────────────────────── */
+    .newsletter-section {
+      background: #111;
+      padding: 100px 48px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .newsletter-section__inner { max-width: 520px; margin: 0 auto; }
+    .newsletter-title {
+      font-size: 32px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--white);
+      margin-bottom: 12px;
+    }
+    .newsletter-sub {
+      font-size: 15px; color: var(--gray);
+      margin-bottom: 36px; line-height: 1.6;
+    }
+    .newsletter-form {
+      display: flex; gap: 0; max-width: 440px; margin: 0 auto;
+    }
+    .newsletter-input {
+      flex: 1;
+      padding: 15px 20px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-right: none;
+      border-radius: 2px 0 0 2px;
+      font-size: 14px; font-family: var(--font);
+      color: var(--white); outline: none;
+      transition: border-color .2s;
+    }
+    .newsletter-input:focus { border-color: var(--accent); }
+    .newsletter-input::placeholder { color: var(--gray); }
+    .newsletter-submit {
+      padding: 15px 28px;
+      background: var(--accent); color: var(--black);
+      font-size: 11px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase;
+      border: none; border-radius: 0 2px 2px 0;
+      cursor: pointer; font-family: var(--font);
+      transition: background .2s;
+    }
+    .newsletter-submit:hover { background: #d4b87a; }
+
+    /* ─── Footer ─────────────────────────────────────────────────── */
+    .footer {
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 60px 48px 40px;
+    }
+    .footer__inner { max-width: 1200px; margin: 0 auto; }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      margin-bottom: 32px;
+    }
+    @media (max-width: 900px) {
+      .footer__top { grid-template-columns: 1fr 1fr; }
+    }
+    .footer-brand { }
+    .footer-brand__logo {
+      font-size: 20px; font-weight: 700; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--white);
+      margin-bottom: 16px;
+    }
+    .footer-brand__tagline {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+      max-width: 240px;
+    }
+    .footer-col__title {
+      font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a {
+      font-size: 13px; color: var(--gray); transition: color .2s;
+    }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer__bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer__copy { font-size: 12px; color: rgba(255,255,255,.25); line-height: 1.6; }
+    .footer__legal { display: flex; gap: 24px; list-style: none; }
+    .footer__legal a { font-size: 12px; color: rgba(255,255,255,.25); transition: color .2s; }
+    .footer__legal a:hover { color: var(--gray); }
+
+    /* ─── Horizontal scroll ticker ───────────────────────────────── */
+    .ticker {
+      background: rgba(255,255,255,.03);
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      overflow: hidden; padding: 16px 0;
+    }
+    .ticker-track {
+      display: inline-flex; gap: 0;
+      animation: marquee 30s linear infinite;
+    }
+    .ticker-track span {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.25); padding: 0 40px;
+    }
+    .ticker-track span::after { content: '—'; margin-left: 40px; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="loader-logo">ANERA</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="nav" id="mainNav">
+    <a href="#" class="nav__logo">ANERA</a>
+    <ul class="nav__links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#science">Science</a></li>
+      <li><a href="#pillars">Pillars</a></li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#products" class="nav__cta">Shop Now</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <video class="hero__video" id="heroVideo"
+      autoplay muted loop playsinline
+      poster="assets/hero_poster.jpg"
+      preload="auto">
+      <source src="assets/hero.webm" type="video/webm"/>
+      <source src="assets/hero.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Pharmaceutical-Grade NMN · Canada &amp; USA</p>
+      <h1 class="hero__title">Longevity Is<br>the <span>New Flex.</span></h1>
+      <p class="hero__sub">Daily NMN fuels your body and mind — giving you the energy, clarity, and resilience to stay ahead. Your evolution has begun.</p>
+      <div class="hero__ctas">
+        <a href="#products" class="btn-primary">Shop Now →</a>
+        <a href="#science" class="btn-ghost">Discover the Science</a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span class="hero__scroll-text">Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track" aria-hidden="true">
+      <span>Pharmaceutical Grade</span><span>Human Clinically Tested</span>
+      <span>Free Shipping Over $150 CAD</span><span>Endotoxin &lt;20 Eu/g</span>
+      <span>Canada &amp; USA</span><span>Pure. Proven. Powerful.</span>
+      <span>Pharmaceutical Grade</span><span>Human Clinically Tested</span>
+      <span>Free Shipping Over $150 CAD</span><span>Endotoxin &lt;20 Eu/g</span>
+      <span>Canada &amp; USA</span><span>Pure. Proven. Powerful.</span>
+    </div>
+  </div>
+
+  <!-- ── INTRO STATEMENT ── -->
+  <section class="intro">
+    <div class="intro__inner">
+      <p class="label reveal">Our Philosophy</p>
+      <h2 class="intro__quote reveal">
+        True strength isn't built in a moment —<br>
+        it's built <em>day by day.</em>
+      </h2>
+      <p class="intro__body reveal">
+        Real power comes from nourishing your body and mind so they can carry you far into the future. With daily NMN, you're not just boosting your energy — you're unlocking clarity of thought, sharper focus, and the resilience to keep pushing forward.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <div class="stats-row">
+    <div class="stats-row__inner">
+      <div class="stat reveal">
+        <div class="stat__num">&lt;20<sup>Eu/g</sup></div>
+        <div class="stat__label">Endotoxin level<br>Industry's lowest</div>
+      </div>
+      <div class="stat reveal" style="transition-delay:.1s">
+        <div class="stat__num">100<sup>%</sup></div>
+        <div class="stat__label">Pharmaceutical-grade<br>purity standard</div>
+      </div>
+      <div class="stat reveal" style="transition-delay:.2s">
+        <div class="stat__num">2</div>
+        <div class="stat__label">Clinically tested<br>human trial formulas</div>
+      </div>
+      <div class="stat reveal" style="transition-delay:.3s">
+        <div class="stat__num">31<sup>+</sup></div>
+        <div class="stat__label">Verified Google<br>reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCTS ── -->
+  <section class="products-section" id="products">
+    <div class="products-section__inner">
+      <p class="label reveal">Our Formulas</p>
+      <h2 class="h2 reveal" style="color:var(--black);margin-bottom:60px">Welcome to the New You.</h2>
+      <div class="products-grid">
+
+        <div class="product-card reveal-left">
+          <div class="product-card__visual">
+            <div class="bottle-3d">
+              <div class="bottle-label">
+                <span class="bottle-label-brand">Anera</span>
+                <span class="bottle-label-name">NMN</span>
+                <span class="bottle-label-dose">15000</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <span class="product-card__tag tag-gold">Best Seller</span>
+            <h3 class="product-card__name">NMN 15000</h3>
+            <p class="product-card__desc">250 mg · 60 capsules. Pharmaceutical-grade NMN with industry-leading purity. Endotoxin &lt;20 Eu/g — the cleanest NMN available.</p>
+            <div class="product-card__price">$105 CAD <small>/ 60 capsules</small></div>
+            <div class="product-card__actions">
+              <a href="#" class="btn-dark">Buy Now</a>
+              <a href="#" class="btn-outline-dark">Learn More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal-right">
+          <div class="product-card__visual" style="background:linear-gradient(135deg,#060d1a 0%,#0d1a30 50%,#060d1a 100%)">
+            <div class="bottle-3d" style="background:linear-gradient(160deg,#1e3a5f 0%,#0a1628 100%)">
+              <div class="bottle-label">
+                <span class="bottle-label-brand">Anera</span>
+                <span class="bottle-label-name">NMN</span>
+                <span class="bottle-label-dose">24000</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card__body">
+            <span class="product-card__tag tag-blue">Advanced</span>
+            <h3 class="product-card__name">NMN 24000</h3>
+            <p class="product-card__desc">400 mg · 60 capsules. Maximum-strength formula for peak longevity. The only NMN in the world clinically tested in human trials.</p>
+            <div class="product-card__price">$120 CAD <small>/ 60 capsules</small></div>
+            <div class="product-card__actions">
+              <a href="#" class="btn-dark">Buy Now</a>
+              <a href="#" class="btn-outline-dark">Learn More</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VIDEO PARALLAX BREAK ── -->
+  <div class="video-parallax">
+    <video class="video-parallax__bg" id="parallaxVideo"
+      autoplay muted loop playsinline
+      poster="assets/hero_poster.jpg">
+      <source src="assets/hero.webm" type="video/webm"/>
+      <source src="assets/hero.mp4" type="video/mp4"/>
+    </video>
+    <div class="video-parallax__overlay"></div>
+    <div class="video-parallax__content reveal">
+      <p class="label" style="color:var(--accent)">The Long Game</p>
+      <h2 class="h1">Every dose is an<br>investment in your future.</h2>
+      <p class="body-lg" style="max-width:560px;margin:20px auto 36px">At Anera, we believe in playing the long game. Rise each day stronger than the last.</p>
+      <a href="#products" class="btn-primary">Fuel My Future →</a>
+    </div>
+  </div>
+
+  <!-- ── SCIENCE ── -->
+  <section class="science-section" id="science">
+    <div class="science-section__inner">
+      <div class="science-visual reveal-left">
+        <div class="science-big">&lt;20</div>
+        <div class="science-big-overlay">
+          <div class="num">&lt;20</div>
+          <div class="unit">Eu/g</div>
+          <div class="caption">Endotoxin Units per gram</div>
+        </div>
+      </div>
+      <div class="science-text reveal-right">
+        <p class="label">The Science</p>
+        <h2 class="h2" style="margin-bottom:24px">Endotoxin-Free.<br>By Design.</h2>
+        <p class="body-lg" style="margin-bottom:32px">In 2022, Dr. David Sinclair revealed that most NMN supplements were contaminated with endotoxin. Anera was built to be different from day one.</p>
+        <div class="science-callout">
+          <p><strong>ANERA™ NMN endotoxin is generally &lt;20 Eu/g</strong> without Lipopolysaccharide. Other NMN brands on the market may contain 50–1000 Eu/g — up to 50× more contamination.</p>
+        </div>
+        <a href="#" class="btn-primary">Explore the Science →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PILLARS ── -->
+  <section class="pillars-section" id="pillars">
+    <div class="pillars-section__inner">
+      <div class="pillars-header">
+        <div class="reveal-left">
+          <p class="label">Our Framework</p>
+          <h2 class="h2">Five Pillars<br>of Longevity.</h2>
+        </div>
+        <p class="body-lg reveal-right">Every Anera product is built around five foundational principles of human performance and healthy aging.</p>
+      </div>
+      <div class="pillars-grid">
+        <div class="pillar reveal" style="transition-delay:0s">
+          <div class="pillar__num">01</div>
+          <div class="pillar__icon">⚡</div>
+          <div class="pillar__name">Energize</div>
+          <div class="pillar__desc">Fuel your body with lasting, cellular vitality from within.</div>
+        </div>
+        <div class="pillar reveal" style="transition-delay:.08s">
+          <div class="pillar__num">02</div>
+          <div class="pillar__icon">🎯</div>
+          <div class="pillar__name">Focus</div>
+          <div class="pillar__desc">Sharpen your mind and enhance mental clarity every day.</div>
+        </div>
+        <div class="pillar reveal" style="transition-delay:.16s">
+          <div class="pillar__num">03</div>
+          <div class="pillar__icon">📈</div>
+          <div class="pillar__name">Optimize</div>
+          <div class="pillar__desc">Elevate your performance in every aspect of life.</div>
+        </div>
+        <div class="pillar reveal" style="transition-delay:.24s">
+          <div class="pillar__num">04</div>
+          <div class="pillar__icon">🛡️</div>
+          <div class="pillar__name">Protect</div>
+          <div class="pillar__desc">Safeguard your cells from the effects of aging.</div>
+        </div>
+        <div class="pillar reveal" style="transition-delay:.32s">
+          <div class="pillar__num">05</div>
+          <div class="pillar__icon">✨</div>
+          <div class="pillar__name">Rejuvenate</div>
+          <div class="pillar__desc">Restore youthfulness from the inside out.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPARISON ── -->
+  <section class="compare-section">
+    <div class="compare-section__inner">
+      <p class="label reveal" style="text-align:center">Why Anera</p>
+      <h2 class="h2 reveal" style="text-align:center;margin-bottom:60px">The Ultimate<br>Longevity Powerhouse.</h2>
+      <table class="compare-table reveal">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>ANERA NMN</th>
+            <th>Generic NMN</th>
+            <th>CoQ10</th>
+            <th>Creatine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pharmaceutical-grade purity</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Endotoxin &lt;20 Eu/g</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Clinically tested in human trials</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">Limited</span></td>
+            <td><span class="cross">Limited</span></td>
+          </tr>
+          <tr>
+            <td>Directly boosts NAD+ levels</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>No Lipopolysaccharide contamination</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">—</span></td>
+            <td><span class="cross">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SUPERFOOD ── -->
+  <section class="superfood-section">
+    <div class="superfood-section__inner">
+      <div class="reveal-left">
+        <p class="label">Why NMN?</p>
+        <h2 class="h2" style="margin-bottom:24px">Nature's Most<br>Potent Molecule.</h2>
+        <p class="body-lg" style="margin-bottom:40px">To get the equivalent of 250 mg of NMN from whole foods, you'd need to eat an extraordinary amount. Supplementation is the only practical path.</p>
+        <table class="sf-table">
+          <thead>
+            <tr>
+              <th>Superfood</th>
+              <th>Equivalent to 250 mg NMN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>🥦 Broccoli</td><td>22 – 100 kg</td></tr>
+            <tr><td>🍅 Tomato</td><td>84 – 96 kg</td></tr>
+            <tr><td>🥑 Avocado</td><td>16 – 70 kg</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sf-visual reveal-right">
+        <div class="sf-circle">
+          <div class="sf-circle-num">250</div>
+          <div class="sf-circle-unit">mg NMN</div>
+        </div>
+        <p class="sf-caption">One capsule. Once daily.<br>All the NAD+ support your cells need.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="faq-section">
+    <div class="faq-section__inner">
+      <p class="label reveal">Common Questions</p>
+      <h2 class="h2 reveal" style="margin-bottom:60px">Everything You<br>Need to Know.</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What products does ANERA NMN replace?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Anera doesn't replace a specific product — it offers a superior alternative. Our focus is on providing premium supplements that prioritise purity, efficacy, and transparency, setting a new standard for quality in the industry.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What benefits can I expect from taking ANERA?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Users commonly report increased energy levels, improved mental clarity and focus, better sleep quality, enhanced physical endurance, and a general sense of vitality. Results typically become noticeable within 2–4 weeks of consistent use.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What makes ANERA NMN different from other supplements?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Anera is the only NMN supplement in the world clinically tested in human trials. Our endotoxin levels are consistently below 20 Eu/g — far below the industry average of 50–1000 Eu/g. We manufacture to pharmaceutical-grade standards with full transparency.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What measures does ANERA take to ensure quality?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Every batch undergoes rigorous third-party testing for purity, potency, and safety. We test for endotoxins, heavy metals, microbial contamination, and verify NMN concentration. Our manufacturing facilities meet pharmaceutical-grade GMP standards.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MEDIA HUB ── -->
+  <section class="media-section" id="media">
+    <div class="media-section__inner">
+      <div class="media-header reveal">
+        <div>
+          <p class="label">Media Hub</p>
+          <h2 class="h2">Podcast + Articles.</h2>
+        </div>
+        <a href="#" class="media-link">See all →</a>
+      </div>
+      <div class="media-grid">
+        <a href="#" class="article-card reveal" style="transition-delay:0s">
+          <div class="article-card__img">🧬</div>
+          <div class="article-card__body">
+            <p class="article-card__date">March 9, 2026</p>
+            <h3 class="article-card__title">Dr. Gabriel Alizaidy Joins the Anera Scientific Advisory Board</h3>
+            <span class="article-card__link">Read more →</span>
+          </div>
+        </a>
+        <a href="#" class="article-card reveal" style="transition-delay:.1s">
+          <div class="article-card__img">🫁</div>
+          <div class="article-card__body">
+            <p class="article-card__date">March 5, 2026</p>
+            <h3 class="article-card__title">VO₂ Max, Mitochondria, and NMN: How Oxygen Power Drives Longevity</h3>
+            <span class="article-card__link">Read more →</span>
+          </div>
+        </a>
+        <a href="#" class="article-card reveal" style="transition-delay:.2s">
+          <div class="article-card__img">⏱️</div>
+          <div class="article-card__body">
+            <p class="article-card__date">February 24, 2026</p>
+            <h3 class="article-card__title">How Long Does NMN Take to Work? Realistic Timeline From Day 1 to 6 Months</h3>
+            <span class="article-card__link">Read more →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-track" aria-hidden="true">
+      <span>Repair</span><span>Regenerate</span><span>Restore</span>
+      <span>Energize</span><span>Focus</span><span>Optimize</span>
+      <span>Protect</span><span>Rejuvenate</span><span>Longevity</span>
+      <span>Repair</span><span>Regenerate</span><span>Restore</span>
+      <span>Energize</span><span>Focus</span><span>Optimize</span>
+      <span>Protect</span><span>Rejuvenate</span><span>Longevity</span>
+    </div>
+  </div>
+
+  <!-- ── MISSION ── -->
+  <section class="mission-section">
+    <div class="mission-section__inner">
+      <p class="mission-eyebrow reveal">Mission · Story · Promise</p>
+      <h2 class="mission-title reveal">Built to<br><em>Heal Humanity.</em></h2>
+      <p class="mission-body reveal">The story of Anera is rooted in a single purpose: to help heal humanity by delivering the world's most advanced, pure, and effective longevity formulations. We believe health is the foundation of a life well-lived — and those who seek the best deserve uncompromising quality.</p>
+      <a href="#" class="btn-primary reveal">Our Story →</a>
+    </div>
+  </section>
+
+  <!-- ── NEWSLETTER ── -->
+  <section class="newsletter-section" id="contact">
+    <div class="newsletter-section__inner reveal">
+      <h2 class="newsletter-title">Stay at the Forefront.</h2>
+      <p class="newsletter-sub">Get the latest on longevity science, Anera news, and exclusive offers — delivered to your inbox.</p>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" class="newsletter-input" placeholder="Your email address"/>
+        <button type="submit" class="newsletter-submit">Sign Up</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">ANERA</div>
+          <p class="footer-brand__tagline">Pharmaceutical-grade NMN supplements. Pure. Proven. Life-changing. Canada &amp; USA.</p>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__title">Products</p>
+          <ul>
+            <li><a href="#">NMN 15000</a></li>
+            <li><a href="#">NMN 24000</a></li>
+            <li><a href="#">All Products</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__title">Company</p>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Our Mission</a></li>
+            <li><a href="#">Scientific Board</a></li>
+            <li><a href="#">Affiliate Program</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__title">Support</p>
+          <ul>
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">Wholesale</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__title">Contact</p>
+          <ul>
+            <li><a href="mailto:Info@aneralife.com">Info@aneralife.com</a></li>
+            <li><a href="#">2220 – 8788 McKim Way</a></li>
+            <li><a href="#">Richmond, BC V6X 4E2</a></li>
+            <li><a href="#">Canada</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Anera Life Inc. All rights reserved. These statements have not been evaluated by Health Canada. Not intended to diagnose, treat, cure, or prevent any disease.</p>
+        <ul class="footer__legal">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Returns</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Loader ─────────────────────────────────────────────────── */
+    const bar = document.getElementById('loaderBar');
+    const loader = document.getElementById('loader');
+    let progress = 0;
+    const tick = setInterval(() => {
+      progress += Math.random() * 18;
+      if (progress >= 100) { progress = 100; clearInterval(tick); }
+      bar.style.width = progress + '%';
+      if (progress === 100) {
+        setTimeout(() => loader.classList.add('hidden'), 300);
+      }
+    }, 80);
+
+    /* ── Nav scroll state ───────────────────────────────────────── */
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ── Intersection Observer — reveal ─────────────────────────── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── Parallax on video break ────────────────────────────────── */
+    const pv = document.getElementById('parallaxVideo');
+    if (pv) {
+      window.addEventListener('scroll', () => {
+        const rect = pv.parentElement.getBoundingClientRect();
+        const offset = (rect.top / window.innerHeight) * 60;
+        pv.style.transform = `translateY(${offset}px)`;
+      }, { passive: true });
+    }
+
+    /* ── FAQ accordion ──────────────────────────────────────────── */
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    /* ── Smooth anchor scroll ───────────────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
