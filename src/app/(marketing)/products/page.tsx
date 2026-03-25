@@ -1,6 +1,52 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+type Product = {
+  id: string;
+  handle: string;
+  title: string;
+  description: string;
+  price: string;
+  currency: string;
+  tag: string;
+  tagColor: "gold" | "blue" | "green" | "purple";
+  dosage: string;
+  capsules: string;
+  image: string | null;
+  imageAlt: string;
+};
+
+const VISUAL_STYLES: Record<number, { card: React.CSSProperties; bottle: React.CSSProperties }> = {
+  0: { card: {}, bottle: {} },
+  1: {
+    card: {
+      background: "linear-gradient(135deg,#060d1a 0%,#0d1a30 50%,#060d1a 100%)",
+    },
+    bottle: {
+      background: "linear-gradient(160deg,#1e3a5f 0%,#0a1628 100%)",
+    },
+  },
+};
+
+const TAG_CLASS: Record<string, string> = {
+  gold: "tag-gold",
+  blue: "tag-blue",
+  green: "tag-gold",
+  purple: "tag-blue",
+};
+
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((r) => r.json())
+      .then((d) => setProducts(d.products || []))
+      .catch(() => {});
+  }, []);
+
   function toggleFaq(btn: HTMLButtonElement) {
     const item = btn.closest(".faq-item");
     if (!item) return;
@@ -17,88 +63,63 @@ export default function ProductsPage() {
       <section className="products-section" style={{ paddingTop: 180 }}>
         <div className="products-section__inner">
           <p className="label reveal">Our Formulas</p>
-          <h2
-            className="h2 reveal"
-            style={{ color: "var(--black)", marginBottom: 60 }}
-          >
+          <h2 className="h2 reveal" style={{ marginBottom: 60 }}>
             Welcome to the New You.
           </h2>
           <div className="products-grid">
-            <div className="product-card reveal-left">
-              <div className="product-card__visual">
-                <div className="bottle-3d">
-                  <div className="bottle-label">
-                    <span className="bottle-label-brand">Anera</span>
-                    <span className="bottle-label-name">NMN</span>
-                    <span className="bottle-label-dose">15000</span>
-                  </div>
-                </div>
-              </div>
-              <div className="product-card__body">
-                <span className="product-card__tag tag-gold">Best Seller</span>
-                <h3 className="product-card__name">NMN 15000</h3>
-                <p className="product-card__desc">
-                  250 mg · 60 capsules. Pharmaceutical-grade NMN with
-                  industry-leading purity. Endotoxin &lt;20 Eu/g — the cleanest
-                  NMN available.
-                </p>
-                <div className="product-card__price">
-                  $105 CAD <small>/ 60 capsules</small>
-                </div>
-                <div className="product-card__actions">
-                  <a href="#" className="btn-dark">
-                    Buy Now
-                  </a>
-                  <a href="#" className="btn-outline-dark">
-                    Learn More
-                  </a>
-                </div>
-              </div>
-            </div>
+            {products.map((product, i) => {
+              const style = VISUAL_STYLES[i % 2] || VISUAL_STYLES[0];
+              const revealClass = i % 2 === 0 ? "reveal-left" : "reveal-right";
+              // Extract short name for the bottle label
+              const parts = product.title.split(" ");
+              const brandName = parts[0] || "NMN";
+              const dose = parts[1] || "";
 
-            <div className="product-card reveal-right">
-              <div
-                className="product-card__visual"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#060d1a 0%,#0d1a30 50%,#060d1a 100%)",
-                }}
-              >
-                <div
-                  className="bottle-3d"
-                  style={{
-                    background:
-                      "linear-gradient(160deg,#1e3a5f 0%,#0a1628 100%)",
-                  }}
-                >
-                  <div className="bottle-label">
-                    <span className="bottle-label-brand">Anera</span>
-                    <span className="bottle-label-name">NMN</span>
-                    <span className="bottle-label-dose">24000</span>
+              return (
+                <div key={product.id} className={`product-card ${revealClass}`}>
+                  <div className="product-card__visual" style={style.card}>
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.imageAlt}
+                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                      />
+                    ) : (
+                      <div className="bottle-3d" style={style.bottle}>
+                        <div className="bottle-label">
+                          <span className="bottle-label-brand">Anera</span>
+                          <span className="bottle-label-name">{brandName}</span>
+                          <span className="bottle-label-dose">{dose}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="product-card__body">
+                    {product.tag && (
+                      <span
+                        className={`product-card__tag ${TAG_CLASS[product.tagColor] || "tag-gold"}`}
+                      >
+                        {product.tag}
+                      </span>
+                    )}
+                    <h3 className="product-card__name">{product.title}</h3>
+                    <p className="product-card__desc">{product.description}</p>
+                    <div className="product-card__price">
+                      ${product.price} {product.currency}{" "}
+                      <small>/ {product.capsules} capsules</small>
+                    </div>
+                    <div className="product-card__actions">
+                      <Link href={`/products/${product.handle}`} className="btn-dark">
+                        Buy Now
+                      </Link>
+                      <Link href={`/products/${product.handle}`} className="btn-outline-dark">
+                        Learn More
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="product-card__body">
-                <span className="product-card__tag tag-blue">Advanced</span>
-                <h3 className="product-card__name">NMN 24000</h3>
-                <p className="product-card__desc">
-                  400 mg · 60 capsules. Maximum-strength formula for peak
-                  longevity. The only NMN in the world clinically tested in
-                  human trials.
-                </p>
-                <div className="product-card__price">
-                  $120 CAD <small>/ 60 capsules</small>
-                </div>
-                <div className="product-card__actions">
-                  <a href="#" className="btn-dark">
-                    Buy Now
-                  </a>
-                  <a href="#" className="btn-outline-dark">
-                    Learn More
-                  </a>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -187,15 +208,15 @@ export default function ProductsPage() {
               </thead>
               <tbody>
                 <tr>
-                  <td>🥦 Broccoli</td>
+                  <td>Broccoli</td>
                   <td>22 – 100 kg</td>
                 </tr>
                 <tr>
-                  <td>🍅 Tomato</td>
+                  <td>Tomato</td>
                   <td>84 – 96 kg</td>
                 </tr>
                 <tr>
-                  <td>🥑 Avocado</td>
+                  <td>Avocado</td>
                   <td>16 – 70 kg</td>
                 </tr>
               </tbody>

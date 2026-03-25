@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/components/cart/cart-context";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
   { name: "Shop", href: "/products" },
@@ -15,7 +16,7 @@ export function Header() {
   const itemCount = cart?.totalQuantity ?? 0;
 
   return (
-    <header className="sticky top-0 z-50 bg-[rgba(251,251,253,0.8)] backdrop-blur-xl backdrop-saturate-[180%]">
+    <header className="sticky top-0 z-50 backdrop-blur-xl backdrop-saturate-[180%]" style={{ background: 'var(--background, rgba(251,251,253,0.8))' }}>
       <nav
         className="mx-auto flex h-12 max-w-[980px] items-center justify-between px-4 sm:px-6"
         aria-label="Main navigation"
@@ -23,7 +24,8 @@ export function Header() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="p-1.5 text-[#1d1d1f] sm:hidden"
+          className="p-1.5 sm:hidden"
+          style={{ color: 'var(--foreground)' }}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-expanded={mobileMenuOpen}
           aria-label="Toggle navigation menu"
@@ -54,7 +56,8 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-[21px] font-bold tracking-[-0.02em] text-[#1d1d1f]"
+          className="text-[21px] font-bold tracking-[-0.02em]"
+          style={{ color: 'var(--foreground)' }}
         >
           Anera
         </Link>
@@ -65,38 +68,43 @@ export function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-xs font-normal text-[#1d1d1f] opacity-80 transition-opacity duration-400 ease-apple hover:opacity-100"
+              className="text-xs font-normal opacity-80 transition-opacity duration-400 ease-apple hover:opacity-100"
+              style={{ color: 'var(--foreground)' }}
             >
               {item.name}
             </Link>
           ))}
         </div>
 
-        {/* Cart */}
-        <Link
-          href="/cart"
-          className="relative p-1.5 text-[#1d1d1f] opacity-80 transition-opacity duration-400 ease-apple hover:opacity-100"
-          aria-label={`Shopping cart with ${itemCount} items`}
-        >
-          <svg
-            className="h-[18px] w-[18px]"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
+        {/* Theme toggle + Cart */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle className="p-1.5 opacity-60 transition-opacity duration-400 ease-apple hover:opacity-100" />
+          <Link
+            href="/cart"
+            className="relative p-1.5 opacity-80 transition-opacity duration-400 ease-apple hover:opacity-100"
+            style={{ color: 'var(--foreground)' }}
+            aria-label={`Shopping cart with ${itemCount} items`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-            />
-          </svg>
-          {itemCount > 0 && (
-            <span className="absolute -right-1 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#0071e3] text-[9px] font-bold text-white">
-              {itemCount}
-            </span>
-          )}
-        </Link>
+            <svg
+              className="h-[18px] w-[18px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+              />
+            </svg>
+            {itemCount > 0 && (
+              <span className="absolute -right-1 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#0071e3] text-[9px] font-bold text-white">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -110,7 +118,8 @@ export function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="block py-2 text-sm text-[#1d1d1f] opacity-80 transition-opacity hover:opacity-100"
+              className="block py-2 text-sm opacity-80 transition-opacity hover:opacity-100"
+              style={{ color: 'var(--foreground)' }}
               onClick={() => setMobileMenuOpen(false)}
             >
               {item.name}

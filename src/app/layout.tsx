@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart/cart-context";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
+import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/components/auth-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -24,9 +19,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${inter.className}`}>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('anera-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body>
-        <CartProvider initialCart={null}>{children}</CartProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <CartProvider initialCart={null}>{children}</CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -7,6 +7,15 @@
   --link-color: #0066cc;
 }
 
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #f5f5f7;
+  --surface: #1a1a1a;
+  --surface-dark: #000000;
+  --text-secondary: #a1a1a6;
+  --link-color: #4a9eff;
+}
+
 .shop-layout {
   color: var(--foreground);
   background: var(--background);

@@ -4,6 +4,10 @@ export {
   getProductRecommendations,
   getCollections,
   getCollectionProducts,
+  getPageByHandle,
+  getPages,
+  getBlogByHandle,
+  getArticleByHandle,
   createCart,
   addToCart,
   updateCart,
@@ -18,4 +22,7 @@ export type {
   CartItem,
   Image,
   Money,
+  ShopifyPage,
+  Article,
+  Blog,
 } from "./types";

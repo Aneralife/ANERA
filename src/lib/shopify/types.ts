@@ -48,6 +48,39 @@ export type Product = {
   updatedAt: string;
 };
 
+// ─── Page Types ───────────────────────────────────────────
+
+export type ShopifyPage = {
+  id: string;
+  title: string;
+  handle: string;
+  body: string;
+  bodySummary: string;
+  updatedAt: string;
+  seo: { title: string | null; description: string | null };
+};
+
+// ─── Blog Types ───────────────────────────────────────────
+
+export type Article = {
+  id: string;
+  title: string;
+  handle: string;
+  excerpt: string;
+  publishedAt: string;
+  contentHtml: string;
+  author: { name: string };
+  image: Image | null;
+  seo?: { title: string | null; description: string | null };
+};
+
+export type Blog = {
+  id: string;
+  title: string;
+  handle: string;
+  articles: Article[];
+};
+
 // ─── Collection Types ─────────────────────────────────────
 
 export type Collection = {

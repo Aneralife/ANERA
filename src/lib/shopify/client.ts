@@ -1,10 +1,13 @@
 import {
+  Article,
+  Blog,
   Cart,
   Collection,
   Connection,
   Product,
   ShopifyCart,
   ShopifyCollection,
+  ShopifyPage,
   ShopifyProduct,
 } from "./types";
 import {
@@ -13,6 +16,10 @@ import {
   GET_PRODUCT_RECOMMENDATIONS_QUERY,
   GET_COLLECTIONS_QUERY,
   GET_COLLECTION_PRODUCTS_QUERY,
+  GET_PAGE_BY_HANDLE_QUERY,
+  GET_PAGES_QUERY,
+  GET_BLOG_BY_HANDLE_QUERY,
+  GET_ARTICLE_BY_HANDLE_QUERY,
   CREATE_CART_MUTATION,
   ADD_TO_CART_MUTATION,
   UPDATE_CART_MUTATION,
@@ -114,6 +121,49 @@ export async function getProductRecommendations(productId: string): Promise<Prod
   }>(GET_PRODUCT_RECOMMENDATIONS_QUERY, { productId });
 
   return reshapeProducts(data.productRecommendations);
+}
+
+// ─── Page API ─────────────────────────────────────────────
+
+export async function getPageByHandle(handle: string): Promise<ShopifyPage | null> {
+  const data = await shopifyFetch<{ pageByHandle: ShopifyPage | null }>(
+    GET_PAGE_BY_HANDLE_QUERY,
+    { handle }
+  );
+  return data.pageByHandle;
+}
+
+export async function getPages(first = 20): Promise<ShopifyPage[]> {
+  const data = await shopifyFetch<{ pages: Connection<ShopifyPage> }>(
+    GET_PAGES_QUERY,
+    { first }
+  );
+  return flattenConnection(data.pages);
+}
+
+// ─── Blog API ─────────────────────────────────────────────
+
+export async function getBlogByHandle(handle: string, first = 20): Promise<Blog | null> {
+  const data = await shopifyFetch<{
+    blogByHandle: { id: string; title: string; handle: string; articles: Connection<Article> } | null;
+  }>(GET_BLOG_BY_HANDLE_QUERY, { handle, first });
+
+  if (!data.blogByHandle) return null;
+  return {
+    ...data.blogByHandle,
+    articles: flattenConnection(data.blogByHandle.articles),
+  };
+}
+
+export async function getArticleByHandle(
+  blogHandle: string,
+  articleHandle: string
+): Promise<Article | null> {
+  const data = await shopifyFetch<{
+    blogByHandle: { articleByHandle: Article | null } | null;
+  }>(GET_ARTICLE_BY_HANDLE_QUERY, { blogHandle, articleHandle });
+
+  return data.blogByHandle?.articleByHandle ?? null;
 }
 
 // ─── Collection API ───────────────────────────────────────

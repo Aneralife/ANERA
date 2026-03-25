@@ -116,6 +116,85 @@ export const GET_PRODUCT_RECOMMENDATIONS_QUERY = `
   }
 `;
 
+// ─── Page Queries ─────────────────────────────────────────
+
+export const GET_PAGE_BY_HANDLE_QUERY = `
+  query GetPageByHandle($handle: String!) {
+    pageByHandle(handle: $handle) {
+      id
+      title
+      handle
+      body
+      bodySummary
+      updatedAt
+      seo {
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const GET_PAGES_QUERY = `
+  query GetPages($first: Int!) {
+    pages(first: $first) {
+      edges {
+        node {
+          id
+          title
+          handle
+          bodySummary
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+// ─── Blog Queries ──────────────────────────────────────────
+
+export const GET_BLOG_BY_HANDLE_QUERY = `
+  query GetBlogByHandle($handle: String!, $first: Int!) {
+    blogByHandle(handle: $handle) {
+      id
+      title
+      handle
+      articles(first: $first) {
+        edges {
+          node {
+            id
+            title
+            handle
+            excerpt
+            publishedAt
+            contentHtml
+            author { name }
+            image { url altText width height }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ARTICLE_BY_HANDLE_QUERY = `
+  query GetArticleByHandle($blogHandle: String!, $articleHandle: String!) {
+    blogByHandle(handle: $blogHandle) {
+      articleByHandle(handle: $articleHandle) {
+        id
+        title
+        handle
+        contentHtml
+        excerpt
+        publishedAt
+        author { name }
+        image { url altText width height }
+        seo { title description }
+      }
+    }
+  }
+`;
+
 // ─── Collection Queries ───────────────────────────────────
 
 export const GET_COLLECTIONS_QUERY = `

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/components/auth-provider";
 import "./marketing.css";
 
 export default function MarketingLayout({
@@ -13,6 +15,7 @@ export default function MarketingLayout({
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const { user, loading: authLoading, signOut } = useAuth();
 
   // Scroll to top on route change
   useEffect(() => {
@@ -91,12 +94,33 @@ export default function MarketingLayout({
             <Link href="/media">Media</Link>
           </li>
           <li>
+            <Link href="/about">About</Link>
+          </li>
+          <li>
             <Link href="/contact">Contact</Link>
           </li>
         </ul>
-        <Link href="/products" className="nav__cta">
-          Shop Now
-        </Link>
+        <div className="nav__right">
+          <ThemeToggle className="theme-toggle" />
+          {!authLoading && (
+            user ? (
+              <>
+                {user.role === "admin" && (
+                  <Link href="/admin" className="nav__links" style={{ fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "var(--fg-secondary)" }}>
+                    Admin
+                  </Link>
+                )}
+                <button onClick={signOut} className="nav__cta" style={{ background: "none", cursor: "pointer", border: "1px solid var(--cta-border)", fontFamily: "inherit" }}>
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link href="/signin" className="nav__cta">
+                Sign In
+              </Link>
+            )
+          )}
+        </div>
       </nav>
 
       {/* Page Content */}
