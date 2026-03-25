@@ -1,3 +1,4 @@
+import Image from "next/image";
 import "./about.css";
 
 const ADVISORS = [
@@ -117,10 +118,12 @@ export default function AboutPage() {
             <a href="#mission" className="ab-btn ab-btn--black">Discover Our Mission</a>
           </div>
           <div className="ab-hero__image">
-            <img
+            <Image
               src="https://aneralife.com/wp-content/uploads/2026/03/AM.jpeg"
               alt="Founder of Anera"
               className="ab-hero__photo"
+              width={480}
+              height={600}
             />
           </div>
         </div>
@@ -133,10 +136,12 @@ export default function AboutPage() {
           <h2 className="ab-heading">WHY ANERA EXISTS</h2>
           <div className="ab-founder__grid">
             <div className="ab-founder__image-col">
-              <img
+              <Image
                 src="https://aneralife.com/wp-content/uploads/2026/01/Founder-and-CEO-Truc-Tran.jpeg"
                 alt="Anera Founder"
                 className="ab-founder__portrait"
+                width={320}
+                height={400}
               />
               <div className="ab-founder__caption">
                 <a
@@ -170,8 +175,8 @@ export default function AboutPage() {
                   moved through years of independent research in regenerative science, and eventually
                   converged with a team of pioneering scientists whose work in nanometallic
                   therapeutics, epigenetics, and mitochondrial health pointed toward something
-                  genuinely new. The question was no longer "how do we treat disease?" — it became
-                  "how do we build a body that resists it?"
+                  genuinely new. The question was no longer &ldquo;how do we treat disease?&rdquo; — it became
+                  &ldquo;how do we build a body that resists it?&rdquo;
                 </p>
               </div>
               <div className="ab-story-block">
@@ -180,7 +185,7 @@ export default function AboutPage() {
                   Anera was founded on a singular conviction: that human beings deserve a healthcare
                   system as sophisticated as the biology it serves. By uniting clinical expertise
                   with cutting-edge longevity science, Anera is building protocols, products, and
-                  platforms that don't just extend lifespan — they elevate healthspan. Every
+                  platforms that don&apos;t just extend lifespan — they elevate healthspan. Every
                   decision the company makes is anchored in peer-reviewed science, clinical
                   validation, and a deep respect for the complexity of human biology.
                 </p>
@@ -255,10 +260,12 @@ export default function AboutPage() {
           <h2 className="ab-heading">GUIDED BY PIONEERING SCIENCE</h2>
           <div className="ab-leader__card">
             <div className="ab-leader__left">
-              <img
+              <Image
                 src="https://aneralife.com/wp-content/uploads/2026/03/212.jpeg"
                 alt="Dr. Andrew Willoughby"
                 className="ab-leader__photo"
+                width={340}
+                height={425}
               />
               <a
                 href="https://www.linkedin.com/in/dr-andrew-willoughby-dmd-lvif-fagd-ficcmo-ficoi-faacfp-miccmo-65061148"
@@ -290,7 +297,7 @@ export default function AboutPage() {
                 His pioneering work in nanometallic silver oxide research has established entirely
                 new paradigms for antimicrobial and regenerative therapeutics — work that has been
                 validated in clinical settings and recognized by leading scientific institutions
-                worldwide. Dr. Willoughby's research has demonstrated that nanometallic compounds,
+                worldwide. Dr. Willoughby&apos;s research has demonstrated that nanometallic compounds,
                 when properly formulated and delivered, can interact with biological systems at the
                 cellular level to promote healing, reduce inflammation, and support tissue
                 regeneration.
@@ -303,9 +310,9 @@ export default function AboutPage() {
                 in both the scientific community and the public health space.
               </p>
               <p>
-                At Anera, Dr. Willoughby leads the company's scientific strategy, overseeing all
+                At Anera, Dr. Willoughby leads the company&apos;s scientific strategy, overseeing all
                 research and development initiatives, clinical trial design, and the ongoing
-                expansion of Anera's proprietary technology platform. His vision is to build a
+                expansion of Anera&apos;s proprietary technology platform. His vision is to build a
                 science infrastructure that is not only innovative, but reproducible, transparent,
                 and clinically meaningful.
               </p>
@@ -320,15 +327,15 @@ export default function AboutPage() {
           <p className="ab-tag">SCIENTIFIC ADVISORY BOARD</p>
           <h2 className="ab-heading">THE MINDS BEHIND THE SCIENCE</h2>
           <p className="ab-intro">
-            Anera's Scientific Advisory Board brings together world-class clinicians, researchers,
-            and innovators whose collective expertise guides the company's research direction,
+            Anera&apos;s Scientific Advisory Board brings together world-class clinicians, researchers,
+            and innovators whose collective expertise guides the company&apos;s research direction,
             clinical strategy, and product development.
           </p>
           <div className="ab-advisors__grid">
             {ADVISORS.map((a) => (
               <div key={a.name} className="ab-advisor">
                 <div className="ab-advisor__photo">
-                  <img src={a.photo} alt={a.name} />
+                  <Image src={a.photo} alt={a.name} width={400} height={480} />
                 </div>
                 <div className="ab-advisor__info">
                   <h4>{a.name}</h4>
@@ -347,7 +354,7 @@ export default function AboutPage() {
           <p className="ab-tag">SCIENTIFIC FOCUS</p>
           <h2 className="ab-heading">THE PILLARS OF OUR RESEARCH</h2>
           <p className="ab-intro">
-            Anera's research and clinical strategy is organized around five core scientific pillars,
+            Anera&apos;s research and clinical strategy is organized around five core scientific pillars,
             each representing a frontier where the science of aging intersects with the possibility
             of meaningful biological intervention.
           </p>
