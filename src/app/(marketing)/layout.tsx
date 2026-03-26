@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/components/auth-provider";
+import { ChatWidget } from "@/components/chat-widget";
 import "./marketing.css";
 
 export default function MarketingLayout({
@@ -125,6 +126,9 @@ export default function MarketingLayout({
 
       {/* Page Content */}
       <main>{children}</main>
+
+      {/* AI Chat Widget */}
+      <ChatWidget />
 
       {/* Footer */}
       <footer className="footer">
