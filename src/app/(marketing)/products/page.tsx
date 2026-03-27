@@ -18,18 +18,6 @@ type Product = {
   imageAlt: string;
 };
 
-const VISUAL_STYLES: Record<number, { card: React.CSSProperties; bottle: React.CSSProperties }> = {
-  0: { card: {}, bottle: {} },
-  1: {
-    card: {
-      background: "linear-gradient(135deg,#060d1a 0%,#0d1a30 50%,#060d1a 100%)",
-    },
-    bottle: {
-      background: "linear-gradient(160deg,#1e3a5f 0%,#0a1628 100%)",
-    },
-  },
-};
-
 const TAG_CLASS: Record<string, string> = {
   gold: "tag-gold",
   blue: "tag-blue",
@@ -39,12 +27,14 @@ const TAG_CLASS: Record<string, string> = {
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/products")
       .then((r) => r.json())
       .then((d) => setProducts(d.products || []))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   function toggleFaq(btn: HTMLButtonElement) {
@@ -59,67 +49,77 @@ export default function ProductsPage() {
 
   return (
     <>
-      {/* Products */}
-      <section className="products-section" style={{ paddingTop: 180 }}>
-        <div className="products-section__inner">
+      {/* Hero */}
+      <section className="products-hero">
+        <div className="products-hero__inner">
           <p className="label reveal">Our Formulas</p>
-          <h2 className="h2 reveal" style={{ marginBottom: 60 }}>
+          <h1 className="products-hero__title reveal">
             Welcome to the New You.
-          </h2>
-          <div className="products-grid">
-            {products.map((product, i) => {
-              const style = VISUAL_STYLES[i % 2] || VISUAL_STYLES[0];
-              const revealClass = i % 2 === 0 ? "reveal-left" : "reveal-right";
-              // Extract short name for the bottle label
-              const parts = product.title.split(" ");
-              const brandName = parts[0] || "NMN";
-              const dose = parts[1] || "";
+          </h1>
+          <p className="products-hero__subtitle reveal">
+            Pharmaceutical-grade supplements backed by science. Explore our full range of longevity formulas.
+          </p>
+        </div>
+      </section>
 
-              return (
-                <div key={product.id} className={`product-card ${revealClass}`}>
-                  <div className="product-card__visual" style={style.card}>
-                    {product.image ? (
-                      <img
-                        src={product.image}
-                        alt={product.imageAlt}
-                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                      />
-                    ) : (
-                      <div className="bottle-3d" style={style.bottle}>
-                        <div className="bottle-label">
-                          <span className="bottle-label-brand">Anera</span>
-                          <span className="bottle-label-name">{brandName}</span>
-                          <span className="bottle-label-dose">{dose}</span>
+      {/* Products */}
+      <section className="products-section">
+        <div className="products-section__inner">
+          <div className="products-grid">
+            {loading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="product-card product-card--skeleton">
+                    <div className="product-card__visual" />
+                    <div className="product-card__body">
+                      <div className="skeleton-line skeleton-line--short" />
+                      <div className="skeleton-line" />
+                      <div className="skeleton-line skeleton-line--medium" />
+                    </div>
+                  </div>
+                ))
+              : products.map((product, i) => (
+                  <Link
+                    key={product.id}
+                    href={`/products/${product.handle}`}
+                    className="product-card reveal"
+                    style={{ animationDelay: `${i * 60}ms` }}
+                  >
+                    <div className="product-card__visual">
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          alt={product.imageAlt}
+                          className="product-card__img"
+                          loading={i < 6 ? "eager" : "lazy"}
+                        />
+                      ) : (
+                        <div className="product-card__placeholder">
+                          <span className="product-card__placeholder-brand">Anera</span>
+                          <span className="product-card__placeholder-name">
+                            {product.title}
+                          </span>
                         </div>
+                      )}
+                      {product.tag && (
+                        <span
+                          className={`product-card__tag ${TAG_CLASS[product.tagColor] || "tag-gold"}`}
+                        >
+                          {product.tag}
+                        </span>
+                      )}
+                    </div>
+                    <div className="product-card__body">
+                      <h3 className="product-card__name">{product.title}</h3>
+                      <p className="product-card__desc">{product.description}</p>
+                      <div className="product-card__footer">
+                        <span className="product-card__price">
+                          ${product.price} <small>{product.currency}</small>
+                        </span>
+                        <span className="product-card__cta">Shop Now &rarr;</span>
                       </div>
-                    )}
-                  </div>
-                  <div className="product-card__body">
-                    {product.tag && (
-                      <span
-                        className={`product-card__tag ${TAG_CLASS[product.tagColor] || "tag-gold"}`}
-                      >
-                        {product.tag}
-                      </span>
-                    )}
-                    <h3 className="product-card__name">{product.title}</h3>
-                    <p className="product-card__desc">{product.description}</p>
-                    <div className="product-card__price">
-                      ${product.price} {product.currency}{" "}
-                      <small>/ {product.capsules} capsules</small>
                     </div>
-                    <div className="product-card__actions">
-                      <Link href={`/products/${product.handle}`} className="btn-dark">
-                        Buy Now
-                      </Link>
-                      <Link href={`/products/${product.handle}`} className="btn-outline-dark">
-                        Learn More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  </Link>
+                ))}
           </div>
         </div>
       </section>

@@ -30,6 +30,17 @@ const domain = process.env.SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 const endpoint = `https://${domain}/api/2024-01/graphql.json`;
 
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
+let dispatcher: unknown;
+if (proxyUrl) {
+  try {
+    const { ProxyAgent } = require("undici");
+    dispatcher = new ProxyAgent(proxyUrl);
+  } catch {
+    // undici not available — skip proxy
+  }
+}
+
 // ─── Core Fetch ───────────────────────────────────────────
 
 type ShopifyResponse<T> = {
@@ -41,7 +52,7 @@ async function shopifyFetch<T>(
   query: string,
   variables: Record<string, unknown> = {}
 ): Promise<T> {
-  const response = await fetch(endpoint, {
+  const options: Record<string, unknown> = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +60,11 @@ async function shopifyFetch<T>(
     },
     body: JSON.stringify({ query, variables }),
     next: { revalidate: 120 },
-  });
+  };
+  if (dispatcher) {
+    options.dispatcher = dispatcher;
+  }
+  const response = await fetch(endpoint, options as RequestInit);
 
   if (!response.ok) {
     throw new Error(`Shopify API error: ${response.status} ${response.statusText}`);
