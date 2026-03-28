@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 
 type Product = {
@@ -28,6 +28,16 @@ const TAG_CLASS: Record<string, string> = {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
 
   useEffect(() => {
     fetch("/api/products")
@@ -36,6 +46,25 @@ export default function ProductsPage() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [products, loading, checkScroll]);
+
+  function scroll(dir: "left" | "right") {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = 404; // card width + gap
+    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  }
 
   function toggleFaq(btn: HTMLButtonElement) {
     const item = btn.closest(".faq-item");
@@ -65,7 +94,31 @@ export default function ProductsPage() {
       {/* Products */}
       <section className="products-section">
         <div className="products-section__inner">
-          <div className="products-grid">
+          {/* Scroll arrows */}
+          <div className="products-scroll-wrap">
+            {canScrollLeft && (
+              <button
+                className="products-scroll-btn products-scroll-btn--left"
+                onClick={() => scroll("left")}
+                aria-label="Scroll left"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+            )}
+            {canScrollRight && (
+              <button
+                className="products-scroll-btn products-scroll-btn--right"
+                onClick={() => scroll("right")}
+                aria-label="Scroll right"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            )}
+          <div className="products-grid" ref={scrollRef}>
             {loading
               ? Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="product-card product-card--skeleton">
@@ -120,6 +173,7 @@ export default function ProductsPage() {
                     </div>
                   </Link>
                 ))}
+          </div>
           </div>
         </div>
       </section>
