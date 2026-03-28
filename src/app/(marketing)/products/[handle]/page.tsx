@@ -13,8 +13,6 @@ type Props = {
   params: { handle: string };
 };
 
-/* ── Metadata ────────────────────────────────────────────── */
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProductByHandle(params.handle);
   if (!product) return { title: "Product Not Found" };
@@ -24,8 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: product.seo.description || product.description,
   };
 }
-
-/* ── Page ─────────────────────────────────────────────────── */
 
 export default async function ProductPage({ params }: Props) {
   const product = await getProductByHandle(params.handle);
@@ -46,132 +42,122 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <div className="pdp-page">
-        {/* Header */}
-        <div className="pdp-header">
-          {product.vendor && (
-            <p className="pdp-header__eyebrow">{product.vendor}</p>
+      {/* ── Hero: Title + Price ── */}
+      <section className="pdp-hero">
+        <p className="pdp-hero__eyebrow">New</p>
+        <h1 className="pdp-hero__title">{product.title}</h1>
+        <p className="pdp-hero__price">
+          From {price}
+        </p>
+        <div className="pdp-hero__actions">
+          <ProductActions
+            availableForSale={product.availableForSale}
+            defaultVariantId={defaultVariant?.id}
+          />
+        </div>
+      </section>
+
+      {/* ── Product Image ── */}
+      <section className="pdp-image-section">
+        <div className="pdp-image-section__inner">
+          {hasImage ? (
+            <Image
+              src={product.images[0].url}
+              alt={product.images[0].altText || product.title}
+              width={product.images[0].width || 800}
+              height={product.images[0].height || 800}
+              className="pdp-hero-img"
+              priority
+            />
+          ) : (
+            <div className="pdp-hero-img-placeholder">
+              <span>{product.title}</span>
+            </div>
           )}
-          <h1 className="pdp-header__title">{product.title}</h1>
         </div>
 
-        {/* Card */}
-        <div className="pdp-card">
-          {/* Visual */}
-          <div className="pdp-visual">
-            {hasImage ? (
-              <div className="pdp-visual__img-wrap">
+        {/* Thumbnails */}
+        {product.images.length > 1 && (
+          <div className="pdp-gallery">
+            {product.images.map((img, i) => (
+              <div key={img.url} className={`pdp-gallery__item${i === 0 ? " pdp-gallery__item--active" : ""}`}>
                 <Image
-                  src={product.images[0].url}
-                  alt={product.images[0].altText || product.title}
-                  width={product.images[0].width || 500}
-                  height={product.images[0].height || 500}
-                  className="pdp-visual__img"
-                  priority
+                  src={img.url}
+                  alt={img.altText || `${product.title} ${i + 1}`}
+                  width={80}
+                  height={80}
+                  className="pdp-gallery__img"
                 />
               </div>
-            ) : (
-              <div className="pdp-visual__placeholder">
-                <span className="pdp-visual__placeholder-brand">Anera</span>
-                <span className="pdp-visual__placeholder-name">{product.title}</span>
-              </div>
-            )}
-
-            {product.images.length > 1 && (
-              <div className="pdp-thumbs">
-                {product.images.slice(0, 5).map((img, i) => (
-                  <div key={img.url} className={`pdp-thumb${i === 0 ? " pdp-thumb--active" : ""}`}>
-                    <Image
-                      src={img.url}
-                      alt={img.altText || `${product.title} ${i + 1}`}
-                      width={64}
-                      height={64}
-                      className="pdp-thumb__img"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
+        )}
+      </section>
 
-          {/* Info */}
-          <div className="pdp-info">
-            {product.vendor && (
-              <p className="pdp-vendor">{product.vendor}</p>
-            )}
+      {/* ── Key Features Strip ── */}
+      <section className="pdp-features">
+        <div className="pdp-features__inner">
+          <div className="pdp-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M12 2L4.5 6.5v6c0 5.25 7.5 9.5 7.5 9.5s7.5-4.25 7.5-9.5v-6z" strokeLinejoin="round" />
+            </svg>
+            <p className="pdp-feature__label">GMP Certified</p>
+          </div>
+          <div className="pdp-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7.5v5l3 3" strokeLinecap="round" />
+            </svg>
+            <p className="pdp-feature__label">3rd Party Tested</p>
+          </div>
+          <div className="pdp-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+            <p className="pdp-feature__label">Clinically Tested</p>
+          </div>
+          <div className="pdp-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10" strokeLinejoin="round" />
+            </svg>
+            <p className="pdp-feature__label">Made in Canada</p>
+          </div>
+        </div>
+      </section>
 
-            <h2 className="pdp-name">{product.title}</h2>
-
-            <div className="pdp-price-row">
-              <span className="pdp-price">{price}</span>
-              {product.availableForSale && (
-                <span className="pdp-in-stock">In Stock</span>
-              )}
-            </div>
-
-            <hr className="pdp-divider" />
-
-            {/* Description */}
+      {/* ── Product Details ── */}
+      <section className="pdp-details">
+        <div className="pdp-details__inner">
+          <div className="pdp-details__left">
+            <h2 className="pdp-details__heading">
+              Get to know<br />{product.title}.
+            </h2>
+          </div>
+          <div className="pdp-details__right">
             <ProductDescription html={product.descriptionHtml} />
-
-            <hr className="pdp-divider" />
 
             {/* Variant Selector */}
             {product.variants.length > 1 && (
-              <div className="pdp-variants">
+              <div className="pdp-details__variants">
                 <VariantSelector
                   variants={product.variants}
                   defaultVariantId={defaultVariant?.id}
                 />
               </div>
             )}
-
-            {/* Actions */}
-            <ProductActions
-              availableForSale={product.availableForSale}
-              defaultVariantId={defaultVariant?.id}
-            />
-
-            {/* Trust */}
-            <div className="pdp-trust">
-              <div className="pdp-trust__item">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <path d="M10 2.5L4 5v5c0 4.4 6 7.5 6 7.5s6-3.1 6-7.5V5z" strokeLinejoin="round" />
-                </svg>
-                <p>GMP Certified</p>
-              </div>
-              <div className="pdp-trust__item">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <circle cx="10" cy="10" r="7.5" />
-                  <path d="M10 6.5v4l2.5 2.5" strokeLinecap="round" />
-                </svg>
-                <p>3rd Party Tested</p>
-              </div>
-              <div className="pdp-trust__item">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <rect x="2.5" y="8" width="15" height="10" rx="2" strokeLinejoin="round" />
-                  <path d="M6.5 8V6a3.5 3.5 0 017 0v2" strokeLinecap="round" />
-                </svg>
-                <p>Secure Checkout</p>
-              </div>
-              <div className="pdp-trust__item">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <path d="M2 14l4-8 4 6 3-4 5 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <p>Science Backed</p>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Recommendations */}
+      {/* ── Recommendations ── */}
       {recommendations.length > 0 && (
         <Section theme="light" spacing="lg">
           <Container>
             <ScrollReveal>
-              <h2 className="text-center text-display-sm text-[#1d1d1f]">
-                You may also like
+              <p className="pdp-reco__eyebrow">Which {product.productType || "supplement"} is right for you?</p>
+              <h2 className="pdp-reco__title">
+                Explore the lineup.
               </h2>
             </ScrollReveal>
             <ScrollReveal delay={200}>

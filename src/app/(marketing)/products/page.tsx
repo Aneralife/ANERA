@@ -3,6 +3,38 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 
+function useHorizontalScroll(deps: unknown[] = []) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(false);
+
+  const check = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 0);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    check();
+    const el = ref.current;
+    if (!el) return;
+    el.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      el.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [check, ...deps]);
+
+  const scroll = (dir: "left" | "right", amount = 300) => {
+    ref.current?.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  };
+
+  return { ref, canLeft, canRight, scroll };
+}
+
 type Product = {
   id: string;
   handle: string;
@@ -28,16 +60,9 @@ const TAG_CLASS: Record<string, string> = {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  }, []);
+  const cat = useHorizontalScroll([products, loading]);
+  const grid = useHorizontalScroll([products, loading]);
 
   useEffect(() => {
     fetch("/api/products")
@@ -46,25 +71,6 @@ export default function ProductsPage() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
-
-  useEffect(() => {
-    checkScroll();
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [products, loading, checkScroll]);
-
-  function scroll(dir: "left" | "right") {
-    const el = scrollRef.current;
-    if (!el) return;
-    const amount = 404; // card width + gap
-    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
-  }
 
   function toggleFaq(btn: HTMLButtonElement) {
     const item = btn.closest(".faq-item");
@@ -81,44 +87,67 @@ export default function ProductsPage() {
       {/* Hero */}
       <section className="products-hero">
         <div className="products-hero__inner">
-          <p className="label reveal">Our Formulas</p>
           <h1 className="products-hero__title reveal">
-            Welcome to the New You.
+            Explore the lineup.
           </h1>
           <p className="products-hero__subtitle reveal">
-            Pharmaceutical-grade supplements backed by science. Explore our full range of longevity formulas.
+            Pharmaceutical-grade longevity formulas,<br />
+            backed by science and clinically tested.
           </p>
         </div>
       </section>
 
+      {/* Category Carousel — Apple Store style */}
+      {!loading && products.length > 0 && (
+        <section className="cat-carousel">
+          <div className="cat-carousel__wrap">
+            {cat.canLeft && (
+              <button className="cat-carousel__arrow cat-carousel__arrow--left" onClick={() => cat.scroll("left", 240)} aria-label="Scroll left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+              </button>
+            )}
+            {cat.canRight && (
+              <button className="cat-carousel__arrow cat-carousel__arrow--right" onClick={() => cat.scroll("right", 240)} aria-label="Scroll right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+              </button>
+            )}
+            <div className="cat-carousel__track" ref={cat.ref}>
+              {products.map((product, i) => (
+                <Link
+                  key={product.id}
+                  href={`/products/${product.handle}`}
+                  className={`cat-carousel__tile${i < products.length - 1 ? " cat-carousel__tile--border" : ""}`}
+                >
+                  <div className="cat-carousel__img-wrap">
+                    {product.image ? (
+                      <img src={product.image} alt={product.imageAlt} className="cat-carousel__img" />
+                    ) : (
+                      <span className="cat-carousel__placeholder">{product.title}</span>
+                    )}
+                  </div>
+                  <p className="cat-carousel__name">{product.title}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Products */}
       <section className="products-section">
         <div className="products-section__inner">
-          {/* Scroll arrows */}
           <div className="products-scroll-wrap">
-            {canScrollLeft && (
-              <button
-                className="products-scroll-btn products-scroll-btn--left"
-                onClick={() => scroll("left")}
-                aria-label="Scroll left"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
+            {grid.canLeft && (
+              <button className="products-scroll-btn products-scroll-btn--left" onClick={() => grid.scroll("left", 404)} aria-label="Scroll left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
               </button>
             )}
-            {canScrollRight && (
-              <button
-                className="products-scroll-btn products-scroll-btn--right"
-                onClick={() => scroll("right")}
-                aria-label="Scroll right"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
+            {grid.canRight && (
+              <button className="products-scroll-btn products-scroll-btn--right" onClick={() => grid.scroll("right", 404)} aria-label="Scroll right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
               </button>
             )}
-          <div className="products-grid" ref={scrollRef}>
+          <div className="products-grid" ref={grid.ref}>
             {loading
               ? Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="product-card product-card--skeleton">
