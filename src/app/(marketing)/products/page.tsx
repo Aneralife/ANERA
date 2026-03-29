@@ -259,14 +259,14 @@ export default function StorePage() {
                 {productCards.map((card, i) => (
                   <a key={i} href="#" className={`st-pcard${card.available ? " available" : " unavailable"}`} onClick={(e) => e.preventDefault()}>
                     <div className="st-pcard__inner">
-                      <div className="st-pcard__badges">
-                        <span className="st-pcard__badges-left">
-                          {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
-                          {!card.available && <span className="st-pcard__badge st-badge--soon">Coming Soon</span>}
-                        </span>
-                        {card.bestSeller && <span className="st-pcard__badge st-badge--bestseller">Best Seller</span>}
-                      </div>
                       <div className="st-pcard__img-wrap">
+                        <div className="st-pcard__badges">
+                          <span className="st-pcard__badges-left">
+                            {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
+                            {!card.available && <span className="st-pcard__badge st-badge--soon">Coming Soon</span>}
+                          </span>
+                          {card.bestSeller && <span className="st-pcard__badge st-badge--bestseller">Best Seller</span>}
+                        </div>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={card.img} alt={card.name} className="st-pcard__img" />
                         {card.imgHover && (
