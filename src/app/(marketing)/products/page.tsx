@@ -56,18 +56,18 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
 
 /* ── Data ────────────────────────────────────────────────────── */
 const catItems = [
-  { label: "NMN + TR 24000", img: "/assets/NMN 24000.png", available: true, href: "#nmn24000" },
-  { label: "NMN 15000", img: "/assets/NMN 15000.png", available: true, href: "#" },
-  { label: "NMN 7500", img: "/assets/NMN 7500.png", available: false, href: "#" },
+  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "#nmn24000" },
+  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "#" },
+  { label: "NMN 7500", img: "/assets/7500 NMN.png", available: false, href: "#" },
   { label: "NMN 100000", img: "/assets/NMN Powder.png", available: false, href: "#" },
-  { label: "Trans-Resveratrol", img: "/assets/TR 500 MG.png", available: false, href: "#" },
+  { label: "Trans-Resveratrol", img: "/assets/TR.png", available: false, href: "#" },
   { label: "Fisetin 6000", img: "/assets/Fisetin.png", available: false, href: "#" },
-  { label: "Quercetin 45000", img: "/assets/Quercetin.png", available: false, href: "#" },
-  { label: "Berberine 45000", img: "/assets/TMG.png", available: false, href: "#" },
+  { label: "Quercetin 45000", img: "/assets/Quercentin.png", available: false, href: "#" },
+  { label: "Berberine 45000", img: "/assets/Berberin.png", available: false, href: "#" },
   { label: "TMG 45000", img: "/assets/TMG.png", available: false, href: "#" },
   { label: "Selenium 24000", img: "/assets/Selenium.png", available: false, href: "#" },
   { label: "Magnesium L-Threonate", img: "/assets/Magnesium.png", available: false, href: "#" },
-  { label: "Creatine 300000", img: "/assets/TMG.png", available: false, href: "#" },
+  { label: "Creatine 300000", img: "/assets/Creatine.png", available: false, href: "#" },
   { label: "Taurine 300000", img: "/assets/Taurine.png", available: false, href: "#" },
 ];
 
@@ -82,18 +82,18 @@ type PCard = {
 };
 
 const productCards: PCard[] = [
-  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/NMN 24000.png", available: true, bestSeller: true },
-  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/NMN 15000.png", available: true },
-  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/NMN 7500.png", available: false },
+  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", available: true, bestSeller: true },
+  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", available: true },
+  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", available: false },
   { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", available: false },
-  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR 500 MG.png", available: false },
+  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", available: false },
   { name: "Fisetin 6000", cat: "Longevity / Senolytic", desc: "100mg per capsule \u00b7 60 capsules. Supports cellular cleanup, brain health, and anti-inflammatory effects.", price: "Price TBD", img: "/assets/Fisetin.png", available: false },
-  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercetin.png", available: false },
-  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/TMG.png", available: false },
+  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercentin.png", available: false },
+  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/Berberin.png", available: false },
   { name: "TMG 45000", cat: "Methylation Support", desc: "500mg per capsule \u00b7 90 capsules. Supports homocysteine balance, promotes heart health, and aids cellular methylation.", price: "Price TBD", img: "/assets/TMG.png", available: false },
   { name: "Selenium 24000", cat: "Mineral", desc: "200mcg per capsule \u00b7 90 capsules. Supports immune system, promotes thyroid function, and provides antioxidant protection.", price: "Price TBD", img: "/assets/Selenium.png", available: false },
   { name: "Magnesium L-Threonate 4500", cat: "Mineral / Brain Health", desc: "50mg per capsule \u00b7 90 capsules. Improves memory, enhances focus, and supports overall brain health.", price: "Price TBD", img: "/assets/Magnesium.png", available: false },
-  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/TMG.png", available: false },
+  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/Creatine.png", available: false },
   { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.png", available: false },
 ];
 

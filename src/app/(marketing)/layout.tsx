@@ -92,6 +92,9 @@ export default function MarketingLayout({
             <Link href="/pillars">Pillars</Link>
           </li>
           <li>
+            <Link href="/distribution">Distribution</Link>
+          </li>
+          <li>
             <Link href="/media">Media</Link>
           </li>
           <li>
