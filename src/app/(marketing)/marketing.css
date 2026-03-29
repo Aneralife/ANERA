@@ -502,14 +502,14 @@ img, video { display: block; max-width: 100%; }
 }
 .st-badge--available  { background: #1d8348; color: #fff; }
 .st-badge--soon       { background: var(--fg-muted, #86868b); color: #fff; }
-.st-badge--bestseller { background: #c9a84c; color: #fff; }
+.st-badge--bestseller { background: var(--accent, #0071E3); color: #fff; }
 .st-pcard__info {
   padding: 20px 30px 30px; flex: 1;
   display: flex; flex-direction: column; border-top: 1px solid rgba(0,0,0,0.05);
 }
 .st-pcard__cat {
   font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #c9a84c; margin-bottom: 5px;
+  text-transform: uppercase; color: var(--accent, #0071E3); margin-bottom: 5px;
 }
 .st-pcard__name {
   font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
@@ -552,18 +552,18 @@ img, video { display: block; max-width: 100%; }
   border-radius: 980px; font-size: 12px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
 }
-.st-pill--gold  { background: rgba(201,168,76,0.18); color: #e8c96a; border: 1px solid rgba(201,168,76,0.3); }
+.st-pill--gold  { background: rgba(0,113,227,0.18); color: var(--accent2, #2997FF); border: 1px solid rgba(0,113,227,0.3); }
 .st-pill--white { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.15); }
 .st-product-intro__right { flex-shrink: 0; text-align: right; }
 .st-price-main { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
 .st-price-sub  { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
 .st-btn-buy {
-  margin-top: 20px; display: inline-block; background: #c9a84c; color: var(--fg, #1d1d1f);
+  margin-top: 20px; display: inline-block; background: var(--accent, #0071E3); color: #fff;
   padding: 14px 32px; border-radius: 980px; font-size: 15px; font-weight: 700;
   border: none; cursor: pointer; font-family: inherit;
   transition: background .2s, transform .15s;
 }
-.st-btn-buy:hover { background: #e8c96a; transform: scale(1.03); }
+.st-btn-buy:hover { background: var(--accent2, #2997FF); transform: scale(1.03); }
 
 /* Comparison */
 .st-comparison { background: var(--bg-alt, #f0ede8); padding: 100px 24px; }
@@ -606,7 +606,7 @@ img, video { display: block; max-width: 100%; }
   font-size: 10px; font-weight: 700; padding: 3px 10px;
   border-radius: 980px; letter-spacing: 0.08em;
 }
-.st-product-col-brand--gold { background: #c9a84c; }
+.st-product-col-brand--gold { background: var(--accent, #0071E3); }
 .st-comparison-table td {
   padding: 16px; text-align: center; font-size: 14px;
   border-top: 1px dashed rgba(0,0,0,0.1); vertical-align: middle; color: var(--fg);
@@ -617,7 +617,7 @@ img, video { display: block; max-width: 100%; }
   background: var(--fg, #1d1d1f); color: #fff;
   display: inline-flex; align-items: center; justify-content: center; font-size: 14px;
 }
-.st-check-icon--gold { background: #c9a84c; }
+.st-check-icon--gold { background: var(--accent, #0071E3); }
 .st-x-icon {
   width: 28px; height: 28px; border-radius: 50%;
   background: var(--border, #e8e8ed); color: var(--fg-muted);
@@ -666,7 +666,7 @@ img, video { display: block; max-width: 100%; }
   font-size: 72px; font-weight: 800; letter-spacing: -0.04em;
   line-height: 1; margin-bottom: 8px; color: var(--fg);
 }
-.st-benefit-panel__number span { color: #c9a84c; }
+.st-benefit-panel__number span { color: var(--accent, #0071E3); }
 .st-benefit-panel__stat-label { font-size: 16px; color: var(--fg-muted); line-height: 1.5; }
 .st-benefit-panel__text h3 {
   font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
@@ -706,7 +706,7 @@ img, video { display: block; max-width: 100%; }
 }
 .st-timeline-panel__time {
   font-size: 48px; font-weight: 800; letter-spacing: -0.04em;
-  color: #c9a84c; line-height: 1; margin-bottom: 4px;
+  color: var(--accent, #0071E3); line-height: 1; margin-bottom: 4px;
 }
 .st-timeline-panel__unit { font-size: 16px; color: var(--fg-muted); margin-bottom: 24px; }
 .st-timeline-progress {
@@ -714,7 +714,7 @@ img, video { display: block; max-width: 100%; }
   overflow: hidden; margin-bottom: 16px;
 }
 .st-timeline-progress__fill {
-  height: 100%; background: linear-gradient(90deg, #c9a84c, #e8c96a); border-radius: 4px;
+  height: 100%; background: linear-gradient(90deg, var(--accent, #0071E3), var(--accent2, #2997FF)); border-radius: 4px;
 }
 .st-timeline-panel__desc { font-size: 16px; color: var(--fg-muted); line-height: 1.65; }
 .st-timeline-panel__text h3 {
@@ -735,9 +735,9 @@ img, video { display: block; max-width: 100%; }
   font-size: 72px; font-weight: 800; letter-spacing: -0.04em;
   line-height: 1; color: var(--fg);
 }
-.st-reviews-score span { color: #c9a84c; }
+.st-reviews-score span { color: var(--accent, #0071E3); }
 .st-reviews-meta { display: flex; flex-direction: column; gap: 4px; }
-.st-reviews-stars { color: #c9a84c; font-size: 20px; letter-spacing: 2px; }
+.st-reviews-stars { color: var(--accent, #0071E3); font-size: 20px; letter-spacing: 2px; }
 .st-reviews-count { font-size: 14px; color: var(--fg-muted); }
 .st-reviews-recommend { font-size: 15px; font-weight: 600; color: #34c759; }
 .st-reviews-bars { flex: 1; max-width: 300px; }
@@ -747,7 +747,7 @@ img, video { display: block; max-width: 100%; }
   flex: 1; height: 6px; background: var(--border, #e8e8ed);
   border-radius: 3px; overflow: hidden;
 }
-.st-review-bar-fill  { height: 100%; background: #c9a84c; border-radius: 3px; }
+.st-review-bar-fill  { height: 100%; background: var(--accent, #0071E3); border-radius: 3px; }
 .st-review-bar-pct   { font-size: 12px; color: var(--fg-muted); width: 32px; text-align: right; }
 .st-reviews-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
 .st-review-card {
@@ -758,7 +758,7 @@ img, video { display: block; max-width: 100%; }
 }
 .st-review-card__author { font-size: 14px; font-weight: 600; color: var(--fg); }
 .st-review-card__verified { font-size: 11px; color: #34c759; font-weight: 600; }
-.st-review-card__stars { color: #c9a84c; font-size: 13px; margin-bottom: 8px; }
+.st-review-card__stars { color: var(--accent, #0071E3); font-size: 13px; margin-bottom: 8px; }
 .st-review-card__title { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--fg); }
 .st-review-card__text  { font-size: 14px; color: var(--fg-muted); line-height: 1.55; }
 .st-review-card__date  { font-size: 12px; color: var(--fg-muted); margin-top: 12px; }
