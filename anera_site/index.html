@@ -7,12 +7,12 @@
   <style>
     /* ─── Tokens ─────────────────────────────────────────────────── */
     :root {
-      --black:  #0a0a0a;
-      --white:  #ffffff;
-      --off:    #f5f5f0;
-      --gray:   #888880;
-      --accent: #c8a96e;   /* warm gold — longevity / premium */
-      --accent2:#4a9eff;   /* cool blue  — science */
+      --black:  #1d1d1f;
+      --white:  #fbfbfd;
+      --off:    #f5f5f7;
+      --gray:   #86868b;
+      --accent: #0071E3;   /* apple.com blue — CTA / premium */
+      --accent2:#2997FF;   /* apple.com link blue — science */
       --font:   "Helvetica Neue", Helvetica, Arial, sans-serif;
       --serif:  Georgia, "Times New Roman", serif;
     }
@@ -172,7 +172,7 @@
     .btn-primary {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 16px 36px;
-      background: var(--accent); color: var(--black);
+      background: var(--accent); color: #ffffff;
       font-size: 12px; font-weight: 700;
       letter-spacing: .15em; text-transform: uppercase;
       border-radius: 2px;
@@ -180,7 +180,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(200,169,110,.35);
+      box-shadow: 0 12px 40px rgba(0,113,227,.35);
     }
     .btn-ghost {
       display: inline-flex; align-items: center; gap: 8px;
@@ -385,7 +385,7 @@
     .product-card__visual::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 60%, rgba(200,169,110,.12) 0%, transparent 65%);
+      background: radial-gradient(circle at 50% 60%, rgba(0,113,227,.12) 0%, transparent 65%);
     }
     /* CSS bottle */
     .bottle-3d {
@@ -438,8 +438,8 @@
       padding: 5px 12px; border-radius: 2px;
       margin-bottom: 16px; align-self: flex-start;
     }
-    .tag-gold { background: rgba(200,169,110,.12); color: #c8a96e; }
-    .tag-blue { background: rgba(74,158,255,.1); color: #4a9eff; }
+    .tag-gold { background: rgba(0,113,227,.10); color: #0071E3; }
+    .tag-blue { background: rgba(41,151,255,.1); color: #2997FF; }
     .product-card__name {
       font-size: 28px; font-weight: 800;
       letter-spacing: -.03em; color: var(--black);
@@ -551,7 +551,7 @@
     .science-callout {
       padding: 20px 24px;
       border-left: 2px solid var(--accent);
-      background: rgba(200,169,110,.05);
+      background: rgba(0,113,227,.05);
       border-radius: 0 4px 4px 0;
       margin-bottom: 36px;
     }
@@ -595,7 +595,7 @@
       padding: 40px 28px;
       transition: background .3s;
     }
-    .pillar:hover { background: rgba(200,169,110,.06); }
+    .pillar:hover { background: rgba(0,113,227,.06); }
     .pillar__num {
       font-size: 11px; font-weight: 700; letter-spacing: .2em;
       color: var(--accent); margin-bottom: 20px;
@@ -674,7 +674,7 @@
     .sf-circle {
       width: 200px; height: 200px;
       border-radius: 50%;
-      border: 1px solid rgba(200,169,110,.3);
+      border: 1px solid rgba(0,113,227,.3);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       margin: 0 auto 24px;
@@ -684,7 +684,7 @@
       content: '';
       position: absolute; inset: 8px;
       border-radius: 50%;
-      border: 1px solid rgba(200,169,110,.15);
+      border: 1px solid rgba(0,113,227,.15);
     }
     .sf-circle-num {
       font-size: 52px; font-weight: 900;
@@ -750,7 +750,7 @@
     .media-link {
       font-size: 12px; font-weight: 600; letter-spacing: .15em;
       text-transform: uppercase; color: var(--accent);
-      border-bottom: 1px solid rgba(200,169,110,.3);
+      border-bottom: 1px solid rgba(0,113,227,.3);
       padding-bottom: 2px;
       transition: border-color .2s;
     }
@@ -810,7 +810,7 @@
       transform: translate(-50%, -50%);
       width: 600px; height: 600px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(200,169,110,.07) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0,113,227,.07) 0%, transparent 70%);
       pointer-events: none;
     }
     .mission-section__inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
@@ -868,14 +868,14 @@
     .newsletter-input::placeholder { color: var(--gray); }
     .newsletter-submit {
       padding: 15px 28px;
-      background: var(--accent); color: var(--black);
+      background: var(--accent); color: #ffffff;
       font-size: 11px; font-weight: 700; letter-spacing: .15em;
       text-transform: uppercase;
       border: none; border-radius: 0 2px 2px 0;
       cursor: pointer; font-family: var(--font);
       transition: background .2s;
     }
-    .newsletter-submit:hover { background: #d4b87a; }
+    .newsletter-submit:hover { background: #0077ED; }
 
     /* ─── Footer ─────────────────────────────────────────────────── */
     .footer {
