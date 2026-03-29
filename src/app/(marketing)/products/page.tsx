@@ -212,7 +212,7 @@ export default function StorePage() {
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
-          <h1 className="st-hero__title">Store.</h1>
+          <h1 className="st-hero__title">Longevity Is The New Flex</h1>
           <div className="st-hero__right">
             <p className="st-hero__tagline">The best way to buy the longevity supplements you love.</p>
           </div>
