@@ -1,15 +1,56 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+/* ── Animated counter that counts up to a target number ─────── */
+function useCountUp(target: number, duration = 1500) {
+  const [value, setValue] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setStarted(true); obs.disconnect(); } },
+      { threshold: 0.3 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    const start = performance.now();
+    let raf: number;
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setValue(Math.round(eased * target));
+      if (progress < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [started, target, duration]);
+
+  return { value, ref, started };
+}
+
 export default function SciencePage() {
+  const counter = useCountUp(20, 1800);
+
   return (
     <>
       {/* Science */}
       <section className="science-section" style={{ paddingTop: 180 }}>
         <div className="science-section__inner">
-          <div className="science-visual reveal-left">
-            <div className="science-big">&lt;20</div>
-            <div className="science-big-overlay">
-              <div className="num">&lt;20</div>
+          <div className="science-visual reveal-left" ref={counter.ref}>
+            <div className="science-big" aria-hidden="true">&lt;20</div>
+            <div className={`science-big-overlay${counter.started ? " science-big-overlay--animated" : ""}`}>
+              <div className="num">
+                &lt;{counter.value}
+              </div>
               <div className="unit">Eu/g</div>
               <div className="caption">Endotoxin Units per gram</div>
             </div>
@@ -29,14 +70,14 @@ export default function SciencePage() {
             <div className="science-callout">
               <p>
                 <strong>
-                  ANERA™ NMN endotoxin is generally &lt;20 Eu/g
+                  ANERA&trade; NMN endotoxin is generally &lt;20 Eu/g
                 </strong>{" "}
                 without Lipopolysaccharide. Other NMN brands on the market may
-                contain 50–1000 Eu/g — up to 50× more contamination.
+                contain 50&ndash;1000 Eu/g &mdash; up to 50&times; more contamination.
               </p>
             </div>
             <Link href="/products" className="btn-primary">
-              Explore Products →
+              Explore Products &rarr;
             </Link>
           </div>
         </div>
@@ -110,16 +151,16 @@ export default function SciencePage() {
               </thead>
               <tbody>
                 <tr>
-                  <td>🥦 Broccoli</td>
-                  <td>22 – 100 kg</td>
+                  <td>Broccoli</td>
+                  <td>22 &ndash; 100 kg</td>
                 </tr>
                 <tr>
-                  <td>🍅 Tomato</td>
-                  <td>84 – 96 kg</td>
+                  <td>Tomato</td>
+                  <td>84 &ndash; 96 kg</td>
                 </tr>
                 <tr>
-                  <td>🥑 Avocado</td>
-                  <td>16 – 70 kg</td>
+                  <td>Avocado</td>
+                  <td>16 &ndash; 70 kg</td>
                 </tr>
               </tbody>
             </table>

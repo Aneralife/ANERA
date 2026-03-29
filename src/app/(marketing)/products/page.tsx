@@ -77,12 +77,13 @@ type PCard = {
   desc: string;
   price: string;
   img: string;
+  imgHover?: string;
   available: boolean;
   bestSeller?: boolean;
 };
 
 const productCards: PCard[] = [
-  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", available: true, bestSeller: true },
+  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg", available: true, bestSeller: true },
   { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", available: true },
   { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", available: false },
   { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", available: false },
@@ -131,12 +132,14 @@ const timelinePanels = [
 ];
 
 const reviews = [
-  { author: "Dr. Sarah M.", verified: true, stars: 5, title: "Finally, a supplement I can trust", text: "As a physician, I'm extremely skeptical of supplements. Anera's transparency with their endotoxin testing and clinical data convinced me. I've been taking it for 3 months and my energy levels are noticeably better.", date: "March 2025" },
-  { author: "James K.", verified: true, stars: 5, title: "Game changer for my training", text: "I'm 52 and thought my best days of training were behind me. After 6 weeks on NMN + TR, my recovery time has improved dramatically. I'm hitting PRs I haven't seen in years.", date: "February 2025" },
-  { author: "Linda T.", verified: true, stars: 5, title: "Better sleep, more energy", text: "Started taking this primarily for energy, but the biggest surprise was how much my sleep improved. I fall asleep faster and wake up feeling actually refreshed. Worth every penny.", date: "January 2025" },
-  { author: "Michael R.", verified: true, stars: 4, title: "Solid product, premium quality", text: "You can tell this is a cut above generic NMN supplements. The packaging, the testing documentation, everything screams quality. Only giving 4 stars because I wish they had more products available.", date: "March 2025" },
-  { author: "Dr. Amanda C.", verified: true, stars: 5, title: "Recommending to my patients", text: "The pharmaceutical-grade standard and human clinical testing sets Anera apart. I've started recommending it to patients interested in longevity supplementation. The science is solid.", date: "February 2025" },
-  { author: "Robert H.", verified: true, stars: 5, title: "Noticeable difference in 2 weeks", text: "I was skeptical but decided to try based on the clinical data. Within two weeks I noticed improved mental clarity and sustained energy. Three months in, I feel like I've turned back the clock 5 years.", date: "January 2025" },
+  { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago" },
+  { author: "Janet L", verified: true, stars: 5, title: "No more midday fatigue", text: "After consistent daily use for 6 months, I can say I am extremely pleased with the benefits of taking NMN. No more feeling fatigue mid day, my hair looks fuller and my skin feels more plump. Definitely recommend for those who need a boost in their daily lifestyle.", date: "1 year ago" },
+  { author: "Abraham Aguirre Castro", verified: true, stars: 5, title: "Boosted my energy throughout the day", text: "It has boost my energy throughout the day.", date: "1 year ago" },
+  { author: "Daniel De La Cruz", verified: true, stars: 5, title: "Replaced my daily vitamins with Anera", text: "Being a competitive bodybuilder, I tried NMN for 1 month and stopped taking preworkout. I was able to push through intense training, focus and clarity improved, and my wrist pain was gone after 3 weeks! My cardio performance was better than expected. I\u2019ve replaced my daily vitamins with ANERA 24000 NMN + TR. #HEALTHISWEALTH", date: "1 year ago" },
+  { author: "Tammy Watson", verified: true, stars: 5, title: "Better sleep, more energy, weight loss", text: "I started taking Anera NMN as I was transitioning off anxiety and depression medication. I found that I was able to sleep well and wake up feeling refreshed. My skin started to brighten up and my metabolism is kicking back in. Now I find I have energy to work out in the morning, and the scale is moving again.", date: "1 year ago" },
+  { author: "Qui Tran", verified: true, stars: 5, title: "Best product I have tried", text: "Hands down best product I have tried. Lots of energy when using compared to other brands.", date: "1 year ago" },
+  { author: "Jose Ram\u00edrez", verified: true, stars: 5, title: "Energy, joint pain relief, mental clarity", text: "I\u2019ve been taking Anera for two weeks now, and from the very first days, I noticed an increase in my energy levels. I\u2019ve dealt with joint pain my entire life from playing football, but in just two weeks, that pain has almost completely disappeared. My mental clarity improved and I\u2019m getting much more done in a single day.", date: "1 year ago" },
+  { author: "Damien Henderson", verified: true, stars: 5, title: "So much energy throughout the day", text: "Anera product is definitely a supplement you should purchase! I\u2019ve tried the NMN 60 capsule bottle first, and the product is legit \u2014 I have so much energy throughout the day! Now I just reloaded on 2 bottles of the NMN Trans. Highly recommend!", date: "1 year ago" },
 ];
 
 const faqs = [
@@ -212,10 +215,6 @@ export default function StorePage() {
           <h1 className="st-hero__title">Store.</h1>
           <div className="st-hero__right">
             <p className="st-hero__tagline">The best way to buy the longevity supplements you love.</p>
-            <div className="st-hero__cta-group">
-              <a href="mailto:info@aneralife.com" className="st-hero__cta">Connect with a Specialist &#8250;</a>
-              <a href="#" className="st-hero__cta">Find an Authorized Partner &#8250;</a>
-            </div>
           </div>
         </div>
       </div>
@@ -260,12 +259,20 @@ export default function StorePage() {
                 {productCards.map((card, i) => (
                   <a key={i} href="#" className={`st-pcard${card.available ? " available" : " unavailable"}`} onClick={(e) => e.preventDefault()}>
                     <div className="st-pcard__inner">
+                      <div className="st-pcard__badges">
+                        <span className="st-pcard__badges-left">
+                          {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
+                          {!card.available && <span className="st-pcard__badge st-badge--soon">Coming Soon</span>}
+                        </span>
+                        {card.bestSeller && <span className="st-pcard__badge st-badge--bestseller">Best Seller</span>}
+                      </div>
                       <div className="st-pcard__img-wrap">
-                        {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
-                        {!card.available && <span className="st-pcard__badge st-badge--soon">Coming Soon</span>}
-                        {card.bestSeller && <span className="st-pcard__badge-r st-badge--bestseller">Best Seller</span>}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={card.img} alt={card.name} className="st-pcard__img" />
+                        {card.imgHover && (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img src={card.imgHover} alt={card.name} className="st-pcard__img st-pcard__img--hover" />
+                        )}
                       </div>
                       <div className="st-pcard__info">
                         <div className="st-pcard__cat">{card.cat}</div>
@@ -460,15 +467,15 @@ export default function StorePage() {
         <div className="st-reviews__inner">
           <div className="st-reviews-header st-reveal">
             <div className="st-reviews-summary">
-              <div className="st-reviews-score">4.<span>9</span></div>
+              <div className="st-reviews-score">5.<span>0</span></div>
               <div className="st-reviews-meta">
-                <div className="st-reviews-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <div className="st-reviews-count">Based on 2,847 reviews</div>
-                <div className="st-reviews-recommend">97% recommend</div>
+                <div className="st-reviews-stars">{"\u2605\u2605\u2605\u2605\u2605"}</div>
+                <div className="st-reviews-count">Google Reviews</div>
+                <div className="st-reviews-recommend">100% recommend</div>
               </div>
             </div>
             <div className="st-reviews-bars">
-              {[{ label: "5 star", pct: 89 }, { label: "4 star", pct: 8 }, { label: "3 star", pct: 2 }, { label: "2 star", pct: 1 }, { label: "1 star", pct: 0 }].map((bar) => (
+              {[{ label: "5 star", pct: 100 }, { label: "4 star", pct: 0 }, { label: "3 star", pct: 0 }, { label: "2 star", pct: 0 }, { label: "1 star", pct: 0 }].map((bar) => (
                 <div key={bar.label} className="st-review-bar-row">
                   <span className="st-review-bar-label">{bar.label}</span>
                   <div className="st-review-bar-track"><div className="st-review-bar-fill" style={{ width: `${bar.pct}%` }} /></div>
@@ -482,7 +489,7 @@ export default function StorePage() {
               <div key={i} className="st-review-card st-reveal">
                 <div className="st-review-card__header">
                   <span className="st-review-card__author">{r.author}</span>
-                  {r.verified && <span className="st-review-card__verified">&#10003; Verified</span>}
+                  {r.verified && <span className="st-review-card__verified">Google Review</span>}
                 </div>
                 <div className="st-review-card__stars">{Array.from({ length: r.stars }, (_, j) => <span key={j}>{"\u2605"}</span>)}</div>
                 <div className="st-review-card__title">{r.title}</div>

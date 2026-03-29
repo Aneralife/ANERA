@@ -89,9 +89,6 @@ export default function MarketingLayout({
             <Link href="/science">Science</Link>
           </li>
           <li>
-            <Link href="/pillars">Pillars</Link>
-          </li>
-          <li>
             <Link href="/distribution">Distribution</Link>
           </li>
           <li>
@@ -162,7 +159,7 @@ export default function MarketingLayout({
               <p className="footer-col__title">Company</p>
               <ul>
                 <li>
-                  <Link href="/pillars">About Us</Link>
+                  <Link href="/about">About Us</Link>
                 </li>
                 <li>
                   <Link href="/science">Our Mission</Link>
