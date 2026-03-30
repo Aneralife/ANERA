@@ -42,46 +42,58 @@ export default function SciencePage() {
 
   return (
     <>
-      {/* Science */}
-      <section className="science-section" style={{ paddingTop: 180 }}>
-        <div className="science-section__inner">
-          <div className="science-visual reveal-left" ref={counter.ref}>
-            <div className="science-big" aria-hidden="true">&lt;20</div>
-            <div className={`science-big-overlay${counter.started ? " science-big-overlay--animated" : ""}`}>
-              <div className="num">
-                &lt;{counter.value}
+      {/* Video Hero with Science Section */}
+      <div className="science-video-hero">
+        <video
+          className="science-video-hero__bg"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/assets/science.webm" type="video/webm" />
+        </video>
+        <div className="science-video-hero__overlay" />
+        <div className="science-video-hero__section">
+          <div className="science-section__inner">
+            <div className="science-visual reveal-left" ref={counter.ref}>
+              <div className="science-big" aria-hidden="true">&lt;20</div>
+              <div className={`science-big-overlay${counter.started ? " science-big-overlay--animated" : ""}`}>
+                <div className="num">
+                  &lt;{counter.value}
+                </div>
+                <div className="unit">Eu/g</div>
+                <div className="caption">Endotoxin Units per gram</div>
               </div>
-              <div className="unit">Eu/g</div>
-              <div className="caption">Endotoxin Units per gram</div>
             </div>
-          </div>
-          <div className="science-text reveal-right">
-            <p className="label">The Science</p>
-            <h2 className="h2" style={{ marginBottom: 24 }}>
-              Endotoxin-Free.
-              <br />
-              By Design.
-            </h2>
-            <p className="body-lg" style={{ marginBottom: 32 }}>
-              In 2022, Dr. David Sinclair revealed that most NMN supplements
-              were contaminated with endotoxin. Anera was built to be different
-              from day one.
-            </p>
-            <div className="science-callout">
-              <p>
-                <strong>
-                  ANERA&trade; NMN endotoxin is generally &lt;20 Eu/g
-                </strong>{" "}
-                without Lipopolysaccharide. Other NMN brands on the market may
-                contain 50&ndash;1000 Eu/g &mdash; up to 50&times; more contamination.
+            <div className="science-text reveal-right">
+              <p className="label">The Science</p>
+              <h2 className="h2" style={{ marginBottom: 24 }}>
+                Endotoxin-Free.
+                <br />
+                By Design.
+              </h2>
+              <p className="body-lg" style={{ marginBottom: 32 }}>
+                In 2022, Dr. David Sinclair revealed that most NMN supplements
+                were contaminated with endotoxin. Anera was built to be different
+                from day one.
               </p>
+              <div className="science-callout">
+                <p>
+                  <strong>
+                    ANERA&trade; NMN endotoxin is generally &lt;20 Eu/g
+                  </strong>{" "}
+                  without Lipopolysaccharide. Other NMN brands on the market may
+                  contain 50&ndash;1000 Eu/g &mdash; up to 50&times; more contamination.
+                </p>
+              </div>
+              <Link href="/products" className="btn-primary">
+                Explore Products &rarr;
+              </Link>
             </div>
-            <Link href="/products" className="btn-primary">
-              Explore Products &rarr;
-            </Link>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Stats */}
       <div className="stats-row">

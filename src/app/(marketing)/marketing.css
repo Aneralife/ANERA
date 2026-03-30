@@ -2,7 +2,7 @@
 :root {
   --accent: #1d1d1f;
   --accent2:#3a3a3c;
-  --font:   "SF Pro Display", "SF Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font:   "Roboto", "SF Pro Display", "SF Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif:  Georgia, "Times New Roman", serif;
 
   /* Light theme (default) */
@@ -300,21 +300,25 @@ img, video { display: block; max-width: 100%; }
 .section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 @media (max-width: 768px) { .section { padding: 80px 24px; } }
 .label {
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .25em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 16px;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 14px;
 }
 .h1 {
-  font-size: clamp(36px, 6vw, 72px);
-  font-weight: 800; line-height: 1.0; letter-spacing: -.04em;
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 500; line-height: 1.1; letter-spacing: -.02em;
 }
 .h2 {
-  font-size: clamp(28px, 4vw, 52px);
-  font-weight: 700; line-height: 1.05; letter-spacing: -.03em;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 500; line-height: 1.2; letter-spacing: -.02em;
+}
+.h3 {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 500; line-height: 1.25; letter-spacing: -.01em;
 }
 .body-lg {
-  font-size: clamp(16px, 2vw, 20px);
-  font-weight: 300; line-height: 1.7; color: var(--fg-secondary);
+  font-size: 15px;
+  font-weight: 400; line-height: 1.85; color: var(--fg-secondary);
 }
 
 /* ─── Page header (reusable for inner pages) ─────────────────── */
@@ -386,7 +390,7 @@ img, video { display: block; max-width: 100%; }
   display: flex; align-items: flex-start; justify-content: space-between; gap: 32px;
 }
 .st-hero__title {
-  font-size: clamp(48px, 6.25vw, 80px); font-weight: 600;
+  font-size: clamp(48px, 6.25vw, 80px); font-weight: 400;
   letter-spacing: -0.035em; line-height: 1.05; color: var(--fg);
 }
 .st-hero__right {
@@ -466,7 +470,7 @@ img, video { display: block; max-width: 100%; }
 .st-latest-pad { padding-bottom: 52px; }
 
 .st-pcard {
-  flex-shrink: 0; width: 400px; margin-right: 20px;
+  flex-shrink: 0; width: 400px; margin: 6px;
   text-decoration: none; color: var(--fg); display: flex; flex-direction: column;
 }
 .st-pcard:last-child { margin-right: 0; }
@@ -476,7 +480,7 @@ img, video { display: block; max-width: 100%; }
   transition: transform .22s cubic-bezier(0.34,1.56,0.64,1), box-shadow .22s ease;
 }
 .st-pcard.available .st-pcard__inner:hover {
-  transform: none;
+  transform: scale(1.02);
 }
 .st-pcard.unavailable { pointer-events: none; }
 .st-pcard__img-wrap {
@@ -496,7 +500,7 @@ img, video { display: block; max-width: 100%; }
   transition: opacity .35s ease;
 }
 .st-pcard.available .st-pcard__inner:hover .st-pcard__img-hover { opacity: 1; }
-.st-pcard.available .st-pcard__inner:hover .st-pcard__img { opacity: 0; transform: scale(1.07); }
+.st-pcard.available .st-pcard__inner:hover .st-pcard__img { opacity: 0;  }
 .st-pcard__badges {
   position: absolute; top: 14px; left: 14px; right: 14px; z-index: 2;
   display: flex; justify-content: space-between; align-items: center;
@@ -541,16 +545,17 @@ img, video { display: block; max-width: 100%; }
 
 /* Product section intro */
 .st-product-intro {
-  background: var(--fg, #1d1d1f); padding: 72px 7.4%;
+  background: var(--bg-alt); padding: 72px 7.4%;
   display: flex; align-items: center; justify-content: space-between;
   gap: 32px; flex-wrap: wrap;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
 .st-product-intro__left h2 {
   font-size: clamp(32px,4vw,52px); font-weight: 700;
-  letter-spacing: -0.03em; color: #fff; line-height: 1.05; margin-bottom: 12px;
+  letter-spacing: -0.03em; color: var(--fg); line-height: 1.05; margin-bottom: 12px;
 }
 .st-product-intro__left p {
-  font-size: 17px; color: rgba(255,255,255,0.6); max-width: 520px; line-height: 1.6;
+  font-size: 17px; color: var(--fg-secondary); max-width: 520px; line-height: 1.6;
 }
 .st-product-intro__badge-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
 .st-pill {
@@ -558,18 +563,18 @@ img, video { display: block; max-width: 100%; }
   border-radius: 980px; font-size: 12px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
 }
-.st-pill--gold  { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-.st-pill--white { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.15); }
+.st-pill--gold  { background: var(--border-subtle); color: var(--fg); border: 1px solid var(--border); }
+.st-pill--white { background: var(--border-subtle); color: var(--fg-secondary); border: 1px solid var(--border); }
 .st-product-intro__right { flex-shrink: 0; text-align: right; }
-.st-price-main { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
-.st-price-sub  { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.st-price-main { font-size: 42px; font-weight: 800; color: var(--fg); letter-spacing: -0.04em; }
+.st-price-sub  { font-size: 14px; color: var(--fg-muted); margin-top: 4px; }
 .st-btn-buy {
-  margin-top: 20px; display: inline-block; background: #fff; color: #1d1d1f;
+  margin-top: 20px; display: inline-block; background: var(--fg); color: var(--bg);
   padding: 14px 32px; border-radius: 980px; font-size: 15px; font-weight: 700;
   border: none; cursor: pointer; font-family: inherit;
   transition: background .2s, transform .15s;
 }
-.st-btn-buy:hover { background: #e8e8ed; transform: scale(1.03); }
+.st-btn-buy:hover { opacity: 0.85; transform: scale(1.03); }
 
 /* Comparison */
 .st-comparison { background: var(--bg-alt, #f0ede8); padding: 100px 24px; }
@@ -1304,6 +1309,54 @@ img, video { display: block; max-width: 100%; }
 .video-parallax__content .body-lg { max-width: 560px; margin: 0 auto 36px; color: rgba(255,255,255,.65); }
 
 /* ─── Science ────────────────────────────────────────────────── */
+
+/* Science video hero */
+.science-video-hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.science-video-hero__bg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%; min-height: 100%;
+  object-fit: cover;
+}
+.science-video-hero__overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+.science-video-hero__section {
+  position: relative; z-index: 2;
+  width: 100%; padding: 160px 48px 100px;
+}
+/* Override colors for on-video content */
+.science-video-hero .science-big { color: rgba(255,255,255,0.08); }
+.science-video-hero .science-big-overlay {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+  backdrop-filter: blur(16px);
+}
+.science-video-hero .science-big-overlay .num { color: #fff; }
+.science-video-hero .science-big-overlay .unit { color: rgba(255,255,255,0.7); }
+.science-video-hero .science-big-overlay .caption { color: rgba(255,255,255,0.5); }
+.science-video-hero .science-text .label { color: rgba(255,255,255,0.5); }
+.science-video-hero .science-text .h2 { color: #fff; }
+.science-video-hero .science-text .body-lg { color: rgba(255,255,255,0.65); }
+.science-video-hero .science-callout {
+  background: rgba(255,255,255,0.06);
+  border-left-color: rgba(255,255,255,0.3);
+}
+.science-video-hero .science-callout p { color: rgba(255,255,255,0.6); }
+.science-video-hero .science-callout strong { color: #fff; }
+.science-video-hero .btn-primary {
+  background: #fff; color: #1d1d1f;
+}
+.science-video-hero .btn-primary:hover { background: #e8e8ed; }
+@media (max-width: 900px) {
+  .science-video-hero__section { padding: 120px 24px 60px; }
+}
+
 .science-section { background: var(--bg); padding: 140px 48px; }
 .science-section__inner {
   max-width: 1200px; margin: 0 auto;
@@ -1614,7 +1667,7 @@ img, video { display: block; max-width: 100%; }
 }
 .footer__inner { max-width: 1200px; margin: 0 auto; }
 .footer__top {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
   gap: 40px; padding-bottom: 48px;
   border-bottom: 1px solid var(--border); margin-bottom: 32px;
 }

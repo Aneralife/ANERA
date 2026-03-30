@@ -206,6 +206,26 @@ export default function MarketingLayout({
                 </li>
               </ul>
             </div>
+            <div className="footer-col">
+              <p className="footer-col__title">Follow Us</p>
+              <ul>
+                <li>
+                  <a href="https://www.instagram.com/aneralife/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/company/anera" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </li>
+                <li>
+                  <a href="https://www.facebook.com/aneralife/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                </li>
+                <li>
+                  <a href="https://x.com/Aneralife" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+                </li>
+                <li>
+                  <a href="https://www.tiktok.com/@aneralife" target="_blank" rel="noopener noreferrer">TikTok</a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="footer__bottom">
             <p className="footer__copy">
