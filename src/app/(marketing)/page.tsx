@@ -214,8 +214,7 @@ export default function HomePage() {
           playsInline
           poster="/assets/hero_poster.jpg"
         >
-          <source src="/assets/hero.webm" type="video/webm" />
-          <source src="/assets/hero.mp4" type="video/mp4" />
+          <source src="/assets/ANERA-VIDEO.webm" type="video/webm" />
         </video>
         <div className="video-parallax__overlay"></div>
         <div className="video-parallax__content reveal">

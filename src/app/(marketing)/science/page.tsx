@@ -87,6 +87,11 @@ export default function SciencePage() {
                   contain 50&ndash;1000 Eu/g &mdash; up to 50&times; more contamination.
                 </p>
               </div>
+              <p className="science-study-link">
+                <a href="https://www.frontiersin.org/journals/aging/articles/10.3389/fragi.2022.851698/full" target="_blank" rel="noopener noreferrer">
+                  Read the Clinical Study: A Multicentre, Randomised, Double Blind, Placebo Controlled Study to Evaluate the Efficacy and Safety of Uthever (NMN Supplement) &rarr;
+                </a>
+              </p>
               <Link href="/products" className="btn-primary">
                 Explore Products &rarr;
               </Link>
