@@ -160,6 +160,21 @@ img, video { display: block; max-width: 100%; }
     rgba(10,10,10,.25) 0%, rgba(10,10,10,.0) 30%,
     rgba(10,10,10,.0) 55%, rgba(10,10,10,.85) 100%);
 }
+.hero__audio-btn {
+  position: absolute; bottom: 32px; right: 32px; z-index: 10;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.7);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; backdrop-filter: blur(10px);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.hero__audio-btn:hover {
+  background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.5);
+}
+.hero__audio-btn.playing {
+  background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.4);
+}
 .hero__content {
   position: relative; z-index: 2;
   text-align: center; padding: 0 24px; max-width: 900px;
@@ -890,7 +905,7 @@ img, video { display: block; max-width: 100%; }
   transition: transform 0.15s, opacity 0.15s;
 }
 .dist-btn:hover { transform: scale(1.03); opacity: 0.92; }
-.dist-btn--primary { background: #fff; color: var(--fg, #1d1d1f); }
+.dist-btn--primary {  color: var(--fg, #1d1d1f); }
 .dist-btn--secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.45); }
 .dist-btn--accent { background: #fff; color: #1d1d1f; }
 

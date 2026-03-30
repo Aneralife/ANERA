@@ -1,12 +1,26 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 export default function HomePage() {
   const loaderBarRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const parallaxVideoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
+  function toggleAudio() {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play();
+      setAudioPlaying(true);
+    } else {
+      audio.pause();
+      setAudioPlaying(false);
+    }
+  }
 
   useEffect(() => {
     const bar = loaderBarRef.current;
@@ -52,6 +66,7 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="hero">
+        <audio ref={audioRef} src="/assets/song.mp3" loop preload="none" />
         <video
           className="hero__video"
           autoPlay
@@ -65,6 +80,21 @@ export default function HomePage() {
           <source src="/assets/hero.mp4" type="video/mp4" />
         </video>
         <div className="hero__overlay"></div>
+        <button
+          className={`hero__audio-btn${audioPlaying ? " playing" : ""}`}
+          onClick={toggleAudio}
+          aria-label={audioPlaying ? "Pause music" : "Play music"}
+        >
+          {audioPlaying ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /><path d="M19.07 4.93a10 10 0 010 14.14" />
+            </svg>
+          )}
+        </button>
         <div className="hero__content">
           <p className="hero__eyebrow">
             Pharmaceutical-Grade NMN &middot; Canada &amp; USA
@@ -223,10 +253,10 @@ export default function HomePage() {
             The story of Anera is rooted in a single purpose: to help heal
             humanity by delivering the world&apos;s most advanced, pure, and
             effective longevity formulations. We believe health is the
-            foundation of a life well-lived — and those who seek the best
+            foundation of a life well-lived and those who seek the best
             deserve uncompromising quality.
           </p>
-          <Link href="/pillars" className="btn-primary reveal">
+          <Link href="/about" className="btn-primary reveal">
             Our Story →
           </Link>
         </div>
