@@ -169,14 +169,14 @@ const timelinePanels = [
 const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Anera+Life+Inc./@49.1834636,-123.1369498,17z/data=!4m8!3m7!1s0x54860b5d5666db17:0x34bb5aa7e0297d92!8m2!3d49.1834636!4d-123.1369498!9m1!1b1!16s%2Fg%2F11t_0t1n_y";
 
 const reviews = [
-  { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago" },
-  { author: "Janet L", verified: true, stars: 5, title: "No more midday fatigue", text: "After consistent daily use for 6 months, I can say I am extremely pleased with the benefits of taking NMN. No more feeling fatigue mid day, my hair looks fuller and my skin feels more plump. Definitely recommend for those who need a boost in their daily lifestyle.", date: "1 year ago" },
-  { author: "Abraham Aguirre Castro", verified: true, stars: 5, title: "Boosted my energy throughout the day", text: "It has boost my energy throughout the day.", date: "1 year ago" },
-  { author: "Daniel De La Cruz", verified: true, stars: 5, title: "Replaced my daily vitamins with Anera", text: "Being a competitive bodybuilder, I tried NMN for 1 month and stopped taking preworkout. I was able to push through intense training, focus and clarity improved, and my wrist pain was gone after 3 weeks! My cardio performance was better than expected. I\u2019ve replaced my daily vitamins with ANERA 24000 NMN + TR. #HEALTHISWEALTH", date: "1 year ago" },
-  { author: "Tammy Watson", verified: true, stars: 5, title: "Better sleep, more energy, weight loss", text: "I started taking Anera NMN as I was transitioning off anxiety and depression medication. I found that I was able to sleep well and wake up feeling refreshed. My skin started to brighten up and my metabolism is kicking back in. Now I find I have energy to work out in the morning, and the scale is moving again.", date: "1 year ago" },
-  { author: "Qui Tran", verified: true, stars: 5, title: "Best product I have tried", text: "Hands down best product I have tried. Lots of energy when using compared to other brands.", date: "1 year ago" },
-  { author: "Jose Ram\u00edrez", verified: true, stars: 5, title: "Energy, joint pain relief, mental clarity", text: "I\u2019ve been taking Anera for two weeks now, and from the very first days, I noticed an increase in my energy levels. I\u2019ve dealt with joint pain my entire life from playing football, but in just two weeks, that pain has almost completely disappeared. My mental clarity improved and I\u2019m getting much more done in a single day.", date: "1 year ago" },
-  { author: "Damien Henderson", verified: true, stars: 5, title: "So much energy throughout the day", text: "Anera product is definitely a supplement you should purchase! I\u2019ve tried the NMN 60 capsule bottle first, and the product is legit \u2014 I have so much energy throughout the day! Now I just reloaded on 2 bottles of the NMN Trans. Highly recommend!", date: "1 year ago" },
+  { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago", hoverImg: "/assets/11.png" },
+  { author: "Janet L", verified: true, stars: 5, title: "No more midday fatigue", text: "After consistent daily use for 6 months, I can say I am extremely pleased with the benefits of taking NMN. No more feeling fatigue mid day, my hair looks fuller and my skin feels more plump. Definitely recommend for those who need a boost in their daily lifestyle.", date: "1 year ago", hoverImg: "/assets/12.png" },
+  { author: "Abraham Aguirre Castro", verified: true, stars: 5, title: "Boosted my energy throughout the day", text: "It has boost my energy throughout the day.", date: "1 year ago", hoverImg: "/assets/13.png" },
+  { author: "Daniel De La Cruz", verified: true, stars: 5, title: "Replaced my daily vitamins with Anera", text: "Being a competitive bodybuilder, I tried NMN for 1 month and stopped taking preworkout. I was able to push through intense training, focus and clarity improved, and my wrist pain was gone after 3 weeks! My cardio performance was better than expected. I\u2019ve replaced my daily vitamins with ANERA 24000 NMN + TR. #HEALTHISWEALTH", date: "1 year ago", hoverImg: "/assets/14.png" },
+  { author: "Tammy Watson", verified: true, stars: 5, title: "Better sleep, more energy, weight loss", text: "I started taking Anera NMN as I was transitioning off anxiety and depression medication. I found that I was able to sleep well and wake up feeling refreshed. My skin started to brighten up and my metabolism is kicking back in. Now I find I have energy to work out in the morning, and the scale is moving again.", date: "1 year ago", hoverImg: "/assets/15.png" },
+  { author: "Qui Tran", verified: true, stars: 5, title: "Best product I have tried", text: "Hands down best product I have tried. Lots of energy when using compared to other brands.", date: "1 year ago", hoverImg: "/assets/16.png" },
+  { author: "Jose Ram\u00edrez", verified: true, stars: 5, title: "Energy, joint pain relief, mental clarity", text: "I\u2019ve been taking Anera for two weeks now, and from the very first days, I noticed an increase in my energy levels. I\u2019ve dealt with joint pain my entire life from playing football, but in just two weeks, that pain has almost completely disappeared. My mental clarity improved and I\u2019m getting much more done in a single day.", date: "1 year ago", hoverImg: "/assets/11.png" },
+  { author: "Damien Henderson", verified: true, stars: 5, title: "So much energy throughout the day", text: "Anera product is definitely a supplement you should purchase! I\u2019ve tried the NMN 60 capsule bottle first, and the product is legit \u2014 I have so much energy throughout the day! Now I just reloaded on 2 bottles of the NMN Trans. Highly recommend!", date: "1 year ago", hoverImg: "/assets/12.png" },
 ];
 
 const faqs = [
@@ -531,7 +531,7 @@ export default function StorePage() {
   );
 }
 
-function ReviewsCarousel({ reviews }: { reviews: typeof import("./page").default extends never ? never : { author: string; verified: boolean; stars: number; title: string; text: string; date: string }[] }) {
+function ReviewsCarousel({ reviews }: { reviews: { author: string; verified: boolean; stars: number; title: string; text: string; date: string; hoverImg?: string }[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ dragging: false, startX: 0, scrollLeft: 0, moved: false });
 
@@ -574,15 +574,21 @@ function ReviewsCarousel({ reviews }: { reviews: typeof import("./page").default
         <div className="st-reviews-carousel__track">
           {reviews.map((r, i) => (
             <a key={i} href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="st-review-card" onClick={onClick}>
-              <div className="st-review-card__header">
-                <span className="st-review-card__author">{r.author}</span>
-                <span className="st-review-card__verified">Google Review</span>
+              {r.hoverImg && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={r.hoverImg} alt="" className="st-review-card__hover-img" />
+              )}
+              <div className="st-review-card__content">
+                <div className="st-review-card__header">
+                  <span className="st-review-card__author">{r.author}</span>
+                  <span className="st-review-card__verified">Google Review</span>
+                </div>
+                <div className="st-review-card__stars">{Array.from({ length: r.stars }, (_, j) => <span key={j}>{"\u2605"}</span>)}</div>
+                <div className="st-review-card__title">{r.title}</div>
+                <div className="st-review-card__text">{r.text}</div>
+                <div className="st-review-card__date">{r.date}</div>
+                <span className="st-review-card__link">Read on Google &rarr;</span>
               </div>
-              <div className="st-review-card__stars">{Array.from({ length: r.stars }, (_, j) => <span key={j}>{"\u2605"}</span>)}</div>
-              <div className="st-review-card__title">{r.title}</div>
-              <div className="st-review-card__text">{r.text}</div>
-              <div className="st-review-card__date">{r.date}</div>
-              <span className="st-review-card__link">Read on Google &rarr;</span>
             </a>
           ))}
         </div>
