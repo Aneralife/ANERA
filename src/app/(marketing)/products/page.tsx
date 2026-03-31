@@ -368,7 +368,7 @@ export default function StorePage() {
       <div className="st-product-intro" id="nmn24000">
         <div className="st-product-intro__left st-reveal">
           <h2>NMN + Trans-Resveratrol 24000<br />The Ultimate Longevity Powerhouse.</h2>
-          <p>250mg NMN + 150mg Trans-Resveratrol per capsule. The only NMN clinically tested in human trials, with &lt;20 Eu/g endotoxin &mdash; the lowest purity standard in the industry.</p>
+          <p>250mg NMN + 150mg Trans-Resveratrol per capsule. Clinically studied, pharmaceutical-grade NMN with ultra-low endotoxin levels (&lt;20 Eu/g) for superior quality, safety, and consistency.</p>
           <div className="st-product-intro__badge-row">
             <span className="st-pill st-pill--gold">&#9733; Best Seller</span>
             <span className="st-pill st-pill--white">Pharmaceutical Grade</span>
@@ -399,9 +399,9 @@ export default function StorePage() {
                   <tr>
                     <th style={{ width: "30%" }}></th>
                     <th>
-                      <div className="st-product-col-header" style={{ background: "var(--card-bg, #fff)", borderRadius: "20px 20px 0 0" }}>
-                        <div className="st-product-col-img st-product-col-img--video"><video autoPlay muted loop playsInline><source src="/assets/cold-blue.webm" type="video/webm" /></video></div>
-                        <span className="st-product-col-brand st-product-col-brand--gold">anera</span>
+                      <div className="st-product-col-header st-product-col-header--anera" style={{ background: "var(--card-bg, #fff)", borderRadius: "20px 20px 0 0" }}>
+                        <div className="st-product-col-img st-product-col-img--video st-product-col-img--large"><video autoPlay muted loop playsInline><source src="/assets/cold-blue.webm" type="video/webm" /></video></div>
+                        <div className="st-product-col-brand-text">Anera</div>
                         <div className="st-product-col-name">NMN + TR 24000</div>
                       </div>
                     </th>
