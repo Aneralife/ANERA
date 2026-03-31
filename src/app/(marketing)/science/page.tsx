@@ -69,7 +69,7 @@ export default function SciencePage() {
             <div className="science-text reveal-right">
               <p className="label">The Science</p>
               <h2 className="h2" style={{ marginBottom: 24 }}>
-                Endotoxin-Free.
+                Endotoxin Free.
                 <br />
                 By Design.
               </h2>

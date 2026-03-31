@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
 /* ── Carousel hook (Apple Store behaviour) ───────────────────── */
-const GUTTER_PCT = 0.074; // 7.4 % left gutter on page 0
+function getGutterPx() {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue("--gutter").trim();
+  const pct = parseFloat(raw) / 100 || 0.074;
+  return window.innerWidth * pct;
+}
 
 function useCarousel(itemWidth: number, gap: number, perPage: number) {
   const slideRef = useRef<HTMLDivElement>(null);
@@ -35,11 +39,11 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
       if (!slide || !inner) return;
 
       const step = itemWidth + gap;
-      const gutterPx = window.innerWidth * GUTTER_PCT;
+      const gutterPx = getGutterPx();
 
       if (next === 0) {
-        // Page 0: restore left gutter, transform to origin
-        inner.style.paddingLeft = `${gutterPx}px`;
+        // Page 0: let CSS var(--gutter) handle padding
+        inner.style.paddingLeft = "";
         slide.style.transform = "translateX(0)";
       } else {
         // Page 1+: remove left gutter, shift so previous-page's last card peeks in
@@ -51,7 +55,47 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
     [maxPage, itemWidth, gap, perPage],
   );
 
-  return { slideRef, innerRef, page, maxPage, go, measure };
+  /* Drag / swipe support */
+  const dragState = useRef({ dragging: false, startX: 0, startPage: 0 });
+
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    const el = e.currentTarget as HTMLElement;
+    el.setPointerCapture(e.pointerId);
+    dragState.current = { dragging: true, startX: e.clientX, startPage: page };
+    if (slideRef.current) slideRef.current.style.transition = "none";
+  }, [page]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragState.current.dragging) return;
+    const dx = e.clientX - dragState.current.startX;
+    const slide = slideRef.current;
+    const inner = innerRef.current;
+    if (!slide || !inner) return;
+
+    const step = itemWidth + gap;
+    const gutterPx = getGutterPx();
+    const currentPage = dragState.current.startPage;
+    const baseOffset = currentPage === 0 ? 0 : currentPage * perPage * step - gutterPx;
+    slide.style.transform = `translateX(${-baseOffset + dx}px)`;
+  }, [itemWidth, gap, perPage]);
+
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    if (!dragState.current.dragging) return;
+    dragState.current.dragging = false;
+    if (slideRef.current) slideRef.current.style.transition = "";
+
+    const dx = e.clientX - dragState.current.startX;
+    const threshold = 60;
+    if (dx < -threshold) {
+      go(dragState.current.startPage + 1);
+    } else if (dx > threshold) {
+      go(dragState.current.startPage - 1);
+    } else {
+      go(dragState.current.startPage);
+    }
+  }, [go]);
+
+  return { slideRef, innerRef, page, maxPage, go, measure, onPointerDown, onPointerMove, onPointerUp };
 }
 
 /* ── Data ────────────────────────────────────────────────────── */
@@ -85,17 +129,17 @@ type PCard = {
 const productCards: PCard[] = [
   { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg", available: true, bestSeller: true },
   { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true },
-  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", available: false },
-  { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", available: false },
-  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", available: false },
-  { name: "Fisetin 6000", cat: "Longevity / Senolytic", desc: "100mg per capsule \u00b7 60 capsules. Supports cellular cleanup, brain health, and anti-inflammatory effects.", price: "Price TBD", img: "/assets/Fisetin.png", available: false },
-  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercentin.png", available: false },
-  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/Berberin.png", available: false },
-  { name: "TMG 45000", cat: "Methylation Support", desc: "500mg per capsule \u00b7 90 capsules. Supports homocysteine balance, promotes heart health, and aids cellular methylation.", price: "Price TBD", img: "/assets/TMG.png", available: false },
-  { name: "Selenium 24000", cat: "Mineral", desc: "200mcg per capsule \u00b7 90 capsules. Supports immune system, promotes thyroid function, and provides antioxidant protection.", price: "Price TBD", img: "/assets/Selenium.png", available: false },
-  { name: "Magnesium L-Threonate 4500", cat: "Mineral / Brain Health", desc: "50mg per capsule \u00b7 90 capsules. Improves memory, enhances focus, and supports overall brain health.", price: "Price TBD", img: "/assets/Magnesium.png", available: false },
-  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/Creatine.png", available: false },
-  { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.png", available: false },
+  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Fisetin 6000", cat: "Longevity / Senolytic", desc: "100mg per capsule \u00b7 60 capsules. Supports cellular cleanup, brain health, and anti-inflammatory effects.", price: "Price TBD", img: "/assets/Fisetin.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercentin.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/Berberin.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "TMG 45000", cat: "Methylation Support", desc: "500mg per capsule \u00b7 90 capsules. Supports homocysteine balance, promotes heart health, and aids cellular methylation.", price: "Price TBD", img: "/assets/TMG.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Selenium 24000", cat: "Mineral", desc: "200mcg per capsule \u00b7 90 capsules. Supports immune system, promotes thyroid function, and provides antioxidant protection.", price: "Price TBD", img: "/assets/Selenium.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Magnesium L-Threonate 4500", cat: "Mineral / Brain Health", desc: "50mg per capsule \u00b7 90 capsules. Improves memory, enhances focus, and supports overall brain health.", price: "Price TBD", img: "/assets/Magnesium.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/Creatine.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.png", imgHover: "/assets/second-all.jpeg", available: false },
 ];
 
 const compSupplements = [
@@ -180,6 +224,31 @@ export default function StorePage() {
   const [activeTimeline, setActiveTimeline] = useState("week1");
   const topCarousel = useCarousel(120, 0, 8);   // 8 icons per page
   const botCarousel = useCarousel(400, 20, 3);  // 3 cards per page
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
+  function toggleAudio() {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) { audio.play(); setAudioPlaying(true); }
+    else { audio.pause(); setAudioPlaying(false); }
+  }
+
+  /* Nav dark text on light hero — add/remove class on <nav> */
+  useEffect(() => {
+    const nav = document.querySelector(".nav");
+    if (!nav) return;
+    nav.classList.add("nav--light-hero");
+    const onScroll = () => {
+      nav.classList.toggle("nav--light-hero", window.scrollY < 400);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      nav.classList.remove("nav--light-hero");
+    };
+  }, []);
 
   /* reveal on scroll */
   useEffect(() => {
@@ -209,12 +278,30 @@ export default function StorePage() {
 
   return (
     <>
+      {/* Audio player */}
+      <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
+      <button
+        className={`st-audio-btn${audioPlaying ? " playing" : ""}`}
+        onClick={toggleAudio}
+        aria-label={audioPlaying ? "Pause music" : "Play music"}
+      >
+        {audioPlaying ? (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /><path d="M19.07 4.93a10 10 0 010 14.14" />
+          </svg>
+        )}
+      </button>
+
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
           <h1 className="st-hero__title">Longevity Is The New Flex</h1>
           <div className="st-hero__right">
-            <p className="st-hero__tagline">The best way to buy the longevity supplements you love.</p>
+            <p className="st-hero__tagline">Welcome to your new you. For Life.</p>
           </div>
         </div>
       </div>
@@ -224,7 +311,7 @@ export default function StorePage() {
         <button className={`st-arrow st-arrow--prev${topCarousel.page <= 0 ? " hidden" : ""}`} onClick={() => topCarousel.go(topCarousel.page - 1)} aria-label="Previous"><ArrowSvg dir="prev" /></button>
         <button className={`st-arrow st-arrow--next${topCarousel.page >= topCarousel.maxPage ? " hidden" : ""}`} onClick={() => topCarousel.go(topCarousel.page + 1)} aria-label="Next"><ArrowSvg dir="next" /></button>
         <div className="st-shelf__inner" ref={topCarousel.innerRef}>
-          <div className="st-shelf__track">
+          <div className="st-shelf__track" onPointerDown={topCarousel.onPointerDown} onPointerMove={topCarousel.onPointerMove} onPointerUp={topCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
             <div className="st-shelf__slide" ref={topCarousel.slideRef}>
               {catItems.map((item, i) => (
                 <a key={i} href={item.href} className={`st-cat-item${item.available ? " available" : " unavailable"}`}>
@@ -254,7 +341,7 @@ export default function StorePage() {
           <button className={`st-arrow st-arrow--prev${botCarousel.page <= 0 ? " hidden" : ""}`} onClick={() => botCarousel.go(botCarousel.page - 1)} aria-label="Previous"><ArrowSvg dir="prev" /></button>
           <button className={`st-arrow st-arrow--next${botCarousel.page >= botCarousel.maxPage ? " hidden" : ""}`} onClick={() => botCarousel.go(botCarousel.page + 1)} aria-label="Next"><ArrowSvg dir="next" /></button>
           <div className="st-shelf__inner" ref={botCarousel.innerRef}>
-            <div className="st-shelf__track">
+            <div className="st-shelf__track" onPointerDown={botCarousel.onPointerDown} onPointerMove={botCarousel.onPointerMove} onPointerUp={botCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
               <div className="st-shelf__slide" ref={botCarousel.slideRef}>
                 {productCards.map((card, i) => (
                   <a key={i} href="#" className={`st-pcard${card.available ? " available" : " unavailable"}`} onClick={(e) => e.preventDefault()}>
@@ -263,7 +350,7 @@ export default function StorePage() {
                         <div className="st-pcard__badges">
                           <span className="st-pcard__badges-left">
                             {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
-                            {!card.available && <span className="st-pcard__badge st-badge--soon">Coming Soon</span>}
+                            
                           </span>
                           {card.bestSeller && <span className="st-pcard__badge st-badge--bestseller">Best Seller</span>}
                         </div>
