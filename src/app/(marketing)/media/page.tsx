@@ -502,51 +502,59 @@ export default function MediaPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="mh-hero">
-        <div className="mh-hero__inner">
-          <p className="mh-hero__label">Media Hub</p>
-          <h1 className="mh-hero__title">Articles &amp; Research.</h1>
-          <p className="mh-hero__body">
-            Science-backed insights on NMN, NAD⁺, and longevity. From research
-            breakdowns to dosing guides — everything you need to make informed
-            decisions about your health.
-          </p>
-          <div className="mh-hero__stats">
-            <div className="mh-hero__stat">
-              <span className="mh-hero__stat-number">25</span>
-              <span className="mh-hero__stat-label">Articles</span>
-            </div>
-            <div className="mh-hero__stat">
-              <span className="mh-hero__stat-number">6</span>
-              <span className="mh-hero__stat-label">Topics</span>
-            </div>
-            <div className="mh-hero__stat">
-              <span className="mh-hero__stat-number">2026</span>
-              <span className="mh-hero__stat-label">Updated</span>
+      {/* Video Hero — wraps hero + featured */}
+      <div className="mh-video-hero">
+        <video className="mh-video-hero__bg" autoPlay muted loop playsInline>
+          <source src="/assets/media.webm" type="video/webm" />
+        </video>
+        <div className="mh-video-hero__overlay" />
+
+        {/* Hero Section */}
+        <section className="mh-hero">
+          <div className="mh-hero__inner">
+            <p className="mh-hero__label">Media Hub</p>
+            <h1 className="mh-hero__title">Articles &amp; Research.</h1>
+            <p className="mh-hero__body">
+              Science-backed insights on NMN, NAD⁺, and longevity. From research
+              breakdowns to dosing guides — everything you need to make informed
+              decisions about your health.
+            </p>
+            <div className="mh-hero__stats">
+              <div className="mh-hero__stat">
+                <span className="mh-hero__stat-number">25</span>
+                <span className="mh-hero__stat-label">Articles</span>
+              </div>
+              <div className="mh-hero__stat">
+                <span className="mh-hero__stat-number">6</span>
+                <span className="mh-hero__stat-label">Topics</span>
+              </div>
+              <div className="mh-hero__stat">
+                <span className="mh-hero__stat-number">2026</span>
+                <span className="mh-hero__stat-label">Updated</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured Article */}
-      <section className="mh-featured">
-        <div className="mh-featured__inner">
-          <button className="mh-featured__card" onClick={() => openArticle(featured.id)}>
-            <div className="mh-featured__icon">{featured.icon}</div>
-            <div className="mh-featured__content">
-              <span className="mh-featured__tag">{featured.tag}</span>
-              <h2 className="mh-featured__title">{featured.title}</h2>
-              <p className="mh-featured__lead">{featured.lead}</p>
-              <div className="mh-featured__meta">
-                <span>{featured.date}</span>
-                <span>{featured.readTime}</span>
+        {/* Featured Article */}
+        <section className="mh-featured">
+          <div className="mh-featured__inner">
+            <button className="mh-featured__card" onClick={() => openArticle(featured.id)}>
+              <div className="mh-featured__icon">{featured.icon}</div>
+              <div className="mh-featured__content">
+                <span className="mh-featured__tag">{featured.tag}</span>
+                <h2 className="mh-featured__title">{featured.title}</h2>
+                <p className="mh-featured__lead">{featured.lead}</p>
+                <div className="mh-featured__meta">
+                  <span>{featured.date}</span>
+                  <span>{featured.readTime}</span>
+                </div>
+                <span className="mh-featured__link">Read Article &rarr;</span>
               </div>
-              <span className="mh-featured__link">Read Article &rarr;</span>
-            </div>
-          </button>
-        </div>
-      </section>
+            </button>
+          </div>
+        </section>
+      </div>
 
       {/* Ticker */}
       <div className="mh-ticker">
