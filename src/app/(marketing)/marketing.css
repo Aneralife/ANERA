@@ -165,7 +165,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Global audio button (song.mp3 on all pages except product) */
 .global-audio-btn {
-  position: fixed; bottom: 32px; right: 32px; z-index: 700;
+  position: fixed; bottom: 92px; right: 32px; z-index: 700;
   width: 44px; height: 44px; border-radius: 50%;
   background: rgba(29,29,31,0.8); border: 1px solid rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.7);
@@ -424,7 +424,7 @@ img, video { display: block; max-width: 100%; }
 
 /* Store audio button */
 .st-audio-btn {
-  position: fixed; bottom: 32px; right: 32px; z-index: 700;
+  position: fixed; bottom: 92px; right: 32px; z-index: 700;
   width: 44px; height: 44px; border-radius: 50%;
   background: rgba(29,29,31,0.8); border: 1px solid rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.7);
