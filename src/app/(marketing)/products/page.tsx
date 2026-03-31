@@ -151,15 +151,6 @@ const compSupplements = [
   { feature: "Dual-action (NAD+ + antioxidant)", info: "", anera: "check", coq10: "x", creatine: "x", resveratrol: "Partial", generic: "x" },
 ];
 
-const compNad = [
-  { feature: "Directly boosts NAD+ levels", anera: "check", tru: "check", alive: "check", renue: "check" },
-  { feature: "Pharmaceutical-grade purity", anera: "check", tru: "x", alive: "x", renue: "x" },
-  { feature: "Human clinically tested", anera: "check", tru: "x", alive: "x", renue: "x" },
-  { feature: "Endotoxin <20 Eu/g", anera: "check", tru: "x", alive: "x", renue: "x" },
-  { feature: "Trans-Resveratrol included", anera: "check", tru: "x", alive: "x", renue: "x" },
-  { feature: "Dual-action (NAD+ + antioxidant)", anera: "check", tru: "x", alive: "Partial", renue: "x" },
-];
-
 const benefitTabs = [
   { id: "energy", label: "Energy", number: "78", unit: "%", statLabel: "of participants reported increased sustained energy within 30 days", title: "Sustained All-Day Energy", text: "NMN directly fuels NAD+ production in every cell, restoring the metabolic efficiency that declines with age. Unlike caffeine, which masks fatigue, NMN addresses the root cause.", source: "Igarashi et al., 2022 \u2014 Randomized, double-blind, placebo-controlled" },
   { id: "aging", label: "Cellular Aging", number: "38", unit: "%", statLabel: "improvement in key biomarkers of cellular aging over 60 days", title: "Reverse Cellular Clock", text: "NAD+ activates sirtuins \u2014 the \"longevity genes\" \u2014 that repair DNA damage and regulate epigenetic aging. Higher NAD+ levels are directly linked to slower biological aging.", source: "Yi et al., 2023 \u2014 NAD+ and sirtuin activation study" },
@@ -174,6 +165,8 @@ const timelinePanels = [
   { id: "month3", label: "Month 3", time: "90", unit: "Days", pct: 75, desc: "Significant biomarker improvements measurable", title: "Optimization Phase", text: "Clinical biomarkers show measurable improvement: better cholesterol ratios, improved fasting glucose, and enhanced vascular function. Skin quality often improves as cellular repair accelerates." },
   { id: "month6", label: "Month 6+", time: "6+", unit: "Months", pct: 100, desc: "Full systemic benefits and long-term protection", title: "Protection Phase", text: "NAD+ levels are now consistently elevated. Long-term benefits include sustained DNA repair, ongoing sirtuin activation, and cumulative protection against age-related cellular decline. This is where the true longevity benefits compound." },
 ];
+
+const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Anera+Life+Inc./@49.1834636,-123.1369498,17z/data=!4m8!3m7!1s0x54860b5d5666db17:0x34bb5aa7e0297d92!8m2!3d49.1834636!4d-123.1369498!9m1!1b1!16s%2Fg%2F11t_0t1n_y";
 
 const reviews = [
   { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago" },
@@ -219,7 +212,6 @@ function CompCell({ val, gold }: { val: string; gold?: boolean }) {
 
 /* ══════════════════════════════════════════════════════════════ */
 export default function StorePage() {
-  const [compMode, setCompMode] = useState<"supplements" | "nad">("supplements");
   const [activeTab, setActiveTab] = useState("energy");
   const [activeTimeline, setActiveTimeline] = useState("week1");
   const topCarousel = useCarousel(120, 0, 8);   // 8 icons per page
@@ -234,21 +226,7 @@ export default function StorePage() {
     else { audio.pause(); setAudioPlaying(false); }
   }
 
-  /* Nav dark text on light hero — add/remove class on <nav> */
-  useEffect(() => {
-    const nav = document.querySelector(".nav");
-    if (!nav) return;
-    nav.classList.add("nav--light-hero");
-    const onScroll = () => {
-      nav.classList.toggle("nav--light-hero", window.scrollY < 400);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      nav.classList.remove("nav--light-hero");
-    };
-  }, []);
+
 
   /* reveal on scroll */
   useEffect(() => {
@@ -278,6 +256,13 @@ export default function StorePage() {
 
   return (
     <>
+      {/* ── Video background for hero + carousels ────────────── */}
+      <div className="st-carousel-video">
+        <video className="st-carousel-video__bg" autoPlay muted loop playsInline>
+          <source src="/assets/DNA.webm" type="video/webm" />
+        </video>
+        <div className="st-carousel-video__overlay" />
+
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
@@ -285,7 +270,7 @@ export default function StorePage() {
           <div className="st-hero__right">
             <p className="st-hero__tagline">Welcome to your new you. For Life.</p>
             <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
-            <button className={`inline-audio-btn inline-audio-btn--dark${audioPlaying ? " playing" : ""}`} onClick={toggleAudio} aria-label={audioPlaying ? "Pause music" : "Play music"}>
+            <button className={`inline-audio-btn${audioPlaying ? " playing" : ""}`} onClick={toggleAudio} aria-label={audioPlaying ? "Pause music" : "Play music"}>
               {audioPlaying ? (
                 <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg> Pause</>
               ) : (
@@ -323,7 +308,7 @@ export default function StorePage() {
       </div>
 
       {/* ── Bottom Carousel — product cards ───────────────────── */}
-      <div style={{ background: "var(--bg-alt, #f5f5f7)" }}>
+      <div>
         <div className="st-latest-header st-reveal">
           <h2 className="st-latest-header__title">The latest.&nbsp;<span className="st-latest-header__sub">Take a look at what&#39;s new, right now.</span></h2>
         </div>
@@ -377,6 +362,7 @@ export default function StorePage() {
           </div>
         </div>
       </div>
+      </div>{/* end st-carousel-video */}
 
       {/* ── NMN 24000 Product Section Intro ───────────────────── */}
       <div className="st-product-intro" id="nmn24000">
@@ -401,18 +387,12 @@ export default function StorePage() {
       <section className="st-comparison" id="compare">
         <div className="st-comparison__inner">
           <div className="st-comparison-header st-reveal">
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 24, flexWrap: "wrap" as const }}>
-              <span className="st-comparison-toggle-label">Compare us to other</span>
-              <div className="st-comparison-toggle">
-                <button className={`st-toggle-btn${compMode === "supplements" ? " active" : ""}`} onClick={() => setCompMode("supplements")}>Supplements</button>
-                <button className={`st-toggle-btn${compMode === "nad" ? " active" : ""}`} onClick={() => setCompMode("nad")}>NAD+ Boosters</button>
-              </div>
+            <div style={{ marginBottom: 24 }}>
             </div>
             <h2 className="st-comparison-title">The Ultimate Longevity<br />Powerhouse</h2>
           </div>
 
           {/* Supplements table */}
-          {compMode === "supplements" && (
             <div className="st-comparison-table-wrap st-reveal">
               <table className="st-comparison-table">
                 <thead>
@@ -420,15 +400,19 @@ export default function StorePage() {
                     <th style={{ width: "30%" }}></th>
                     <th>
                       <div className="st-product-col-header" style={{ background: "var(--card-bg, #fff)", borderRadius: "20px 20px 0 0" }}>
-                        <div className="st-product-col-img" style={{ background: "var(--fg, #1d1d1f)", color: "white", fontSize: 20, fontWeight: 800 }}>A</div>
+                        <div className="st-product-col-img st-product-col-img--video"><video autoPlay muted loop playsInline><source src="/assets/cold-blue.webm" type="video/webm" /></video></div>
                         <span className="st-product-col-brand st-product-col-brand--gold">anera</span>
                         <div className="st-product-col-name">NMN + TR 24000</div>
                       </div>
                     </th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#f59e0b" }}>&#127997;</div><div className="st-product-col-name">CoQ10</div></div></th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#e5e7eb" }}>&#9898;</div><div className="st-product-col-name">Creatine</div></div></th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#7c3aed", color: "white" }}>&#128995;</div><div className="st-product-col-name">Resveratrol</div></div></th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#e5e7eb" }}>&#9898;</div><div className="st-product-col-name">Generic NMN</div></div></th>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/2.png" alt="CoQ10" className="st-product-col-avatar" /></div><div className="st-product-col-name">CoQ10</div></div></th>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/3.png" alt="Creatine" className="st-product-col-avatar" /></div><div className="st-product-col-name">Creatine</div></div></th>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/4.png" alt="Resveratrol" className="st-product-col-avatar" /></div><div className="st-product-col-name">Resveratrol</div></div></th>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/5.png" alt="Generic NMN" className="st-product-col-avatar" /></div><div className="st-product-col-name">Generic NMN</div></div></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -445,41 +429,6 @@ export default function StorePage() {
                 </tbody>
               </table>
             </div>
-          )}
-
-          {/* NAD+ table */}
-          {compMode === "nad" && (
-            <div className="st-comparison-table-wrap st-reveal">
-              <table className="st-comparison-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "30%" }}></th>
-                    <th>
-                      <div className="st-product-col-header" style={{ background: "var(--card-bg, #fff)", borderRadius: "20px 20px 0 0" }}>
-                        <div className="st-product-col-img" style={{ background: "var(--fg, #1d1d1f)", color: "white", fontSize: 20, fontWeight: 800 }}>A</div>
-                        <span className="st-product-col-brand st-product-col-brand--gold">anera</span>
-                        <div className="st-product-col-name">NMN + TR 24000</div>
-                      </div>
-                    </th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#1e3a5f", color: "white" }}>T</div><div className="st-product-col-name">Tru Niagen</div></div></th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#22c55e", color: "white" }}>A</div><div className="st-product-col-name">Alive By Science</div></div></th>
-                    <th><div className="st-product-col-header"><div className="st-product-col-img" style={{ background: "#6366f1", color: "white" }}>R</div><div className="st-product-col-name">Renue By Science</div></div></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {compNad.map((row, i) => (
-                    <tr key={i}>
-                      <td><div className="st-feature-info">{row.feature}</div></td>
-                      <td style={{ background: "var(--card-bg, #fff)" }}><CompCell val={row.anera} gold /></td>
-                      <td><CompCell val={row.tru} /></td>
-                      <td><CompCell val={row.alive} /></td>
-                      <td><CompCell val={row.renue} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </section>
 
@@ -561,20 +510,7 @@ export default function StorePage() {
               ))}
             </div>
           </div>
-          <div className="st-reviews-grid">
-            {reviews.map((r, i) => (
-              <div key={i} className="st-review-card st-reveal">
-                <div className="st-review-card__header">
-                  <span className="st-review-card__author">{r.author}</span>
-                  {r.verified && <span className="st-review-card__verified">Google Review</span>}
-                </div>
-                <div className="st-review-card__stars">{Array.from({ length: r.stars }, (_, j) => <span key={j}>{"\u2605"}</span>)}</div>
-                <div className="st-review-card__title">{r.title}</div>
-                <div className="st-review-card__text">{r.text}</div>
-                <div className="st-review-card__date">{r.date}</div>
-              </div>
-            ))}
-          </div>
+          <ReviewsCarousel reviews={reviews} />
         </div>
       </section>
 
@@ -592,6 +528,66 @@ export default function StorePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function ReviewsCarousel({ reviews }: { reviews: typeof import("./page").default extends never ? never : { author: string; verified: boolean; stars: number; title: string; text: string; date: string }[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef({ dragging: false, startX: 0, scrollLeft: 0, moved: false });
+
+  const scroll = (dir: "left" | "right") => {
+    trackRef.current?.scrollBy({ left: dir === "left" ? -360 : 360, behavior: "smooth" });
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    const el = trackRef.current;
+    if (!el) return;
+    dragState.current = { dragging: true, startX: e.clientX, scrollLeft: el.scrollLeft, moved: false };
+  };
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!dragState.current.dragging || !trackRef.current) return;
+    e.preventDefault();
+    const dx = e.clientX - dragState.current.startX;
+    if (Math.abs(dx) > 5) dragState.current.moved = true;
+    trackRef.current.scrollLeft = dragState.current.scrollLeft - dx;
+  };
+  const onMouseUp = () => { dragState.current.dragging = false; };
+  const onMouseLeave = () => { dragState.current.dragging = false; };
+  const onClick = (e: React.MouseEvent) => { if (dragState.current.moved) { e.preventDefault(); dragState.current.moved = false; } };
+
+  return (
+    <div className="st-reviews-carousel-wrap">
+      <button className="st-reviews-arrow st-reviews-arrow--prev" onClick={() => scroll("left")} aria-label="Previous reviews">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8L8 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      </button>
+      <button className="st-reviews-arrow st-reviews-arrow--next" onClick={() => scroll("right")} aria-label="Next reviews">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2L8 8L2 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      </button>
+      <div
+        className="st-reviews-carousel"
+        ref={trackRef}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+      >
+        <div className="st-reviews-carousel__track">
+          {reviews.map((r, i) => (
+            <a key={i} href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="st-review-card" onClick={onClick}>
+              <div className="st-review-card__header">
+                <span className="st-review-card__author">{r.author}</span>
+                <span className="st-review-card__verified">Google Review</span>
+              </div>
+              <div className="st-review-card__stars">{Array.from({ length: r.stars }, (_, j) => <span key={j}>{"\u2605"}</span>)}</div>
+              <div className="st-review-card__title">{r.title}</div>
+              <div className="st-review-card__text">{r.text}</div>
+              <div className="st-review-card__date">{r.date}</div>
+              <span className="st-review-card__link">Read on Google &rarr;</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
