@@ -163,18 +163,27 @@ img, video { display: block; max-width: 100%; }
     rgba(10,10,10,.25) 0%, rgba(10,10,10,.0) 30%,
     rgba(10,10,10,.0) 55%, rgba(10,10,10,.85) 100%);
 }
-/* Global audio button (song.mp3 on all pages except product) */
-.global-audio-btn {
-  position: fixed; bottom: 92px; right: 32px; z-index: 700;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(29,29,31,0.8); border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.7);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; backdrop-filter: blur(10px);
-  transition: background 0.2s, color 0.2s;
+/* Inline audio button (used in hero sections) */
+.inline-audio-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 24px; padding: 10px 20px;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 980px; color: rgba(255,255,255,0.7);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; font-family: inherit; backdrop-filter: blur(10px);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  opacity: 0; animation: fadeUp .9s 1s forwards;
 }
-.global-audio-btn:hover { background: rgba(29,29,31,0.95); color: #fff; }
-.global-audio-btn.playing { background: rgba(29,29,31,0.95); color: #fff; }
+.inline-audio-btn:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.5); }
+.inline-audio-btn.playing { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.4); }
+/* Dark variant for light backgrounds */
+.inline-audio-btn--dark {
+  background: rgba(29,29,31,0.06); border-color: var(--border);
+  color: var(--fg-muted); backdrop-filter: none;
+  opacity: 1; animation: none;
+}
+.inline-audio-btn--dark:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.inline-audio-btn--dark.playing { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .hero__content {
   position: relative; z-index: 2;
   text-align: left; padding: 0 24px 0 0; max-width: 700px;
@@ -182,7 +191,7 @@ img, video { display: block; max-width: 100%; }
 .hero__eyebrow {
   font-size: 11px; font-weight: 600;
   letter-spacing: .25em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 20px;
+  color: rgba(255,255,255,0.7); margin-bottom: 20px;
   opacity: 0; transform: translateY(20px);
   animation: fadeUp .9s .4s forwards;
 }
@@ -422,18 +431,7 @@ img, video { display: block; max-width: 100%; }
 .st-hero__cta { font-size: 17px; color: var(--accent); }
 .st-hero__cta:hover { text-decoration: underline; }
 
-/* Store audio button */
-.st-audio-btn {
-  position: fixed; bottom: 92px; right: 32px; z-index: 700;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(29,29,31,0.8); border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.7);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; backdrop-filter: blur(10px);
-  transition: background 0.2s, color 0.2s;
-}
-.st-audio-btn:hover { background: rgba(29,29,31,0.95); color: #fff; }
-.st-audio-btn.playing { background: rgba(29,29,31,0.95); color: #fff; }
+
 
 /* Nav override for light-background pages (product page) */
 .nav.nav--light-hero .nav__logo { color: var(--fg); }

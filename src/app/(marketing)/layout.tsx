@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -17,22 +17,9 @@ export default function MarketingLayout({
   const pathname = usePathname();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const { user, loading: authLoading, signOut } = useAuth();
-  const globalAudioRef = useRef<HTMLAudioElement>(null);
-  const [globalAudioPlaying, setGlobalAudioPlaying] = useState(false);
-  const isProductPage = pathname === "/products";
-
-  function toggleGlobalAudio() {
-    const audio = globalAudioRef.current;
-    if (!audio) return;
-    if (audio.paused) { audio.play(); setGlobalAudioPlaying(true); }
-    else { audio.pause(); setGlobalAudioPlaying(false); }
-  }
-
-  // Scroll to top & stop global audio on route change
+  // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
-    const audio = globalAudioRef.current;
-    if (audio) { audio.pause(); audio.currentTime = 0; setGlobalAudioPlaying(false); }
   }, [pathname]);
 
   // Nav scroll effect
@@ -139,27 +126,7 @@ export default function MarketingLayout({
       {/* Page Content */}
       <main>{children}</main>
 
-      {/* Global music player (hidden on product page which has its own) */}
-      {!isProductPage && (
-        <>
-          <audio ref={globalAudioRef} src="/assets/song.mp3" loop preload="none" />
-          <button
-            className={`global-audio-btn${globalAudioPlaying ? " playing" : ""}`}
-            onClick={toggleGlobalAudio}
-            aria-label={globalAudioPlaying ? "Pause music" : "Play music"}
-          >
-            {globalAudioPlaying ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /><path d="M19.07 4.93a10 10 0 010 14.14" />
-              </svg>
-            )}
-          </button>
-        </>
-      )}
+
 
       {/* AI Chat Widget */}
       <ChatWidget />

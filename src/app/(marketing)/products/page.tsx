@@ -278,30 +278,20 @@ export default function StorePage() {
 
   return (
     <>
-      {/* Audio player */}
-      <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
-      <button
-        className={`st-audio-btn${audioPlaying ? " playing" : ""}`}
-        onClick={toggleAudio}
-        aria-label={audioPlaying ? "Pause music" : "Play music"}
-      >
-        {audioPlaying ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
-          </svg>
-        ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /><path d="M19.07 4.93a10 10 0 010 14.14" />
-          </svg>
-        )}
-      </button>
-
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
           <h1 className="st-hero__title">Longevity Is The New Flex</h1>
           <div className="st-hero__right">
             <p className="st-hero__tagline">Welcome to your new you. For Life.</p>
+            <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
+            <button className={`inline-audio-btn inline-audio-btn--dark${audioPlaying ? " playing" : ""}`} onClick={toggleAudio} aria-label={audioPlaying ? "Pause music" : "Play music"}>
+              {audioPlaying ? (
+                <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg> Pause</>
+              ) : (
+                <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /></svg> Listen</>
+              )}
+            </button>
           </div>
         </div>
       </div>
