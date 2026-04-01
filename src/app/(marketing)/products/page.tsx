@@ -461,6 +461,10 @@ export default function StorePage() {
 
       {/* ── Timeline ──────────────────────────────────────────── */}
       <section className="st-timeline">
+        <video className="st-timeline__bg" autoPlay muted loop playsInline>
+          <source src="/assets/sunshine.webm" type="video/webm" />
+        </video>
+        <div className="st-timeline__overlay" />
         <div className="st-timeline__inner">
           <div className="st-timeline-header st-reveal">
             <h2>Your Transformation Timeline</h2>
