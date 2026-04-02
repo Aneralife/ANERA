@@ -161,7 +161,7 @@ export default function HomePage() {
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".1s" }}>
             <div className="stat__num">
-              100<sup>%</sup>
+              99<sup>%</sup>
             </div>
             <div className="stat__label">
               Pharmaceutical-grade

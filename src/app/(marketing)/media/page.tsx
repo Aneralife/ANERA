@@ -540,7 +540,11 @@ export default function MediaPage() {
         <section className="mh-featured">
           <div className="mh-featured__inner">
             <button className="mh-featured__card" onClick={() => openArticle(featured.id)}>
-              <div className="mh-featured__icon">{featured.icon}</div>
+              <div className="mh-featured__icon">
+                <video className="mh-featured__video" autoPlay muted loop playsInline>
+                  <source src="/assets/shine-molecule.webm" type="video/webm" />
+                </video>
+              </div>
               <div className="mh-featured__content">
                 <span className="mh-featured__tag">{featured.tag}</span>
                 <h2 className="mh-featured__title">{featured.title}</h2>

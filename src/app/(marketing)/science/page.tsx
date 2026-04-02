@@ -42,13 +42,9 @@ const PILLARS = [
   {
     id: "energize",
     label: "Energize",
-    color: "#f0a04a",
+    color: "#000000",
     video: "/assets/energy.webm",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#f0a04a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-      </svg>
-    ),
+    
     desc: "NMN fuels your mitochondria — the powerhouses of your cells — by replenishing NAD+ levels. The result is sustained, clean energy production that combats the fatigue of aging at its cellular root.",
     benefits: [
       "Boosts mitochondrial function and ATP output",
@@ -60,15 +56,9 @@ const PILLARS = [
   {
     id: "focus",
     label: "Focus",
-    color: "#8b7fd4",
+    color: "#000000",
     video: "/assets/focus.webm",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#8b7fd4" strokeWidth="1.5" strokeLinecap="round">
-        <circle cx="12" cy="12" r="3" /><circle cx="12" cy="12" r="7" strokeDasharray="2 3" />
-        <line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" />
-        <line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" />
-      </svg>
-    ),
+   
     desc: "Your brain is the most NAD+-hungry organ in your body. By restoring optimal NAD+ levels, NMN supports sharp cognition, faster neural signaling, and the mental clarity that often diminishes with age.",
     benefits: [
       "Supports cognitive function and mental clarity",
@@ -80,13 +70,9 @@ const PILLARS = [
   {
     id: "protect",
     label: "Protect",
-    color: "#4abf9a",
+    color: "#000000",
     video: "/assets/protect.webm",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#4abf9a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
+  
     desc: "NMN activates sirtuins — proteins often called \"longevity genes\" — which are central to cellular repair, inflammation control, and defense against the DNA damage that accumulates over a lifetime.",
     benefits: [
       "Activates SIRT1 and other longevity-linked sirtuins",
@@ -98,13 +84,9 @@ const PILLARS = [
   {
     id: "optimize",
     label: "Optimize",
-    color: "#82c44e",
+    color: "#000000",
     video: "/assets/optimize.webm",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#82c44e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-      </svg>
-    ),
+   
     desc: "NAD+ plays a foundational role in how your body processes nutrients and maintains metabolic balance. NMN helps regulate glucose metabolism, insulin sensitivity, and weight management from within.",
     benefits: [
       "Improves insulin sensitivity and glucose regulation",
@@ -116,13 +98,9 @@ const PILLARS = [
   {
     id: "rejuvenate",
     label: "Rejuvenate",
-    color: "#d4688e",
+    color: "#000000",
     video: "/assets/rejuvenate.webm",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#d4688e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-      </svg>
-    ),
+   
     desc: "NMN helps activate the cellular recycling process known as autophagy, clearing damaged components and stimulating renewal. The result is skin, tissue, and organ systems that function with renewed vitality.",
     benefits: [
       "Stimulates autophagy — the body's cellular clean-up process",
@@ -275,7 +253,7 @@ export default function SciencePage() {
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".1s" }}>
             <div className="stat__num">
-              100<sup>%</sup>
+              99<sup>%</sup>
             </div>
             <div className="stat__label">
               Pharmaceutical-grade
@@ -343,95 +321,105 @@ export default function SciencePage() {
             </table>
           </div>
           <div className="sf-visual reveal-right">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/science-image-1.png" alt="NMN science" className="sf-visual__img" />
+            <video className="sf-visual__video" autoPlay muted loop playsInline>
+              <source src="/assets/hand.webm" type="video/webm" />
+            </video>
           </div>
         </div>
       </section>
 
       {/* ── Five Pillars of Longevity ────────────────────────────── */}
       <section className="fp-section">
-        <div className="fp-section__inner">
+        <video className="fp-section__bg" autoPlay muted loop playsInline>
+          <source src="/assets/science-background.webm" type="video/webm" />
+        </video>
+        <div className="fp-section__overlay" />
+        <div className="fp-header">
           <p className="fp-eyebrow">Science-Backed Longevity</p>
           <h2 className="fp-title">The Five Pillars of Longevity</h2>
           <p className="fp-sub">Powered by Anera NMN &mdash; Click to explore</p>
+        </div>
 
-          <div className="fp-orbit" ref={orbitRef}>
-            {/* NMN shine effects */}
-            <div className="fp-nmn-rays" />
-            <div className="fp-nmn-glow" />
-            <div className="fp-pulse" />
-            <div className="fp-pulse fp-pulse--delayed" />
+        <div className="fp-layout">
+          {/* Left — orbit */}
+          <div className="fp-layout__left">
+            <div className="fp-orbit" ref={orbitRef}>
+              <div className="fp-nmn-rays" />
+              <div className="fp-nmn-glow" />
+              <div className="fp-pulse" />
+              <div className="fp-pulse fp-pulse--delayed" />
 
-            {/* SVG orbit rings + connector lines */}
-            <svg className="fp-rings" viewBox="0 0 640 640">
-              <circle cx="320" cy="320" r="235" fill="none" stroke="var(--fp-ring)" strokeWidth="1" strokeDasharray="4 6" />
-              <circle cx="320" cy="320" r="145" fill="none" stroke="var(--fp-ring-inner)" strokeWidth="0.5" />
-              {PILLARS.map((p, i) => {
-                const angle = (-90 + (360 / 5) * i) * Math.PI / 180;
-                const x = 320 + 235 * Math.cos(angle);
-                const y = 320 + 235 * Math.sin(angle);
-                return <line key={p.id} x1="320" y1="320" x2={x} y2={y} stroke={`${p.color}30`} strokeWidth="0.5" strokeDasharray="3 5" />;
-              })}
-            </svg>
+              <svg className="fp-rings" viewBox="0 0 640 640">
+                <circle cx="320" cy="320" r="235" fill="none" stroke="var(--fp-ring)" strokeWidth="1" strokeDasharray="4 6" />
+                <circle cx="320" cy="320" r="145" fill="none" stroke="var(--fp-ring-inner)" strokeWidth="0.5" />
+                {PILLARS.map((p, i) => {
+                  const angle = (-90 + (360 / 5) * i) * Math.PI / 180;
+                  const x = 320 + 235 * Math.cos(angle);
+                  const y = 320 + 235 * Math.sin(angle);
+                  return <line key={p.id} x1="320" y1="320" x2={x} y2={y} stroke={`${p.color}30`} strokeWidth="0.5" strokeDasharray="3 5" />;
+                })}
+              </svg>
 
-            {/* Center NMN node with video */}
-            <button className="fp-nmn" onClick={() => setShowNmn(true)} aria-label="What is NMN?">
-              <video className="fp-nmn__video" autoPlay muted loop playsInline>
-                <source src="/assets/DNA.webm" type="video/webm" />
-              </video>
-              <div className="fp-nmn__content">
-                <span className="fp-nmn__label">NMN</span>
-                <span className="fp-nmn__sub">Anera</span>
-              </div>
-            </button>
-
-            {/* Pillar nodes */}
-            {PILLARS.map((p) => (
-              <button
-                key={p.id}
-                data-pillar={p.id}
-                className={`fp-node fp-node--${p.id}`}
-                onClick={() => setActivePillar(p.id)}
-                aria-label={p.label}
-              >
-                <video className="fp-node__video" autoPlay muted loop playsInline>
-                  <source src={p.video} type="video/webm" />
+              <button className="fp-nmn" onClick={() => { setActivePillar(null); setShowNmn(true); }} aria-label="What is NMN?">
+                <video className="fp-nmn__video" autoPlay muted loop playsInline>
+                  <source src="/assets/cold-blue.webm" type="video/webm" />
                 </video>
-                <div className="fp-node__icon">{p.icon}</div>
-                <span className="fp-node__name">{p.label}</span>
+                <div className="fp-nmn__content" />
               </button>
-            ))}
+
+              {PILLARS.map((p) => (
+                <button
+                  key={p.id}
+                  data-pillar={p.id}
+                  className={`fp-node fp-node--${p.id}${activePillar === p.id ? " fp-node--active" : ""}`}
+                  onClick={() => { setShowNmn(false); setActivePillar(p.id); }}
+                  aria-label={p.label}
+                >
+                  <video className="fp-node__video" autoPlay muted loop playsInline>
+                    <source src={p.video} type="video/webm" />
+                  </video>
+                  <div className="fp-node__icon">{p.icon}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — info panel */}
+          <div className="fp-layout__right">
+            {showNmn ? (
+              <div className="fp-info fp-info--visible">
+                
+                <p className="fp-info__eyebrow">The Science Behind It All</p>
+                <h3 className="fp-info__title" style={{ color: "#a8c8e8" }}>What is NMN?</h3>
+                <p className="fp-info__desc">{NMN_INFO.desc}</p>
+                <ul className="fp-info__list">
+                  {NMN_INFO.benefits.map((b, i) => <li key={i}>{b}</li>)}
+                </ul>
+              </div>
+            ) : activeData ? (
+              <div className="fp-info fp-info--visible" key={activeData.id}>
+                
+                <p className="fp-info__eyebrow">Pillar {PILLARS.indexOf(activeData) + 1} of 5</p>
+                <h3 className="fp-info__title" style={{ color: activeData.color }}>{activeData.label}</h3>
+                <p className="fp-info__desc">{activeData.desc}</p>
+                <ul className="fp-info__list">
+                  {activeData.benefits.map((b, i) => <li key={i}>{b}</li>)}
+                </ul>
+              </div>
+            ) : (
+              <div className="fp-info fp-info--empty">
+                <p className="fp-info__placeholder">Click a pillar or NMN to explore</p>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* ── Modal overlay ──────────────────────────────────────── */}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div className={`fp-modal-overlay${activeData || showNmn ? " active" : ""}`} onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
-          <div className="fp-modal">
-            <div className="fp-modal__accent" style={{ background: activeData ? activeData.color : "#a8c8e8" }} />
-            <button className="fp-modal__close" onClick={closeModal} aria-label="Close">&times;</button>
-
-            {showNmn ? (
-              <>
-                <p className="fp-modal__eyebrow">The Science Behind It All</p>
-                <h3 className="fp-modal__title" style={{ color: "#a8c8e8" }}>What is NMN?</h3>
-                <p className="fp-modal__desc">{NMN_INFO.desc}</p>
-                <ul className="fp-modal__list">
-                  {NMN_INFO.benefits.map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
-              </>
-            ) : activeData ? (
-              <>
-                <p className="fp-modal__eyebrow">Pillar {PILLARS.indexOf(activeData) + 1} of 5</p>
-                <h3 className="fp-modal__title" style={{ color: activeData.color }}>{activeData.label}</h3>
-                <p className="fp-modal__desc">{activeData.desc}</p>
-                <ul className="fp-modal__list">
-                  {activeData.benefits.map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
-              </>
-            ) : null}
-          </div>
+        <div className="fp-mission">
+          <p className="fp-mission__lead">At Anera, our mission is simple: to help you, and through you, help humanity.</p>
+          <p>The science behind NMN is rooted in supporting the body at its foundation &mdash; restoring cellular energy, strengthening resilience, and protecting long-term health as we age.</p>
+          <p>By focusing on purity, safety, and real science, we are committed to delivering solutions that empower people to live stronger, recover better, and thrive longer.</p>
+          <p className="fp-mission__emphasis">This is more than a supplement.</p>
+          <p className="fp-mission__emphasis">This is our commitment to building a healthier future &mdash; one life at a time.</p>
         </div>
       </section>
     </>
