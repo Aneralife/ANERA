@@ -378,7 +378,6 @@ export default function SciencePage() {
                   <video className="fp-node__video" autoPlay muted loop playsInline>
                     <source src={p.video} type="video/webm" />
                   </video>
-                  <div className="fp-node__icon">{p.icon}</div>
                 </button>
               ))}
             </div>
