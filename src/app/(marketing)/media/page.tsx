@@ -220,8 +220,7 @@ const FILTERS = [
 ];
 
 const TICKER_WORDS = [
-  "Repair", "Regenerate", "Restore", "Energize", "Focus",
-  "Optimize", "Protect", "Rejuvenate", "Longevity",
+  "HELP", "HEAL", "HUMANITY",
 ];
 
 /* ------------------------------------------------------------------ */
@@ -505,7 +504,7 @@ export default function MediaPage() {
       {/* Video Hero — wraps hero + featured */}
       <div className="mh-video-hero">
         <video className="mh-video-hero__bg" autoPlay muted loop playsInline>
-          <source src="/assets/media.webm" type="video/webm" />
+          <source src="/assets/shine-molecule.webm" type="video/webm" />
         </video>
         <div className="mh-video-hero__overlay" />
 

@@ -99,7 +99,9 @@ export default function DistributionPage() {
     <>
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="dist-hero">
-        <div className="dist-hero__bg" />
+        <video className="dist-hero__bg" autoPlay muted loop playsInline>
+          <source src="/assets/media-2.webm" type="video/webm" />
+        </video>
         <div className="dist-hero__content">
           <p className="dist-hero__eyebrow dist-reveal">Anera Global Distribution &mdash; Official Partners</p>
           <h1 className="dist-hero__title dist-reveal">Fueled by Science.<br /><em>Verified for Trust.</em></h1>

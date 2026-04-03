@@ -454,7 +454,7 @@ export default function StorePage() {
           <div className="st-comparison-header st-reveal">
             <div style={{ marginBottom: 24 }}>
             </div>
-            <h2 className="st-comparison-title">The Ultimate Longevity<br />Powerhouse</h2>
+            <h2 className="st-comparison-title">POWER FOR LIFE</h2>
           </div>
 
           {/* Supplements table */}

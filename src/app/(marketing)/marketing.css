@@ -518,6 +518,7 @@ img, video { display: block; max-width: 100%; }
   letter-spacing: -.05em; color: var(--fg);
 }
 .stat__num sup { font-size: .4em; vertical-align: super; color: var(--accent); }
+[data-theme="dark"] .stat__num sup { color: #fff; }
 .stat__label {
   font-size: 11px; letter-spacing: .15em;
   text-transform: uppercase; color: var(--fg-muted);
@@ -894,6 +895,7 @@ img, video { display: block; max-width: 100%; }
   line-height: 1; margin-bottom: 8px; color: var(--fg);
 }
 .st-benefit-panel__number span { color: var(--accent, #1d1d1f); }
+[data-theme="dark"] .st-benefit-panel__number span { color: #fff; }
 .st-benefit-panel__stat-label { font-size: 16px; color: var(--fg-muted); line-height: 1.5; }
 .st-benefit-panel__text h3 {
   font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
@@ -1151,8 +1153,8 @@ img, video { display: block; max-width: 100%; }
 }
 .dist-hero__bg {
   position: absolute; inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1800&q=80&auto=format&fit=crop');
-  background-size: cover; background-position: center; opacity: 0.18;
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.18;
 }
 .dist-hero__content {
   position: relative; z-index: 2; padding: 80px 24px; max-width: 800px;
@@ -1422,9 +1424,9 @@ img, video { display: block; max-width: 100%; }
 .mh-hero__title { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: var(--fg); margin-bottom: 20px; }
 .mh-hero__body { font-size: clamp(16px, 2vw, 20px); font-weight: 300; line-height: 1.7; color: var(--fg-secondary); max-width: 520px; }
 .mh-hero__stats { display: flex; gap: 48px; flex-shrink: 0; }
-.mh-hero__stat { text-align: left; }
+.mh-hero__stat { text-align: left; display: flex; flex-direction: column; gap: 6px; }
 .mh-hero__stat-number { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
-.mh-hero__stat-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); margin-top: 6px; }
+.mh-hero__stat-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); }
 
 /* Featured */
 .mh-featured { background: var(--bg); padding: 0 48px; }

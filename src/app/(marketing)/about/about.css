@@ -53,12 +53,49 @@
 
 /* ── SECTION 1: HERO ────────────────────────────────────────── */
 .about-page .ab-hero {
-  background: var(--bg);
+  position: relative;
+  overflow: hidden;
   min-height: calc(100vh - 80px);
   display: flex;
   align-items: center;
 }
+.about-page .ab-hero__slider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.about-page .ab-hero__slider-track {
+  display: flex;
+  width: max-content;
+  animation: ab-hero-scroll 40s linear infinite;
+}
+.about-page .ab-hero__slider-img {
+  flex: 0 0 auto;
+  /* 6 images duplicated = 12 total; each image = 100vw / 3 so 6 fill 200vw */
+  width: calc(100vw / 3);
+  height: 100vh;
+  object-fit: cover;
+}
+@keyframes ab-hero-scroll {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-200vw); }
+  50.01% { transform: translateX(-200vw); }
+  100% { transform: translateX(0); }
+}
+.about-page .ab-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(255,255,255,0.75);
+  pointer-events: none;
+}
+[data-theme="dark"] .about-page .ab-hero__overlay {
+  background: rgba(0,0,0,0.7);
+}
 .about-page .ab-hero__inner {
+  position: relative;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
   padding: 80px 48px;
@@ -398,8 +435,9 @@
 
 @media (max-width: 768px) {
   .about-page .ab-container { padding: 0 24px; }
-  .about-page .ab-hero__inner { padding: 56px 24px; }
+  .about-page .ab-hero__inner { padding: 40px 24px; }
   .about-page .ab-hero__headline { font-size: 30px; }
+  .about-page .ab-hero__slider-img { width: 50vw; }
   .about-page .ab-founder,
   .about-page .ab-mv,
   .about-page .ab-leadership,

@@ -82,7 +82,7 @@ export default function MarketingLayout({
   return (
     <>
       {/* Nav */}
-      <nav className="nav" ref={navRef}>
+      <nav className={`nav${pathname === "/about" ? " nav--light-hero" : ""}`} ref={navRef}>
         <Link href="/" className="nav__logo">
           ANERA
         </Link>
@@ -224,7 +224,7 @@ export default function MarketingLayout({
                   <Link href="/contact">Customer Support</Link>
                 </li>
                 <li>
-                  <a href="#">Wholesale</a>
+                  <a href="/distribution">Distribution</a>
                 </li>
                 <li>
                   <Link href="/media">Press</Link>
