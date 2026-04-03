@@ -301,6 +301,10 @@ export default function AboutPage() {
 
       {/* ── MISSION & VISION ─────────────────────────────────── */}
       <section className="ab-mv" id="mission">
+        <video className="ab-mv__bg" autoPlay muted loop playsInline>
+          <source src="/assets/mission.webm" type="video/webm" />
+        </video>
+        <div className="ab-mv__overlay" />
         <div className="ab-container">
           <p className="ab-tag">OUR PURPOSE</p>
           <h2 className="ab-heading">MISSION, VISION &amp; SCIENTIFIC APPROACH</h2>
@@ -443,6 +447,10 @@ export default function AboutPage() {
 
       {/* ── SCIENTIFIC FOCUS ─────────────────────────────────── */}
       <section className="ab-focus" id="science">
+        <video className="ab-focus__bg" autoPlay muted loop playsInline>
+          <source src="/assets/distribution-2.webm" type="video/webm" />
+        </video>
+        <div className="ab-focus__overlay" />
         <div className="ab-container">
           <p className="ab-tag">SCIENTIFIC FOCUS</p>
           <h2 className="ab-heading">THE PILLARS OF OUR RESEARCH</h2>

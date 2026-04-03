@@ -181,22 +181,35 @@
 
 /* ── SECTION 3: MISSION & VISION ────────────────────────────── */
 .about-page .ab-mv {
-  background: var(--bg-elevated);
+  position: relative; overflow: hidden;
   padding: 96px 0;
 }
+.about-page .ab-mv__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+}
+.about-page .ab-mv__overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: rgba(255,255,255,0.85);
+}
+[data-theme="dark"] .about-page .ab-mv__overlay {
+  background: rgba(0,0,0,0.8);
+}
+.about-page .ab-mv .ab-container { position: relative; z-index: 2; }
 .about-page .ab-mv__grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+
+
 }
 .about-page .ab-mv__card {
-  background: var(--bg-elevated);
+  
   padding: 44px 36px;
   transition: background 0.25s;
 }
-.about-page .ab-mv__card:hover { background: var(--bg-alt); }
+
 .about-page .ab-mv__num {
   font-size: 11px;
   letter-spacing: 2px;
@@ -363,7 +376,20 @@
 }
 
 /* ── SECTION 6: SCIENTIFIC FOCUS ────────────────────────────── */
-.about-page .ab-focus { background: var(--bg); padding: 96px 0; }
+.about-page .ab-focus { position: relative; overflow: hidden; padding: 96px 0; }
+.about-page .ab-focus__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+}
+.about-page .ab-focus__overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: rgba(255,255,255,0.85);
+}
+[data-theme="dark"] .about-page .ab-focus__overlay {
+  background: rgba(0,0,0,0.8);
+}
+.about-page .ab-focus .ab-container { position: relative; z-index: 2; }
 .about-page .ab-focus__grid {
   display: grid;
   grid-template-columns: repeat(5,1fr);
@@ -372,7 +398,7 @@
   border: 1px solid var(--border);
 }
 .about-page .ab-focus-block {
-  background: var(--bg);
+  
   padding: 36px 24px 44px;
   transition: background 0.25s;
 }
