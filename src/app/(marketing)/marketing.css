@@ -139,9 +139,110 @@ img, video { display: block; max-width: 100%; }
   color: var(--fg);
   background: var(--border);
 }
+/* ─── Hamburger Button (mobile only) ───────────────────────── */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 36px;
+  height: 36px;
+  padding: 8px 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__hamburger-line {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 1px;
+  transition: transform .3s ease, opacity .3s ease;
+  transform-origin: center;
+}
+.nav__hamburger-line.open:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+.nav__hamburger-line.open:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+/* ─── Mobile Dropdown Menu ─────────────────────────────────── */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 799;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0 24px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .4s cubic-bezier(.25,.8,.25,1),
+              opacity .3s ease,
+              padding .4s cubic-bezier(.25,.8,.25,1);
+}
+.nav-mobile--open {
+  max-height: 420px;
+  opacity: 1;
+  padding: 24px 24px 32px;
+}
+.nav-mobile__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.nav-mobile__links li a {
+  display: block;
+  padding: 14px 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: color .2s;
+}
+.nav-mobile__links li:last-child a {
+  border-bottom: none;
+}
+.nav-mobile__links li a:hover {
+  color: #fff;
+}
+.nav-mobile__actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nav-mobile__link {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+}
+.nav-mobile__cta {
+  text-align: center;
+  width: 100%;
+  font-family: inherit;
+  background: none;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .nav { padding: 0 24px; }
   .nav__links { display: none; }
+  .nav__cta { display: none; }
+  .nav__hamburger { display: flex; }
+  .nav-mobile { display: block; }
 }
 
 /* ─── Hero ───────────────────────────────────────────────────── */
@@ -513,6 +614,11 @@ img, video { display: block; max-width: 100%; }
 .st-shelf__slide {
   display: flex; flex-shrink: 0;
   transition: transform 1.8s cubic-bezier(0.22,0.61,0.36,1); will-change: transform;
+}
+@media (max-width: 768px) {
+  .st-shelf__slide {
+    transition: transform 2.6s cubic-bezier(0.22,0.61,0.36,1);
+  }
 }
 .st-arrow {
   position: absolute; top: 50%; transform: translateY(-50%);
@@ -1749,11 +1855,53 @@ img, video { display: block; max-width: 100%; }
 .compare-table tbody td:nth-child(2) { color: var(--fg); font-weight: 600; }
 
 /* ─── Superfood ──────────────────────────────────────────────── */
-.superfood-section { background: var(--bg-elevated); padding: 140px 48px; }
+.superfood-section {
+  position: relative; overflow: hidden;
+  padding: 140px 48px;
+}
+.superfood-section__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.superfood-section__overlay {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.7);
+  z-index: 1;
+}
+[data-theme="dark"] .superfood-section__overlay {
+  background: rgba(0,0,0,0.6);
+}
 .superfood-section__inner {
+  position: relative; z-index: 2;
   max-width: 1200px; margin: 0 auto;
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 80px; align-items: center;
+}
+.superfood-section__inner--centered {
+  grid-template-columns: 1fr;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  max-width: 720px;
+}
+/* Light mode: dark text over video overlay */
+.superfood-section__inner--centered .label,
+.superfood-section__inner--centered .h2,
+.superfood-section__inner--centered .body-lg {
+  color: var(--fg);
+}
+.superfood-section__inner--centered .sf-table thead th {
+  color: var(--fg-muted);
+}
+.superfood-section__inner--centered .sf-table tbody td {
+  color: var(--fg-secondary);
+}
+.superfood-section__inner--centered .sf-table tbody td:last-child {
+  color: var(--fg);
+}
+.superfood-section__inner--centered .sf-table tbody tr {
+  border-bottom-color: var(--border-subtle);
 }
 @media (max-width: 900px) {
   .superfood-section { padding: 100px 24px; }
@@ -1774,6 +1922,9 @@ img, video { display: block; max-width: 100%; }
 .sf-table tbody td { padding: 18px 0; font-size: 16px; color: var(--fg-secondary); }
 .sf-table tbody td:last-child {
   text-align: right; color: var(--accent); font-weight: 600;
+}
+[data-theme="dark"] .sf-table tbody td:last-child {
+  color: #fff;
 }
 .sf-visual { text-align: center; }
 .sf-visual__img { max-width: 100%; height: auto; border-radius: 18px; }
@@ -2075,6 +2226,9 @@ img, video { display: block; max-width: 100%; }
 .fp-info__title {
   font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
   margin-bottom: 16px;
+}
+[data-theme="dark"] .fp-info__title {
+  color: #fff;
 }
 .fp-info__desc {
   font-size: 15px; line-height: 1.7; color: var(--fg-muted); margin-bottom: 20px;

@@ -12,16 +12,21 @@ function getGutterPx() {
 function useCarousel(itemWidth: number, gap: number, perPage: number) {
   const slideRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(0);
-  const [maxPage, setMaxPage] = useState(0);
+  // On mobile, track by individual item index instead of page
+  const [index, setIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  // Expose page/maxPage for dot indicators (desktop = pages, mobile = items)
+  const page = isMobile ? index : Math.floor(index / perPage);
+  const maxPage = isMobile ? maxIndex : Math.max(0, Math.ceil((maxIndex + 1) / perPage) - 1);
 
   const measure = useCallback(() => {
     const slide = slideRef.current;
     if (!slide) return;
     const totalItems = slide.children.length;
-    const max = Math.max(0, Math.ceil(totalItems / perPage) - 1);
-    setMaxPage(max);
-  }, [perPage]);
+    setMaxIndex(Math.max(0, totalItems - 1));
+  }, []);
 
   useEffect(() => {
     measure();
@@ -29,41 +34,77 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
     return () => window.removeEventListener("resize", measure);
   }, [measure]);
 
-  const go = useCallback(
+  const goTo = useCallback(
     (i: number) => {
-      const next = Math.max(0, Math.min(i, maxPage));
-      setPage(next);
-
-      const slide = slideRef.current;
-      const inner = innerRef.current;
-      if (!slide || !inner) return;
-
+      const mobile = window.innerWidth < 768;
+      const totalItems = slideRef.current?.children.length ?? 0;
       const step = itemWidth + gap;
       const gutterPx = getGutterPx();
 
-      if (next === 0) {
-        // Page 0: let CSS var(--gutter) handle padding
-        inner.style.paddingLeft = "";
-        slide.style.transform = "translateX(0)";
+      if (mobile) {
+        // Move one item at a time on mobile
+        const next = Math.max(0, Math.min(i, totalItems - 1));
+        setIndex(next);
+
+        const slide = slideRef.current;
+        const inner = innerRef.current;
+        if (!slide || !inner) return;
+
+        if (next === 0) {
+          inner.style.paddingLeft = "";
+          slide.style.transform = "translateX(0)";
+        } else {
+          inner.style.paddingLeft = "0";
+          const offset = next * step - gutterPx;
+          slide.style.transform = `translateX(-${offset}px)`;
+        }
       } else {
-        // Page 1+: remove left gutter, shift so previous-page's last card peeks in
-        inner.style.paddingLeft = "0";
-        const offset = next * perPage * step - gutterPx;
-        slide.style.transform = `translateX(-${offset}px)`;
+        // Desktop: move by page
+        const maxP = Math.max(0, Math.ceil(totalItems / perPage) - 1);
+        const nextPage = Math.max(0, Math.min(i, maxP));
+        setIndex(nextPage * perPage);
+
+        const slide = slideRef.current;
+        const inner = innerRef.current;
+        if (!slide || !inner) return;
+
+        if (nextPage === 0) {
+          inner.style.paddingLeft = "";
+          slide.style.transform = "translateX(0)";
+        } else {
+          inner.style.paddingLeft = "0";
+          const offset = nextPage * perPage * step - gutterPx;
+          slide.style.transform = `translateX(-${offset}px)`;
+        }
       }
     },
-    [maxPage, itemWidth, gap, perPage],
+    [itemWidth, gap, perPage],
+  );
+
+  // Wrapper so dot nav and arrows use the right unit
+  const go = useCallback(
+    (i: number) => {
+      const mobile = window.innerWidth < 768;
+      if (mobile) {
+        // i is an item index
+        goTo(i);
+      } else {
+        // i is a page index
+        goTo(i);
+      }
+    },
+    [goTo],
   );
 
   /* Drag / swipe support */
-  const dragState = useRef({ dragging: false, startX: 0, startPage: 0 });
+  const dragState = useRef({ dragging: false, startX: 0, startIndex: 0 });
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     const el = e.currentTarget as HTMLElement;
     el.setPointerCapture(e.pointerId);
-    dragState.current = { dragging: true, startX: e.clientX, startPage: page };
+    dragState.current = { dragging: true, startX: e.clientX, startIndex: index };
     if (slideRef.current) slideRef.current.style.transition = "none";
-  }, [page]);
+  }, [index]);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!dragState.current.dragging) return;
@@ -74,8 +115,17 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
 
     const step = itemWidth + gap;
     const gutterPx = getGutterPx();
-    const currentPage = dragState.current.startPage;
-    const baseOffset = currentPage === 0 ? 0 : currentPage * perPage * step - gutterPx;
+    const mobile = window.innerWidth < 768;
+    const startIdx = dragState.current.startIndex;
+
+    let baseOffset: number;
+    if (mobile) {
+      baseOffset = startIdx === 0 ? 0 : startIdx * step - gutterPx;
+    } else {
+      const startPage = Math.floor(startIdx / perPage);
+      baseOffset = startPage === 0 ? 0 : startPage * perPage * step - gutterPx;
+    }
+    // 1:1 finger tracking
     slide.style.transform = `translateX(${-baseOffset + dx}px)`;
   }, [itemWidth, gap, perPage]);
 
@@ -85,15 +135,30 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
     if (slideRef.current) slideRef.current.style.transition = "";
 
     const dx = e.clientX - dragState.current.startX;
+    const startIdx = dragState.current.startIndex;
+    const mobile = window.innerWidth < 768;
     const threshold = 60;
-    if (dx < -threshold) {
-      go(dragState.current.startPage + 1);
-    } else if (dx > threshold) {
-      go(dragState.current.startPage - 1);
+
+    if (mobile) {
+      // Advance by 1 item on mobile
+      if (dx < -threshold) {
+        goTo(startIdx + 1);
+      } else if (dx > threshold) {
+        goTo(startIdx - 1);
+      } else {
+        goTo(startIdx);
+      }
     } else {
-      go(dragState.current.startPage);
+      const startPage = Math.floor(startIdx / perPage);
+      if (dx < -threshold) {
+        goTo(startPage + 1);
+      } else if (dx > threshold) {
+        goTo(startPage - 1);
+      } else {
+        goTo(startPage);
+      }
     }
-  }, [go]);
+  }, [goTo, perPage]);
 
   return { slideRef, innerRef, page, maxPage, go, measure, onPointerDown, onPointerMove, onPointerUp };
 }
@@ -540,7 +605,8 @@ function ReviewsCarousel({ reviews }: { reviews: { author: string; verified: boo
   const dragState = useRef({ dragging: false, startX: 0, scrollLeft: 0, moved: false });
 
   const scroll = (dir: "left" | "right") => {
-    trackRef.current?.scrollBy({ left: dir === "left" ? -360 : 360, behavior: "smooth" });
+    const amount = window.innerWidth < 768 ? 200 : 360;
+    trackRef.current?.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   };
 
   const onMouseDown = (e: React.MouseEvent) => {

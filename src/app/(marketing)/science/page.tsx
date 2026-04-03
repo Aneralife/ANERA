@@ -284,7 +284,11 @@ export default function SciencePage() {
 
       {/* Superfood / Why NMN */}
       <section className="superfood-section">
-        <div className="superfood-section__inner">
+        <video className="superfood-section__bg" autoPlay muted loop playsInline>
+          <source src="/assets/hand.webm" type="video/webm" />
+        </video>
+        <div className="superfood-section__overlay" />
+        <div className="superfood-section__inner superfood-section__inner--centered">
           <div className="reveal-left">
             <p className="label">Why NMN?</p>
             <h2 className="h2" style={{ marginBottom: 24 }}>
@@ -319,11 +323,6 @@ export default function SciencePage() {
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div className="sf-visual reveal-right">
-            <video className="sf-visual__video" autoPlay muted loop playsInline>
-              <source src="/assets/hand.webm" type="video/webm" />
-            </video>
           </div>
         </div>
       </section>
@@ -389,7 +388,7 @@ export default function SciencePage() {
               <div className="fp-info fp-info--visible">
                 
                 <p className="fp-info__eyebrow">The Science Behind It All</p>
-                <h3 className="fp-info__title" style={{ color: "#a8c8e8" }}>What is NMN?</h3>
+                <h3 className="fp-info__title" style={{ color: "#000000" }}>What is NMN?</h3>
                 <p className="fp-info__desc">{NMN_INFO.desc}</p>
                 <ul className="fp-info__list">
                   {NMN_INFO.benefits.map((b, i) => <li key={i}>{b}</li>)}

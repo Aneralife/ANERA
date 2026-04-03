@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -17,6 +17,12 @@ export default function MarketingLayout({
   const pathname = usePathname();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const { user, loading: authLoading, signOut } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -120,8 +126,46 @@ export default function MarketingLayout({
               </Link>
             )
           )}
+          <button
+            className="nav__hamburger"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            <span className={`nav__hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
+            <span className={`nav__hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile dropdown menu */}
+      <div className={`nav-mobile ${mobileMenuOpen ? "nav-mobile--open" : ""}`}>
+        <ul className="nav-mobile__links">
+          <li><Link href="/products">Products</Link></li>
+          <li><Link href="/science">Science</Link></li>
+          <li><Link href="/distribution">Distribution</Link></li>
+          <li><Link href="/media">Media</Link></li>
+          <li><Link href="/about">About</Link></li>
+          <li><Link href="/contact">Contact</Link></li>
+        </ul>
+        {!authLoading && (
+          <div className="nav-mobile__actions">
+            {user ? (
+              <>
+                {user.role === "admin" && (
+                  <Link href="/admin" className="nav-mobile__link">Admin</Link>
+                )}
+                <button onClick={signOut} className="nav__cta nav-mobile__cta">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link href="/signin" className="nav__cta nav-mobile__cta">
+                Sign In
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Page Content */}
       <main>{children}</main>
