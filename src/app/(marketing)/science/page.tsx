@@ -398,7 +398,7 @@ export default function SciencePage() {
               <div className="fp-info fp-info--visible" key={activeData.id}>
                 
                 <p className="fp-info__eyebrow">Pillar {PILLARS.indexOf(activeData) + 1} of 5</p>
-                <h3 className="fp-info__title" style={{ color: activeData.color }}>{activeData.label}</h3>
+                <h3 className="fp-info__title" >{activeData.label}</h3>
                 <p className="fp-info__desc">{activeData.desc}</p>
                 <ul className="fp-info__list">
                   {activeData.benefits.map((b, i) => <li key={i}>{b}</li>)}
