@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 /* ── Data ────────────────────────────────────────────────────── */
 type Partner = {
@@ -73,6 +73,8 @@ const benefits = [
 /* ── Component ───────────────────────────────────────────────── */
 export default function DistributionPage() {
   const [activeRegion, setActiveRegion] = useState("north-america");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const els = document.querySelectorAll(".dist-reveal");
@@ -95,6 +97,17 @@ export default function DistributionPage() {
     });
   }, [activeRegion]);
 
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────── */}
@@ -104,13 +117,16 @@ export default function DistributionPage() {
         </video>
         <div className="dist-hero__content">
           <p className="dist-hero__eyebrow dist-reveal">Anera Global Distribution &mdash; Official Partners</p>
-          <h1 className="dist-hero__title dist-reveal">Fueled by Science.<br /><em>Verified for Trust.</em></h1>
+          <h1 className="dist-hero__title dist-reveal">Fueled by Science.<br />Verified for Trust.</h1>
           <p className="dist-hero__subtitle dist-reveal">Our products are trusted by thousands worldwide &mdash; but only official Anera Global Distribution Partners are verified to bring our science-backed supplements to your region.</p>
           <div className="dist-hero__actions dist-reveal">
             <a href="#regions" className="dist-btn dist-btn--primary">Find a Partner &rarr;</a>
             <a href="#become-partner" className="dist-btn dist-btn--secondary">Become a Partner</a>
           </div>
         </div>
+        <button onClick={toggleAudio} className={`dist-hero__audio-btn ${isPlaying ? 'playing' : ''}`}>
+          {isPlaying ? "Pause" : "Listen"}
+        </button>
       </section>
 
       {/* ── Trust Strip ───────────────────────────────────────── */}
@@ -283,6 +299,10 @@ export default function DistributionPage() {
           <p className="dist-become-partner__footer-text">info@aneralife.com &middot; Anera Life Inc. &middot; Richmond, BC, Canada</p>
         </div>
       </section>
+
+      <audio ref={audioRef} loop>
+        <source src="/assets/distribution.mp3" type="audio/mpeg" />
+      </audio>
     </>
   );
 }

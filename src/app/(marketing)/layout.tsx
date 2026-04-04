@@ -28,17 +28,6 @@ export default function MarketingLayout({
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Nav scroll effect
-  useEffect(() => {
-    const nav = navRef.current;
-    if (!nav) return;
-    const onScroll = () => {
-      nav.classList.toggle("scrolled", window.scrollY > 60);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   // Observe reveal elements — uses MutationObserver so new DOM nodes are caught instantly
   const observeReveals = useCallback(() => {
     if (!observerRef.current) {
@@ -82,7 +71,7 @@ export default function MarketingLayout({
   return (
     <>
       {/* Nav */}
-      <nav className={`nav${pathname === "/about" ? " nav--light-hero" : ""}`} ref={navRef}>
+      <nav className={`nav${pathname === "/about" || pathname === "/contact" ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
         <Link href="/" className="nav__logo">
           ANERA
         </Link>

@@ -2,12 +2,23 @@
 
 export default function ContactPage() {
   return (
-    <>
-      {/* Newsletter */}
-      <section
-        className="newsletter-section"
-        style={{ paddingTop: 180, borderTop: "none" }}
-      >
+    <div className="contact-page">
+      <video
+        className="contact-bg-video"
+        src="/assets/contact.mov"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
+      <div className="contact-page__overlay" />
+      <div className="contact-page__content">
+        {/* Newsletter */}
+        <section
+          className="newsletter-section contact-newsletter"
+          style={{ paddingTop: 180, borderTop: "none" }}
+        >
         <div className="newsletter-section__inner reveal">
           <h2 className="newsletter-title">Stay at the Forefront.</h2>
           <p className="newsletter-sub">
@@ -33,12 +44,16 @@ export default function ContactPage() {
       {/* Contact Info */}
       <section
         style={{
-          background: "var(--black)",
+          position: "relative",
+          overflow: "hidden",
+          background: "rgba(0,0,0,0.45)",
           padding: "80px 48px 140px",
         }}
       >
         <div
           style={{
+            position: "relative",
+            zIndex: 1,
             maxWidth: 800,
             margin: "0 auto",
             display: "grid",
@@ -95,6 +110,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-    </>
+      </div>
+    </div>
   );
 }

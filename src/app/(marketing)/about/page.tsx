@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRef, useState } from "react";
 import "./about.css";
 
 const ADVISORS = [
@@ -92,6 +95,81 @@ const FOCUS_PILLARS = [
   },
 ];
 
+const founderStorySections = [
+  {
+    title: "My Personal Journey with ANERA NMN: From Pain to Purpose",
+    headerExtra: (
+      <>
+        <p className="ab-leader-name">Truc Tran</p>
+        <p className="ab-leader-role">CEO and Founder</p>
+        <p style={{ fontSize: 13, color: "var(--fg-muted)", marginBottom: 24 }}>
+          September 21, 2024
+        </p>
+      </>
+    ),
+    paragraphs: [
+      "In 2020, fitness enthusiast Truc Tran's life was derailed by severe, unexplained foot pain that resisted all treatments and impacted his family life. After years of searching, a 2023 trial of NMN (Nicotinamide Mononucleotide) offered transformative relief, restoring his mobility and vitality. Inspired, he founded ANERA to share NMN's healing power with others. ANERA's mission is to empower individuals to reclaim health, strength, and focus, helping humanity heal, one life at a time.",
+    ],
+  },
+  {
+    title: "My Struggle with Chronic Pain and Loss of Mobility",
+    paragraphs: [
+      "In 2020, at the height of the pandemic, my life took an unexpected and painful turn. For over 20 years, I had been an avid fitness enthusiast — always in the gym, eating well, and staying active. But as I entered my 40s, I began experiencing severe pain in both my feet, pain so excruciating that it started to dictate my entire life. I couldn't understand what had caused it, and no one seemed to have answers.",
+    ],
+  },
+  {
+    title: "Years of Unanswered Questions and Failed Treatments",
+    paragraphs: [
+      "For years, I sought help. I saw doctors, specialists, did bloodwork and x-rays, but nothing came back conclusive. I was referred to a rheumatologist who ordered an MRI, but all they found were some trace fluids in my ankle joints — nothing that explained the constant pain I was living with. I even visited a podiatrist and tried specialized shoes and insoles, but instead of relief, the pain only worsened. My feet would swell to twice their size, and I found myself limping, barely able to walk most days.",
+    ],
+  },
+  {
+    title: "The Impact on My Family and Everyday Life",
+    paragraphs: [
+      "This pain robbed me of my routine, and more importantly, it took a toll on my life with my family. I'm a dad, and the hardest part was not being able to do the things I loved with my kids — running around, playing sports, or even enjoying a family vacation without having to cut the day short due to my pain. Mornings were a struggle just to get out of bed, and my wife had to help me, something no husband or father ever wants to ask for.",
+    ],
+  },
+  {
+    title: "Desperate for a Solution",
+    paragraphs: [
+      "I tried everything: acupuncture, rehabilitation, massages — anything that offered a sliver of hope. Nothing worked. I was on a cycle of painkillers just to make it through each day. My life was consumed by this pain, and I was losing hope.",
+    ],
+  },
+  {
+    title: "A Life-Changing Breakthrough",
+    paragraphs: [
+      "Then, in 2023, everything changed. A friend introduced me to NMN (Nicotinamide Mononucleotide), a compound I had never heard of before. His family member had brought it over from Asia, and he suggested I try it. I was skeptical, of course, after so many failed attempts, but I was willing to give anything a shot at that point.",
+    ],
+  },
+  {
+    title: "My First Experience with NMN",
+    paragraphs: [
+      "Within three days of taking NMN, something remarkable happened — the pain started to fade. I couldn't believe it. After years of suffering, it felt like a miracle. A week later, the improvement was undeniable. I told myself, 'Let's see how I feel after a couple more weeks.' And sure enough, the results only got better. By the end of the first month, my pain was 95% gone. The swelling in my feet had completely disappeared, and I could walk again without limping. I could wear my favorite shoes again, and I didn't dread getting out of bed each morning.",
+    ],
+  },
+  {
+    title: "How NMN Gave Me My Life Back",
+    paragraphs: [
+      "NMN didn't just take away my pain — it gave me my life back. I was able to return to the gym, start training again, and most importantly, I could be there for my family the way I wanted to be. I felt energized, focused, and alive in a way I hadn't in years.",
+    ],
+  },
+  {
+    title: "Founding ANERA",
+    paragraphs: [
+      "This experience changed everything for me. I knew I couldn't keep this to myself — I had to share it with others who might be suffering like I was. That's why I founded ANERA, a company built on the simple but profound mission to Help Heal Humanity. I made it my goal to find the best NMN available and bring it to market, so others could experience the same life-changing benefits that I did.",
+    ],
+  },
+  {
+    title: "Building ANERA to Share the Healing Power of NMN",
+    paragraphs: [
+      "At ANERA, we're not just selling a product. We're offering a path to reclaim your vitality, your energy, and your health. I believe that this longevity supplement is the key foundation for helping others regain a sense of strength, focus, and youthful energy that so many of us lose as we age.",
+      "As a hardworking dad devoted to family and community, I feel a deep responsibility to assist others in finding healing and well-being. My mission with ANERA is to make the Best NMN Supplements in Canada accessible to as many people as possible. Together, we can embark on a journey to help heal humanity, one life at a time.",
+      "Let's walk this path together.",
+      "Truc Tran, CEO and Founder",
+    ],
+  },
+];
+
 const LinkedInIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -99,6 +177,21 @@ const LinkedInIcon = () => (
 );
 
 export default function AboutPage() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [openFounderIndex, setOpenFounderIndex] = useState(0);
+
+  function toggleAudio() {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play();
+      setAudioPlaying(true);
+    } else {
+      audio.pause();
+      setAudioPlaying(false);
+    }
+  }
 
   return (
     <div className="about-page">
@@ -127,11 +220,20 @@ export default function AboutPage() {
               WHERE SCIENCE<br />MEETS <em>LONGEVITY</em>
             </h1>
             <p className="ab-hero__statement">
-              Anera is a clinically driven longevity company built at the intersection of
-              regenerative medicine, nanotechnology, and biologically intelligent health systems —
-              designed to extend both the quality and duration of human life.
+              What began as a search to restore my own health evolved into a mission to help others live longer, stronger, and better. We combine science, innovation, and clinically driven solutions to extend not just lifespan, but the quality of human life.
             </p>
-            <a href="#mission" className="ab-btn ab-btn--black">Discover Our Mission</a>
+            <audio ref={audioRef} src="/assets/about page.mp3" loop preload="none" />
+            <button
+              className={`inline-audio-btn inline-audio-btn--dark${audioPlaying ? " playing" : ""}`}
+              onClick={toggleAudio}
+              aria-label={audioPlaying ? "Pause music" : "Listen to music"}
+            >
+              {audioPlaying ? (
+                <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg> Pause</>
+              ) : (
+                <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19" /><path d="M15.54 8.46a5 5 0 010 7.07" /></svg> Listen</>
+              )}
+            </button>
           </div>
           <div className="ab-hero__image">
 
@@ -166,133 +268,26 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="ab-founder__content">
-              <div className="ab-story-block">
-                <p className="ab-leader-name">Truc Tran</p>
-                <p className="ab-leader-role">CEO and Founder</p>
-                <h3 className="ab-story-title" style={{ fontSize: 22, marginBottom: 8 }}>
-                  My Personal Journey with ANERA NMN: From Pain to Purpose
-                </h3>
-                <p style={{ fontSize: 13, color: "var(--fg-muted)", marginBottom: 24 }}>
-                  September 21, 2024
-                </p>
-                <p>
-                  In 2020, fitness enthusiast Truc Tran&apos;s life was derailed by severe, unexplained
-                  foot pain that resisted all treatments and impacted his family life. After years of
-                  searching, a 2023 trial of NMN (Nicotinamide Mononucleotide) offered transformative
-                  relief, restoring his mobility and vitality. Inspired, he founded ANERA to share
-                  NMN&apos;s healing power with others. ANERA&apos;s mission is to empower individuals to
-                  reclaim health, strength, and focus, helping humanity heal, one life at a time.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">My Struggle with Chronic Pain and Loss of Mobility</p>
-                <p>
-                  In 2020, at the height of the pandemic, my life took an unexpected and painful turn.
-                  For over 20 years, I had been an avid fitness enthusiast — always in the gym, eating
-                  well, and staying active. But as I entered my 40s, I began experiencing severe pain
-                  in both my feet, pain so excruciating that it started to dictate my entire life. I
-                  couldn&apos;t understand what had caused it, and no one seemed to have answers.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">Years of Unanswered Questions and Failed Treatments</p>
-                <p>
-                  For years, I sought help. I saw doctors, specialists, did bloodwork and x-rays, but
-                  nothing came back conclusive. I was referred to a rheumatologist who ordered an MRI,
-                  but all they found were some trace fluids in my ankle joints — nothing that explained
-                  the constant pain I was living with. I even visited a podiatrist and tried specialized
-                  shoes and insoles, but instead of relief, the pain only worsened. My feet would swell
-                  to twice their size, and I found myself limping, barely able to walk most days.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">The Impact on My Family and Everyday Life</p>
-                <p>
-                  This pain robbed me of my routine, and more importantly, it took a toll on my life
-                  with my family. I&apos;m a dad, and the hardest part was not being able to do the things
-                  I loved with my kids — running around, playing sports, or even enjoying a family
-                  vacation without having to cut the day short due to my pain. Mornings were a struggle
-                  just to get out of bed, and my wife had to help me, something no husband or father
-                  ever wants to ask for.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">Desperate for a Solution</p>
-                <p>
-                  I tried everything: acupuncture, rehabilitation, massages — anything that offered a
-                  sliver of hope. Nothing worked. I was on a cycle of painkillers just to make it
-                  through each day. My life was consumed by this pain, and I was losing hope.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">A Life-Changing Breakthrough</p>
-                <p>
-                  Then, in 2023, everything changed. A friend introduced me to NMN (Nicotinamide
-                  Mononucleotide), a compound I had never heard of before. His family member had
-                  brought it over from Asia, and he suggested I try it. I was skeptical, of course,
-                  after so many failed attempts, but I was willing to give anything a shot at that point.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">My First Experience with NMN</p>
-                <p>
-                  Within three days of taking NMN, something remarkable happened — the pain started to
-                  fade. I couldn&apos;t believe it. After years of suffering, it felt like a miracle. A week
-                  later, the improvement was undeniable. I told myself, &ldquo;Let&apos;s see how I feel after a
-                  couple more weeks.&rdquo; And sure enough, the results only got better. By the end of the
-                  first month, my pain was 95% gone. The swelling in my feet had completely disappeared,
-                  and I could walk again without limping. I could wear my favorite shoes again, and I
-                  didn&apos;t dread getting out of bed each morning.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">How NMN Gave Me My Life Back</p>
-                <p>
-                  NMN didn&apos;t just take away my pain — it gave me my life back. I was able to return
-                  to the gym, start training again, and most importantly, I could be there for my
-                  family the way I wanted to be. I felt energized, focused, and alive in a way I
-                  hadn&apos;t in years.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">Founding ANERA</p>
-                <p>
-                  This experience changed everything for me. I knew I couldn&apos;t keep this to myself — I
-                  had to share it with others who might be suffering like I was. That&apos;s why I founded
-                  ANERA, a company built on the simple but profound mission to Help Heal Humanity. I
-                  made it my goal to find the best NMN available and bring it to market, so others
-                  could experience the same life-changing benefits that I did.
-                </p>
-              </div>
-
-              <div className="ab-story-block">
-                <p className="ab-story-title">Building ANERA to Share the Healing Power of NMN</p>
-                <p>
-                  At ANERA, we&apos;re not just selling a product. We&apos;re offering a path to reclaim your
-                  vitality, your energy, and your health. I believe that this longevity supplement is
-                  the key foundation for helping others regain a sense of strength, focus, and youthful
-                  energy that so many of us lose as we age.
-                </p>
-                <p style={{ marginTop: 16 }}>
-                  As a hardworking dad devoted to family and community, I feel a deep responsibility to
-                  assist others in finding healing and well-being. My mission with ANERA is to make the
-                  Best NMN Supplements in Canada accessible to as many people as possible. Together, we
-                  can embark on a journey to help heal humanity, one life at a time.
-                </p>
-                <p style={{ marginTop: 24, fontStyle: "italic" }}>
-                  Let&apos;s walk this path together.
-                </p>
-                <p style={{ marginTop: 16, fontWeight: 600 }}>
-                  Truc Tran, CEO and Founder
-                </p>
+              <div className="st-accordion">
+                {founderStorySections.map((section, index) => (
+                  <div key={section.title} className="st-accordion-item">
+                    <button
+                      className={`st-accordion-btn${openFounderIndex === index ? " open" : ""}`}
+                      onClick={() => setOpenFounderIndex((current) => current === index ? -1 : index)}
+                      aria-expanded={openFounderIndex === index}
+                    >
+                      {section.title}
+                    </button>
+                    <div className={`st-accordion-body${openFounderIndex === index ? " open" : ""}`}>
+                      {section.headerExtra}
+                      {section.paragraphs.map((text, paragraphIndex) => (
+                        <p key={paragraphIndex} style={{ marginBottom: 16 }}>
+                          {text}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

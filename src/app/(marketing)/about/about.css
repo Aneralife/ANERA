@@ -68,7 +68,7 @@
 .about-page .ab-hero__slider-track {
   display: flex;
   width: max-content;
-  animation: ab-hero-scroll 40s linear infinite;
+  animation: ab-hero-scroll 150s linear infinite;
 }
 .about-page .ab-hero__slider-img {
   flex: 0 0 auto;
@@ -163,6 +163,9 @@
   padding-top: 16px;
 }
 .about-page .ab-founder__content { display: flex; flex-direction: column; gap: 44px; }
+.about-page .ab-founder__content .st-accordion-item { border-bottom: 1px solid var(--border); }
+.about-page .ab-founder__content .st-accordion-btn { padding: 20px 0; }
+.about-page .ab-founder__content .st-accordion-body.open { max-height: 1400px; }
 .about-page .ab-story-title {
   font-size: 11px;
   font-weight: 500;
@@ -338,10 +341,16 @@
   border: 1px solid var(--border);
 }
 .about-page .ab-advisor {
+  position: relative;
   background: var(--bg-alt);
-  transition: background 0.25s;
+  transition: background 0.25s, transform 0.25s ease, z-index 0.25s ease;
+  transform: scale(1);
 }
-.about-page .ab-advisor:hover { background: var(--bg-elevated); }
+.about-page .ab-advisor:hover {
+  background: var(--bg-elevated);
+  transform: scale(1.03);
+  z-index: 2;
+}
 .about-page .ab-advisor__photo {
   width: 100%;
   aspect-ratio: 5/6;

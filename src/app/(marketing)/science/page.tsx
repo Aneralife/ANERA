@@ -388,7 +388,7 @@ export default function SciencePage() {
               <div className="fp-info fp-info--visible">
                 
                 <p className="fp-info__eyebrow">The Science Behind It All</p>
-                <h3 className="fp-info__title" style={{ color: "#000000" }}>What is NMN?</h3>
+                <h3 className="fp-info__title" >What is NMN?</h3>
                 <p className="fp-info__desc">{NMN_INFO.desc}</p>
                 <ul className="fp-info__list">
                   {NMN_INFO.benefits.map((b, i) => <li key={i}>{b}</li>)}
