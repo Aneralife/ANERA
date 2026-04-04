@@ -249,7 +249,7 @@ export default function AboutPage() {
           <div className="ab-founder__grid">
             <div className="ab-founder__image-col">
               <Image
-                src="https://aneralife.com/wp-content/uploads/2026/01/Founder-and-CEO-Truc-Tran.jpeg"
+                src="/assets/truc.jpeg"
                 alt="Anera Founder"
                 className="ab-founder__portrait"
                 width={320}
@@ -351,6 +351,10 @@ export default function AboutPage() {
           <p className="ab-tag">LEADERSHIP</p>
           <h2 className="ab-heading">GUIDED BY PIONEERING SCIENCE</h2>
           <div className="ab-leader__card">
+            <video className="ab-leader__bg" autoPlay muted loop playsInline>
+              <source src="/assets/andrew.webm" type="video/webm" />
+            </video>
+            <div className="ab-leader__overlay" />
             <div className="ab-leader__left">
               <Image
                 src="https://aneralife.com/wp-content/uploads/2026/03/212.jpeg"
