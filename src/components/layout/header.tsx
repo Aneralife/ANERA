@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/cart/cart-context";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
@@ -13,10 +13,32 @@ const navigation = [
 export function Header() {
   const { cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
   const itemCount = cart?.totalQuantity ?? 0;
 
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (!mobileMenuOpen && y > 48 && y > lastY.current) {
+          setHidden(true);
+        } else {
+          setHidden(false);
+        }
+        lastY.current = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileMenuOpen]);
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl backdrop-saturate-[180%]" style={{ background: 'var(--background, rgba(251,251,253,0.8))' }}>
+    <header className={`sticky top-0 z-50 backdrop-blur-xl backdrop-saturate-[180%] transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"}`} style={{ background: 'var(--background, rgba(251,251,253,0.8))' }}>
       <nav
         className="mx-auto flex h-12 max-w-[980px] items-center justify-between px-4 sm:px-6"
         aria-label="Main navigation"

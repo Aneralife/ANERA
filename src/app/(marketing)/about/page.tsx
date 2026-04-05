@@ -271,21 +271,39 @@ export default function AboutPage() {
               <div className="st-accordion">
                 {founderStorySections.map((section, index) => (
                   <div key={section.title} className="st-accordion-item">
-                    <button
-                      className={`st-accordion-btn${openFounderIndex === index ? " open" : ""}`}
-                      onClick={() => setOpenFounderIndex((current) => current === index ? -1 : index)}
-                      aria-expanded={openFounderIndex === index}
-                    >
-                      {section.title}
-                    </button>
-                    <div className={`st-accordion-body${openFounderIndex === index ? " open" : ""}`}>
-                      {section.headerExtra}
-                      {section.paragraphs.map((text, paragraphIndex) => (
-                        <p key={paragraphIndex} style={{ marginBottom: 16 }}>
-                          {text}
-                        </p>
-                      ))}
-                    </div>
+                    {index === 0 ? (
+                      <>
+                        <h3 className="st-accordion-btn open" style={{ cursor: "default" }} data-no-icon>
+                          {section.title}
+                        </h3>
+                        <div className="st-accordion-body open">
+                          {section.headerExtra}
+                          {section.paragraphs.map((text, paragraphIndex) => (
+                            <p key={paragraphIndex} style={{ marginBottom: 16 }}>
+                              {text}
+                            </p>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className={`st-accordion-btn${openFounderIndex === index ? " open" : ""}`}
+                          onClick={() => setOpenFounderIndex((current) => current === index ? -1 : index)}
+                          aria-expanded={openFounderIndex === index}
+                        >
+                          {section.title}
+                        </button>
+                        <div className={`st-accordion-body${openFounderIndex === index ? " open" : ""}`}>
+                          {section.headerExtra}
+                          {section.paragraphs.map((text, paragraphIndex) => (
+                            <p key={paragraphIndex} style={{ marginBottom: 16 }}>
+                              {text}
+                            </p>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>

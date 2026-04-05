@@ -91,7 +91,10 @@ img, video { display: block; max-width: 100%; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 800;
   padding: 0 48px; height: 64px;
   display: flex; align-items: center; justify-content: space-between;
-  transition: background .4s, backdrop-filter .4s;
+  transition: background .4s, backdrop-filter .4s, transform .35s cubic-bezier(.4,0,.2,1);
+}
+.nav.nav--hidden {
+  transform: translateY(-100%);
 }
 .nav.scrolled {
   background: rgba(0,0,0,0.85);
@@ -561,7 +564,10 @@ img, video { display: block; max-width: 100%; }
 .nav.nav--light-hero .nav__cta:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .nav.nav--light-hero .theme-toggle { color: var(--fg-secondary); }
 .nav.nav--light-hero .theme-toggle:hover { color: var(--fg); }
+.nav.nav--light-hero { background: rgba(255,255,255,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+[data-theme="dark"] .nav.nav--light-hero { background: rgba(0,0,0,0.85); }
 .nav.nav--light-hero.scrolled { background: rgba(255,255,255,0.88); }
+[data-theme="dark"] .nav.nav--light-hero.scrolled { background: rgba(0,0,0,0.85); }
 .nav.nav--light-hero.scrolled .nav__logo { color: var(--fg); }
 
 /* Nav override for distribution page (always black) */
@@ -1101,6 +1107,7 @@ img, video { display: block; max-width: 100%; }
   color: var(--fg-muted); transition: transform .2s;
 }
 .st-accordion-btn.open::after { transform: rotate(45deg); }
+.st-accordion-btn[data-no-icon]::after { display: none; }
 .st-accordion-body {
   max-height: 0; overflow: hidden;
   transition: max-height .35s ease, padding .35s ease;
@@ -2498,6 +2505,11 @@ img, video { display: block; max-width: 100%; }
 .contact-newsletter {
   background: transparent;
 }
+.contact-page__content .newsletter-title,
+.contact-page__content .newsletter-sub,
+.contact-page__content .label,
+.contact-page__content p,
+.contact-page__content a { color: #fff; }
 
 .newsletter-section__inner { max-width: 520px; margin: 0 auto; }
 .newsletter-title {

@@ -81,7 +81,7 @@ export default function HomePage() {
           <h1 className="hero__title">
             Longevity Is
             <br />
-            the New Flex.
+            The New Flex.
           </h1>
           <p className="hero__sub">
             Daily NMN fuels your body and mind — giving you the energy, clarity,
@@ -161,7 +161,7 @@ export default function HomePage() {
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".1s" }}>
             <div className="stat__num">
-              99<sup>%</sup>
+              99<sup>+%</sup>
             </div>
             <div className="stat__label">
               Pharmaceutical-grade

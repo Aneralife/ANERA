@@ -28,6 +28,40 @@ export default function MarketingLayout({
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Hide nav on scroll down, show on scroll up
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const nav = navRef.current;
+        if (!nav) { ticking = false; return; }
+        const y = window.scrollY;
+
+        // Toggle scrolled background
+        if (y > 10) nav.classList.add("scrolled");
+        else nav.classList.remove("scrolled");
+
+        // Hide/show based on direction (only after scrolling past nav height)
+        // Don't hide when mobile menu is open
+        if (!mobileMenuOpen && y > 64 && y > lastY) {
+          nav.classList.add("nav--hidden");
+        } else {
+          nav.classList.remove("nav--hidden");
+        }
+
+        lastY = y;
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileMenuOpen]);
+
   // Observe reveal elements — uses MutationObserver so new DOM nodes are caught instantly
   const observeReveals = useCallback(() => {
     if (!observerRef.current) {

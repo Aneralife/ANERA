@@ -505,7 +505,9 @@
   .about-page .ab-advisory,
   .about-page .ab-focus { padding: 64px 0; }
   .about-page .ab-founder__grid { grid-template-columns: 1fr; }
+  .about-page .ab-founder__image-col { flex-direction: column; }
   .about-page .ab-founder__portrait { max-width: 100%; }
+  .about-page .ab-founder__caption { width: 100%; }
   .about-page .ab-leader__card { padding: 24px; }
   .about-page .ab-advisors__grid { grid-template-columns: 1fr; }
   .about-page .ab-focus__grid { grid-template-columns: 1fr; }
