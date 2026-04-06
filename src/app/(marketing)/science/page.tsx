@@ -253,7 +253,7 @@ export default function SciencePage() {
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".1s" }}>
             <div className="stat__num">
-              99<sup>%</sup>
+              99<sup>+%</sup>
             </div>
             <div className="stat__label">
               Pharmaceutical-grade

@@ -98,31 +98,12 @@ const FOCUS_PILLARS = [
 const founderStorySections = [
   {
     title: "My Personal Journey with ANERA NMN: From Pain to Purpose",
-    headerExtra: (
-      <>
-        <p className="ab-leader-name">Truc Tran</p>
-        <p className="ab-leader-role">CEO and Founder</p>
-        <p style={{ fontSize: 13, color: "var(--fg-muted)", marginBottom: 24 }}>
-          September 21, 2024
-        </p>
-      </>
-    ),
     paragraphs: [
-      "In 2020, fitness enthusiast Truc Tran's life was derailed by severe, unexplained foot pain that resisted all treatments and impacted his family life. After years of searching, a 2023 trial of NMN (Nicotinamide Mononucleotide) offered transformative relief, restoring his mobility and vitality. Inspired, he founded ANERA to share NMN's healing power with others. ANERA's mission is to empower individuals to reclaim health, strength, and focus, helping humanity heal, one life at a time.",
+      "In 2020, fitness enthusiast Truc Tran's life was derailed by severe, unexplained foot pain that resisted all treatments and impacted his family life. After years of searching, a 2023 trial of NMN (Nicotinamide Mononucleotide) offered transformative relief, restoring his mobility and vitality. Inspired, he founded ANERA to share NMN's healing power with others. ANERA's mission is to empower individuals to reclaim health, strength, and focus, helping humanity heal, one life at a time. In 2020, at the height of the pandemic, my life took an unexpected and painful turn. For over 20 years, I had been an avid fitness enthusiast — always in the gym, eating well, and staying active. But as I entered my 40s, I began experiencing severe pain in both my feet, pain so excruciating that it started to dictate my entire life. I couldn't understand what had caused it, and no one seemed to have answers. For years, I sought help. I saw doctors, specialists, did bloodwork and x-rays, but nothing came back conclusive. I was referred to a rheumatologist who ordered an MRI, but all they found were some trace fluids in my ankle joints — nothing that explained the constant pain I was living with. I even visited a podiatrist and tried specialized shoes and insoles, but instead of relief, the pain only worsened. My feet would swell to twice their size, and I found myself limping, barely able to walk most days.",
     ],
   },
-  {
-    title: "My Struggle with Chronic Pain and Loss of Mobility",
-    paragraphs: [
-      "In 2020, at the height of the pandemic, my life took an unexpected and painful turn. For over 20 years, I had been an avid fitness enthusiast — always in the gym, eating well, and staying active. But as I entered my 40s, I began experiencing severe pain in both my feet, pain so excruciating that it started to dictate my entire life. I couldn't understand what had caused it, and no one seemed to have answers.",
-    ],
-  },
-  {
-    title: "Years of Unanswered Questions and Failed Treatments",
-    paragraphs: [
-      "For years, I sought help. I saw doctors, specialists, did bloodwork and x-rays, but nothing came back conclusive. I was referred to a rheumatologist who ordered an MRI, but all they found were some trace fluids in my ankle joints — nothing that explained the constant pain I was living with. I even visited a podiatrist and tried specialized shoes and insoles, but instead of relief, the pain only worsened. My feet would swell to twice their size, and I found myself limping, barely able to walk most days.",
-    ],
-  },
+ 
+
   {
     title: "The Impact on My Family and Everyday Life",
     paragraphs: [
@@ -179,7 +160,7 @@ const LinkedInIcon = () => (
 export default function AboutPage() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
-  const [openFounderIndex, setOpenFounderIndex] = useState(0);
+
 
   function toggleAudio() {
     const audio = audioRef.current;
@@ -246,67 +227,45 @@ export default function AboutPage() {
         <div className="ab-container">
           <p className="ab-tag">OUR ORIGIN</p>
           <h2 className="ab-heading">WHY ANERA EXISTS</h2>
-          <div className="ab-founder__grid">
-            <div className="ab-founder__image-col">
-              <Image
-                src="/assets/truc.jpeg"
-                alt="Anera Founder"
-                className="ab-founder__portrait"
-                width={320}
-                height={400}
-              />
-              <div className="ab-founder__caption">
+          <div className="ab-founder__card">
+            <video className="ab-leader__bg" autoPlay muted loop playsInline>
+              <source src="/assets/andrew.webm" type="video/webm" />
+            </video>
+            <div className="ab-leader__overlay" />
+            <div className="ab-founder__top">
+              <div className="ab-leader__left">
+                <Image
+                  src="/assets/truc.jpeg"
+                  alt="Anera Founder"
+                  className="ab-leader__photo"
+                  width={440}
+                  height={600}
+                />
                 <a
                   href="https://ca.linkedin.com/in/truc-tran-853062159"
                   className="ab-leader__linkedin"
-                  style={{ marginTop: 16 }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <LinkedInIcon /> LinkedIn Profile
                 </a>
               </div>
-            </div>
-            <div className="ab-founder__content">
-              <div className="st-accordion">
-                {founderStorySections.map((section, index) => (
-                  <div key={section.title} className="st-accordion-item">
-                    {index === 0 ? (
-                      <>
-                        <h3 className="st-accordion-btn open" style={{ cursor: "default" }} data-no-icon>
-                          {section.title}
-                        </h3>
-                        <div className="st-accordion-body open">
-                          {section.headerExtra}
-                          {section.paragraphs.map((text, paragraphIndex) => (
-                            <p key={paragraphIndex} style={{ marginBottom: 16 }}>
-                              {text}
-                            </p>
-                          ))}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          className={`st-accordion-btn${openFounderIndex === index ? " open" : ""}`}
-                          onClick={() => setOpenFounderIndex((current) => current === index ? -1 : index)}
-                          aria-expanded={openFounderIndex === index}
-                        >
-                          {section.title}
-                        </button>
-                        <div className={`st-accordion-body${openFounderIndex === index ? " open" : ""}`}>
-                          {section.headerExtra}
-                          {section.paragraphs.map((text, paragraphIndex) => (
-                            <p key={paragraphIndex} style={{ marginBottom: 16 }}>
-                              {text}
-                            </p>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
+              <div className="ab-leader__right">
+                <h3 className="ab-leader__name">Truc Tran</h3>
+                <p className="ab-leader__title">CEO &amp; Founder</p>
+                {founderStorySections[0].paragraphs.map((text, i) => (
+                  <p key={i}>{text}</p>
                 ))}
               </div>
+            </div>
+            <div className="ab-founder__bottom">
+              {founderStorySections.slice(1).map((section) => (
+                <div key={section.title}>
+                  {section.paragraphs.map((text, i) => (
+                    <p key={i}>{text}</p>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>

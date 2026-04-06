@@ -144,43 +144,35 @@
   background: var(--bg-alt);
   padding: 96px 0;
 }
-.about-page .ab-founder__grid {
+.about-page .ab-founder__card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 56px;
+  overflow: hidden;
+}
+.about-page .ab-founder__top {
+  position: relative;
+  z-index: 2;
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 80px;
+  grid-template-columns: 340px 1fr;
+  gap: 72px;
   align-items: start;
-  margin-top: 32px;
 }
-.about-page .ab-founder__image-col { position: sticky; top: 76px; }
-.about-page .ab-founder__portrait {
-  width: 100%;
-  aspect-ratio: 4/5;
-  object-fit: cover;
-  margin-bottom: 18px;
+.about-page .ab-founder__bottom {
+  position: relative;
+  z-index: 2;
+
+  padding-top: 10px;
+
 }
-.about-page .ab-founder__caption {
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-}
-.about-page .ab-founder__content { display: flex; flex-direction: column; gap: 44px; }
-.about-page .ab-founder__content .st-accordion-item { border-bottom: 1px solid var(--border); }
-.about-page .ab-founder__content .st-accordion-btn { padding: 20px 0; }
-.about-page .ab-founder__content .st-accordion-body.open { max-height: 1400px; }
-.about-page .ab-story-title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--fg);
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.about-page .ab-story-block p {
+.about-page .ab-founder__bottom p {
   font-size: 15px;
   line-height: 1.85;
   color: var(--fg-secondary);
+  margin-bottom: 18px;
 }
+.about-page .ab-founder__bottom p:last-child { margin-bottom: 0; }
 
 /* ── SECTION 3: MISSION & VISION ────────────────────────────── */
 .about-page .ab-mv {
@@ -209,7 +201,7 @@
 }
 .about-page .ab-mv__card {
   
-  padding: 44px 36px;
+  padding-right: 44px;
   transition: background 0.25s;
 }
 
@@ -299,7 +291,7 @@
 }
 .about-page .ab-leader__photo {
   width: 100%;
-  aspect-ratio: 4/5;
+  height: 100% !important;
   object-fit: cover;
 }
 .about-page .ab-leader__linkedin {
@@ -358,7 +350,7 @@
 .about-page .ab-leader__right p:last-child { margin-bottom: 0; }
 
 /* ── SECTION 5: ADVISORY BOARD ──────────────────────────────── */
-.about-page .ab-advisory { background: var(--bg-alt); padding: 96px 0; }
+.about-page .ab-advisory {  padding: 96px 0; }
 .about-page .ab-advisors__grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -368,7 +360,7 @@
 }
 .about-page .ab-advisor {
   position: relative;
-  background: var(--bg-alt);
+  
   transition: background 0.25s, transform 0.25s ease, z-index 0.25s ease;
   transform: scale(1);
 }
@@ -433,7 +425,7 @@
   border: 1px solid var(--border);
 }
 .about-page .ab-focus-block {
-  
+
   padding: 36px 24px 44px;
   transition: background 0.25s;
 }
@@ -484,9 +476,8 @@
   .about-page .ab-hero__inner { grid-template-columns: 1fr; gap: 48px; }
   .about-page .ab-hero__image { justify-content: flex-start; }
   .about-page .ab-hero__photo { max-width: 400px; }
-  .about-page .ab-founder__grid { grid-template-columns: 1fr; gap: 40px; }
-  .about-page .ab-founder__image-col { position: static; display: flex; gap: 24px; align-items: flex-start; }
-  .about-page .ab-founder__portrait { max-width: 200px; margin-bottom: 0; }
+  .about-page .ab-founder__top { grid-template-columns: 1fr; gap: 36px; }
+  .about-page .ab-founder__card { padding: 40px; }
   .about-page .ab-mv__grid { grid-template-columns: 1fr; }
   .about-page .ab-leader__card { grid-template-columns: 1fr; gap: 36px; padding: 40px; }
   .about-page .ab-leader__photo { max-width: 300px; }
@@ -504,10 +495,7 @@
   .about-page .ab-leadership,
   .about-page .ab-advisory,
   .about-page .ab-focus { padding: 64px 0; }
-  .about-page .ab-founder__grid { grid-template-columns: 1fr; }
-  .about-page .ab-founder__image-col { flex-direction: column; }
-  .about-page .ab-founder__portrait { max-width: 100%; }
-  .about-page .ab-founder__caption { width: 100%; }
+  .about-page .ab-founder__card,
   .about-page .ab-leader__card { padding: 24px; }
   .about-page .ab-advisors__grid { grid-template-columns: 1fr; }
   .about-page .ab-focus__grid { grid-template-columns: 1fr; }
