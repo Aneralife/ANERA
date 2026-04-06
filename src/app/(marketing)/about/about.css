@@ -361,13 +361,10 @@
 .about-page .ab-advisor {
   position: relative;
   
-  transition: background 0.25s, transform 0.25s ease, z-index 0.25s ease;
-  transform: scale(1);
+  transition: background 0.25s;
 }
 .about-page .ab-advisor:hover {
   background: var(--bg-elevated);
-  transform: scale(1.03);
-  z-index: 2;
 }
 .about-page .ab-advisor__photo {
   width: 100%;

@@ -577,22 +577,24 @@ export default function DistributionPage() {
                     {p.verified && <div className="dist-partner-card__verified">{"\u2713"} Verified</div>}
                     <div className="dist-partner-card__flag">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.flag} alt={p.country} width={36} height={27} style={{ objectFit: "cover", borderRadius: 3 }} />
+                      <img src={p.flag} alt={p.country} />
                     </div>
-                    <div className="dist-partner-card__country">{p.country}</div>
-                    <div className="dist-partner-card__name">{p.name}</div>
-                    <p className="dist-partner-card__desc">{p.desc}</p>
-                    <div className="dist-partner-card__contact">
-                      {p.emails.map((email) => (
-                        <a key={email} href={`mailto:${email}`}>{email}</a>
-                      ))}
-                      {p.website && <a href="#">{p.website}</a>}
-                    </div>
-                    {p.verified && (
-                      <div className="dist-partner-card__qr">
-                        <span>{"\ud83d\udcf1"}</span> Scan QR to verify
+                    <div className="dist-partner-card__body">
+                      <div className="dist-partner-card__country">{p.country}</div>
+                      <div className="dist-partner-card__name">{p.name}</div>
+                      <p className="dist-partner-card__desc">{p.desc}</p>
+                      <div className="dist-partner-card__contact">
+                        {p.emails.map((email) => (
+                          <a key={email} href={`mailto:${email}`}>{email}</a>
+                        ))}
+                        {p.website && <a href="#">{p.website}</a>}
                       </div>
-                    )}
+                      {p.verified && (
+                        <div className="dist-partner-card__qr">
+                          <span>{"\ud83d\udcf1"}</span> Scan QR to verify
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
