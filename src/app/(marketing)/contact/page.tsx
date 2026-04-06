@@ -73,7 +73,7 @@ export default function ContactPage() {
               href="mailto:Info@aneralife.com"
               style={{
                 fontSize: 16,
-                color: "var(--white)",
+                color: "#fff",
                 transition: "color .2s",
               }}
             >
@@ -87,7 +87,7 @@ export default function ContactPage() {
             >
               Address
             </p>
-            <p style={{ fontSize: 16, color: "var(--white)", transition: "color .2s", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 16, color: "#fff", transition: "color .2s", lineHeight: 1.6 }}>
               2220 – 8788 McKim Way
               <br />
               Richmond, BC V6X 4E2
@@ -102,7 +102,7 @@ export default function ContactPage() {
             >
               Social
             </p>
-            <p style={{ fontSize: 16, color: "var(--white)", transition: "color .2s", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 16, color: "#fff", transition: "color .2s", lineHeight: 1.6 }}>
               Follow us on our
               <br />
               social channels
