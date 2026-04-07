@@ -148,7 +148,7 @@
   position: relative;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  padding: 56px;
+  padding: 60px;
   overflow: hidden;
 }
 .about-page .ab-founder__top {
@@ -156,7 +156,7 @@
   z-index: 2;
   display: grid;
   grid-template-columns: 340px 1fr;
-  gap: 72px;
+  gap: 60px;
   align-items: start;
 }
 .about-page .ab-founder__bottom {

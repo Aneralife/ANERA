@@ -631,6 +631,10 @@ export default function MediaPage() {
 
       {/* Newsletter */}
       <section className="mh-newsletter">
+        <video className="mh-newsletter__bg" autoPlay muted loop playsInline>
+          <source src="/assets/BLUE DNA.webm" type="video/webm" />
+        </video>
+        <div className="mh-newsletter__overlay" />
         <div className="mh-newsletter__inner">
           <h2 className="mh-newsletter__title">Stay in the loop.</h2>
           <p className="mh-newsletter__text">
