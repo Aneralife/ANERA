@@ -1,21 +1,32 @@
-import { Container, Section, Skeleton } from "@/components/ui";
-
 export default function ProductLoading() {
   return (
-    <Section theme="surface" spacing="md">
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-          <Skeleton className="aspect-square w-full" />
-          <div>
-            <Skeleton className="h-3 w-16" />
-            <Skeleton className="mt-4 h-10 w-3/4" />
-            <Skeleton className="mt-5 h-6 w-24" />
-            <Skeleton className="mt-10 h-14 w-full rounded-full" />
-            <Skeleton className="mt-10 h-px w-full" />
-            <Skeleton className="mt-8 h-20 w-full" />
-          </div>
+    <>
+      {/* Hero skeleton */}
+      <section className="pdp-hero">
+        <div style={{ width: 60, height: 18, background: "var(--bg-alt)", borderRadius: 4, margin: "0 auto 12px" }} />
+        <div style={{ width: 400, maxWidth: "80%", height: 64, background: "var(--bg-alt)", borderRadius: 8, margin: "0 auto 16px" }} />
+        <div style={{ width: 120, height: 24, background: "var(--bg-alt)", borderRadius: 4, margin: "0 auto 32px" }} />
+        <div style={{ width: 200, height: 48, background: "var(--bg-alt)", borderRadius: 8, margin: "0 auto" }} />
+      </section>
+
+      {/* Image skeleton */}
+      <section className="pdp-image-section">
+        <div className="pdp-image-section__inner">
+          <div style={{ width: "100%", maxWidth: 580, aspectRatio: "1", background: "var(--bg-alt)", borderRadius: 24, margin: "0 auto" }} />
         </div>
-      </Container>
-    </Section>
+      </section>
+
+      {/* Features skeleton */}
+      <section className="pdp-features">
+        <div className="pdp-features__inner">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="pdp-feature">
+              <div style={{ width: 24, height: 24, background: "var(--bg-alt)", borderRadius: 4 }} />
+              <div style={{ width: 80, height: 14, background: "var(--bg-alt)", borderRadius: 4 }} />
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

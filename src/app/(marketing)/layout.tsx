@@ -47,7 +47,8 @@ export default function MarketingLayout({
 
         // Hide/show based on direction (only after scrolling past nav height)
         // Don't hide when mobile menu is open
-        if (!mobileMenuOpen && y > 64 && y > lastY) {
+        const isProductPage = window.location.pathname.startsWith("/products/");
+        if (!isProductPage && !mobileMenuOpen && y > 64 && y > lastY) {
           nav.classList.add("nav--hidden");
         } else {
           nav.classList.remove("nav--hidden");

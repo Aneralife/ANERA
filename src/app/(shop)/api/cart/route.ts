@@ -57,6 +57,13 @@ export async function POST(req: NextRequest) {
         break;
       }
 
+      case "buyNow": {
+        const buyCart = await createCart([
+          { merchandiseId: variantId, quantity: quantity || 1 },
+        ]);
+        return NextResponse.json({ checkoutUrl: buyCart.checkoutUrl });
+      }
+
       default:
         return NextResponse.json(
           { error: "Invalid action" },

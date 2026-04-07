@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/components/cart/cart-context";
 
 /* ── Carousel hook (Apple Store behaviour) ───────────────────── */
 function getGutterPx() {
@@ -97,12 +99,10 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
   );
 
   /* Drag / swipe support */
-  const dragState = useRef({ dragging: false, startX: 0, startIndex: 0 });
+  const dragState = useRef({ dragging: false, wasDrag: false, startX: 0, startIndex: 0 });
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    const el = e.currentTarget as HTMLElement;
-    el.setPointerCapture(e.pointerId);
-    dragState.current = { dragging: true, startX: e.clientX, startIndex: index };
+    dragState.current = { dragging: true, wasDrag: false, startX: e.clientX, startIndex: index };
     if (slideRef.current) slideRef.current.style.transition = "none";
   }, [index]);
 
@@ -139,8 +139,16 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
     const mobile = window.innerWidth < 768;
     const threshold = 60;
 
+    // If drag distance is small, treat as a click — don't snap
+    if (Math.abs(dx) < 10) {
+      dragState.current.wasDrag = false;
+      goTo(startIdx);
+      return;
+    }
+
+    dragState.current.wasDrag = true;
+
     if (mobile) {
-      // Advance by 1 item on mobile
       if (dx < -threshold) {
         goTo(startIdx + 1);
       } else if (dx > threshold) {
@@ -160,13 +168,13 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
     }
   }, [goTo, perPage]);
 
-  return { slideRef, innerRef, page, maxPage, go, measure, onPointerDown, onPointerMove, onPointerUp };
+  return { slideRef, innerRef, page, maxPage, go, measure, onPointerDown, onPointerMove, onPointerUp, dragState };
 }
 
 /* ── Data ────────────────────────────────────────────────────── */
 const catItems = [
-  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "#nmn24000" },
-  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "#" },
+  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "/products/nmn-trans-resveratrol-24000-dual-cellular-support" },
+  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "/products/nmn-tr-24000" },
   { label: "NMN 7500", img: "/assets/7500 NMN.png", available: false, href: "#" },
   { label: "NMN 100000", img: "/assets/NMN Powder.png", available: false, href: "#" },
   { label: "Trans-Resveratrol", img: "/assets/TR.png", available: false, href: "#" },
@@ -189,11 +197,13 @@ type PCard = {
   imgHover?: string;
   available: boolean;
   bestSeller?: boolean;
+  handle?: string;
+  variantId?: string;
 };
 
 const productCards: PCard[] = [
-  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg", available: true, bestSeller: true },
-  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true },
+  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg", available: true, bestSeller: true, handle: "nmn-trans-resveratrol-24000-dual-cellular-support", variantId: "gid://shopify/ProductVariant/45032073297999" },
+  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true, handle: "nmn-tr-24000", variantId: "gid://shopify/ProductVariant/44918841737295" },
   { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", imgHover: "/assets/second-all.jpeg", available: false },
   { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", imgHover: "/assets/second-all.jpeg", available: false },
   { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", imgHover: "/assets/second-all.jpeg", available: false },
@@ -277,6 +287,8 @@ function CompCell({ val, gold }: { val: string; gold?: boolean }) {
 
 /* ══════════════════════════════════════════════════════════════ */
 export default function StorePage() {
+  const router = useRouter();
+  const { addItem } = useCart();
   const [activeTab, setActiveTab] = useState("energy");
   const [activeTimeline, setActiveTimeline] = useState("week1");
   const topCarousel = useCarousel(120, 0, 8);   // 8 icons per page
@@ -315,8 +327,9 @@ export default function StorePage() {
     topGo(0); botGo(0);
   }, [topMeasure, botMeasure, topGo, botGo]);
 
-  function addToCart() {
-    // TODO: integrate with cart state
+  function addToCart(variantId?: string) {
+    if (!variantId) return;
+    addItem(variantId);
   }
 
   return (
@@ -354,7 +367,18 @@ export default function StorePage() {
           <div className="st-shelf__track" onPointerDown={topCarousel.onPointerDown} onPointerMove={topCarousel.onPointerMove} onPointerUp={topCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
             <div className="st-shelf__slide" ref={topCarousel.slideRef}>
               {catItems.map((item, i) => (
-                <a key={i} href={item.href} className={`st-cat-item${item.available ? " available" : " unavailable"}`}>
+                <a
+                  key={i}
+                  href={item.available ? item.href : "#"}
+                  className={`st-cat-item${item.available ? " available" : " unavailable"}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (topCarousel.dragState.current.wasDrag) return;
+                    if (item.available && item.href !== "#") {
+                      router.push(item.href);
+                    }
+                  }}
+                >
                   <div className="st-cat-item__img-wrap">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.label} className="st-cat-item__img" />
@@ -384,13 +408,23 @@ export default function StorePage() {
             <div className="st-shelf__track" onPointerDown={botCarousel.onPointerDown} onPointerMove={botCarousel.onPointerMove} onPointerUp={botCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
               <div className="st-shelf__slide" ref={botCarousel.slideRef}>
                 {productCards.map((card, i) => (
-                  <a key={i} href="#" className={`st-pcard${card.available ? " available" : " unavailable"}`} onClick={(e) => e.preventDefault()}>
+                  <a
+                    key={i}
+                    href={card.handle ? `/products/${card.handle}` : "#"}
+                    className={`st-pcard${card.available ? " available" : " unavailable"}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (botCarousel.dragState.current.wasDrag) return;
+                      if (card.handle) {
+                        router.push(`/products/${card.handle}`);
+                      }
+                    }}
+                  >
                     <div className="st-pcard__inner">
                       <div className="st-pcard__img-wrap">
                         <div className="st-pcard__badges">
                           <span className="st-pcard__badges-left">
                             {card.available && <span className="st-pcard__badge st-badge--available">Available</span>}
-                            
                           </span>
                           {card.bestSeller && <span className="st-pcard__badge st-badge--bestseller">Best Seller</span>}
                         </div>
@@ -408,7 +442,7 @@ export default function StorePage() {
                         <div className="st-pcard__footer">
                           <span className="st-pcard__price" style={!card.available ? { color: "var(--fg-muted, #86868b)" } : undefined}>{card.price}</span>
                           {card.available ? (
-                            <button className="st-pcard__add" onClick={(e) => { e.preventDefault(); addToCart(); }}>Add</button>
+                            <button className="st-pcard__add" onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(card.variantId); }}>Add</button>
                           ) : (
                             <span className="st-pcard__soon-lbl">Coming soon</span>
                           )}
@@ -444,7 +478,7 @@ export default function StorePage() {
         <div className="st-product-intro__right st-reveal st-reveal-delay-1">
           <div className="st-price-main">$120 <span style={{ fontSize: 22, fontWeight: 400, color: "rgba(255,255,255,0.5)" }}>CAD</span></div>
           <div className="st-price-sub">or from $96/mo with Subscribe &amp; Save</div>
-          <button className="st-btn-buy" onClick={addToCart}>Add to Cart</button>
+          <button className="st-btn-buy" onClick={() => addToCart("gid://shopify/ProductVariant/45032073297999")}>Add to Cart</button>
         </div>
       </div>
 

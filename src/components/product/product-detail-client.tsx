@@ -11,7 +11,7 @@ type Props = {
 export function ProductActions({ availableForSale, defaultVariantId }: Props) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [buying, setBuying] = useState(false);
   const { addItem, isPending } = useCart();
 
   function handleAddToCart() {
@@ -23,31 +23,45 @@ export function ProductActions({ availableForSale, defaultVariantId }: Props) {
     setTimeout(() => setAdded(false), 2400);
   }
 
+  async function handleBuyNow() {
+    if (!defaultVariantId || !availableForSale || buying) return;
+    setBuying(true);
+    try {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "buyNow", variantId: defaultVariantId, quantity: qty }),
+      });
+      const data = await res.json();
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      }
+    } catch {
+      setBuying(false);
+    }
+  }
+
   return (
-    <>
-      <div className="pdp-actions">
-        <div className="pdp-stepper">
-          <button onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
-          <span className="pdp-stepper__val">{qty}</span>
-          <button onClick={() => setQty((q) => Math.min(10, q + 1))}>+</button>
-        </div>
-        <button
-          className={`pdp-btn-cart${added ? " done" : ""}`}
-          onClick={handleAddToCart}
-          disabled={!availableForSale || isPending}
-        >
-          {!availableForSale ? "Sold Out" : added ? "Added \u2713" : "Add to Cart"}
-        </button>
-        <button
-          className={`pdp-btn-save${saved ? " on" : ""}`}
-          onClick={() => setSaved((s) => !s)}
-          aria-label="Save"
-        >
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
-            <path d="M10 17S3 12.5 3 7.5A4 4 0 0110 4.8 4 4 0 0117 7.5c0 5-7 9.5-7 9.5z" />
-          </svg>
-        </button>
+    <div className="pdp-actions">
+      <div className="pdp-stepper">
+        <button onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
+        <span className="pdp-stepper__val">{qty}</span>
+        <button onClick={() => setQty((q) => Math.min(10, q + 1))}>+</button>
       </div>
-    </>
+      <button
+        className={`pdp-btn-cart${added ? " done" : ""}`}
+        onClick={handleAddToCart}
+        disabled={!availableForSale || isPending}
+      >
+        {!availableForSale ? "Sold Out" : added ? "Added ✓" : "Add to Cart"}
+      </button>
+      <button
+        className="pdp-btn-buy"
+        onClick={handleBuyNow}
+        disabled={!availableForSale || buying}
+      >
+        {buying ? "Redirecting…" : "Buy Now"}
+      </button>
+    </div>
   );
 }
