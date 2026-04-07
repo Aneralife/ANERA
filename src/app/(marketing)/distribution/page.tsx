@@ -5,66 +5,6 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 /* ── Data ────────────────────────────────────────────────────── */
-type Partner = {
-  flag: string;
-  country: string;
-  name: string;
-  desc: string;
-  emails: string[];
-  website?: string;
-  verified?: boolean;
-};
-
-const regions: { id: string; label: string; emoji: string; partners: Partner[] }[] = [
-  {
-    id: "north-america",
-    label: "North America",
-    emoji: "\ud83c\udf0e",
-    partners: [
-      { flag: "https://flagcdn.com/w40/ca.png", country: "Canada", name: "Anera Life Inc.", desc: "Official headquarters and primary distribution for Canada. Pharmaceutical-grade NMN direct from our Richmond, BC facility.", emails: ["info@aneralife.com"], website: "aneralife.com", verified: true },
-      { flag: "https://flagcdn.com/w40/us.png", country: "United States", name: "Anera USA Distribution", desc: "Official US distribution partner. Serving customers across all 50 states with fast domestic shipping and full product range.", emails: ["usa@aneralife.com"], website: "aneralife.com/usa", verified: true },
-    ],
-  },
-  {
-    id: "latin-america",
-    label: "Mexico / Latin America",
-    emoji: "\ud83c\udf0e",
-    partners: [
-      { flag: "https://flagcdn.com/w40/mx.png", country: "Mexico", name: "Anera M\u00e9xico", desc: "Official distribution partner for Mexico and surrounding Latin American markets. Authorized to distribute all Anera NMN products.", emails: ["mexico@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/br.png", country: "Brazil", name: "Anera Brasil", desc: "Serving the Brazilian longevity market with authentic Anera products. Compliant with ANVISA regulations.", emails: ["brasil@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/br.png", country: "Rest of Latin America", name: "Expanding Soon", desc: "We are actively expanding our distribution network across Latin America. Contact us to inquire about distribution opportunities in your country.", emails: ["info@aneralife.com"] },
-    ],
-  },
-  {
-    id: "europe",
-    label: "Europe",
-    emoji: "\ud83c\udf0d",
-    partners: [
-      { flag: "https://flagcdn.com/w40/gb.png", country: "United Kingdom", name: "Anera UK", desc: "Official UK distribution. Post-Brexit compliant, with fast domestic delivery across England, Scotland, Wales, and Northern Ireland.", emails: ["uk@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/de.png", country: "Germany", name: "Anera Deutschland", desc: "Serving the DACH region (Germany, Austria, Switzerland). EU-compliant distribution with full product certification.", emails: ["de@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/fr.png", country: "France", name: "Anera France", desc: "Official French distribution partner. Serving France and Francophone European markets with authentic Anera products.", emails: ["fr@aneralife.com"], verified: true },
-    ],
-  },
-  {
-    id: "dubai",
-    label: "Dubai / UAE",
-    emoji: "\ud83c\udf0f",
-    partners: [
-      { flag: "https://flagcdn.com/w40/ae.png", country: "United Arab Emirates", name: "Anera Middle East", desc: "Official distribution hub for the UAE, Saudi Arabia, and the broader GCC region. Dubai-based operations with regional reach.", emails: ["uae@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/sa.png", country: "Saudi Arabia", name: "Anera KSA", desc: "Serving the Saudi Arabian market with SFDA-compliant distribution. Authentic Anera products for the Kingdom\u2019s longevity community.", emails: ["ksa@aneralife.com"], verified: true },
-    ],
-  },
-  {
-    id: "asia",
-    label: "Asia",
-    emoji: "\ud83c\udf0f",
-    partners: [
-      { flag: "https://flagcdn.com/w40/sg.png", country: "Singapore", name: "Anera Singapore", desc: "Distribution hub for Southeast Asia. Serving Singapore, Malaysia, Thailand, and surrounding markets with HSA-compliant products.", emails: ["sg@aneralife.com"], verified: true },
-      { flag: "https://flagcdn.com/w40/au.png", country: "Australia", name: "Anera Australia", desc: "Official Australian distribution. TGA-compliant products serving Australia and New Zealand\u2019s growing longevity community.", emails: ["au@aneralife.com"], verified: true },
-    ],
-  },
-];
-
 const benefits = [
   { icon: "\u2705", title: "Authenticity Guaranteed", desc: "100% genuine Anera products, directly from our labs to you. Every batch is traceable and verified through our QR authentication system." },
   { icon: "\ud83d\udd2c", title: "Premium Quality", desc: "Backed by scientific research, GMP-certified, and third-party tested. Our partners maintain strict cold-chain storage and handling protocols." },
@@ -118,7 +58,7 @@ function DistMapSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const [globeRegion, setGlobeRegion] = useState("all");
+  const [globeRegion] = useState("all");
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const worldRef = useRef<any>(null);
@@ -524,7 +464,7 @@ function DistMapSection() {
 
 /* ── Component ───────────────────────────────────────────────── */
 export default function DistributionPage() {
-  const [activeRegion, setActiveRegion] = useState("north-america");
+  const [activeRegion] = useState("north-america");
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
