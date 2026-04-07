@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
+import * as d3 from "d3";
+import * as topojson from "topojson-client";
 
 /* ── Data ────────────────────────────────────────────────────── */
 type Partner = {
@@ -70,403 +72,453 @@ const benefits = [
   { icon: "\ud83d\udcf1", title: "QR Verification", desc: "Every official Anera product has a unique QR code. Simply scan with your phone to instantly confirm authenticity on aneralife.com." },
 ];
 
-/* ── Map Partners ────────────────────────────────────────────── */
-type MapPartner = {
-  id: string; flag: string; country: string; name: string; desc: string;
-  region: string; primary: boolean; mx: number; my: number; contact: string[];
+/* ── Globe Partners ──────────────────────────────────────────── */
+type GlobePartner = {
+  id: number; name: string; country: string; region: string;
+  primary: boolean; lon: number; lat: number;
 };
 
-const MAP_PARTNERS: MapPartner[] = [
-  { id:"canada",    flag:"https://flagcdn.com/w40/ca.png", country:"Canada",              name:"Anera Life Inc.",          desc:"Official headquarters and primary distribution for Canada. Pharmaceutical-grade NMN from our Richmond, BC facility, shipped coast to coast.",                          region:"north-america", primary:true,  mx:14.5, my:28, contact:["info@aneralife.com","aneralife.com"] },
-  { id:"usa",       flag:"https://flagcdn.com/w40/us.png", country:"United States",        name:"Anera USA Distribution",   desc:"Official US distribution partner. Serving all 50 states with fast domestic shipping and the full Anera product range.",                                              region:"north-america", primary:true,  mx:16.5, my:35, contact:["usa@aneralife.com","aneralife.com/usa"] },
-  { id:"mexico",    flag:"https://flagcdn.com/w40/mx.png", country:"Mexico",               name:"Anera México",             desc:"Official distribution partner for Mexico and surrounding Central American markets.",                                                                              region:"latin-america", primary:false, mx:15.2, my:43, contact:["mexico@aneralife.com"] },
-  { id:"brazil",    flag:"https://flagcdn.com/w40/br.png", country:"Brazil",               name:"Anera Brasil",             desc:"Serving the Brazilian longevity market with authentic Anera products. ANVISA-compliant distribution.",                                                            region:"latin-america", primary:false, mx:24.5, my:64, contact:["brasil@aneralife.com"] },
-  { id:"uk",        flag:"https://flagcdn.com/w40/gb.png", country:"United Kingdom",       name:"Anera UK",                 desc:"Official UK distribution. Fast domestic delivery across England, Scotland, Wales, and Northern Ireland.",                                                         region:"europe",        primary:false, mx:44.2, my:19, contact:["uk@aneralife.com"] },
-  { id:"germany",   flag:"https://flagcdn.com/w40/de.png", country:"Germany",              name:"Anera Deutschland",        desc:"Serving the DACH region — Germany, Austria, and Switzerland — with EU-compliant distribution and full product certification.",                                    region:"europe",        primary:false, mx:47.8, my:20, contact:["de@aneralife.com"] },
-  { id:"france",    flag:"https://flagcdn.com/w40/fr.png", country:"France",               name:"Anera France",             desc:"Official French distribution partner. Serving France and Francophone European markets with authentic Anera products.",                                            region:"europe",        primary:false, mx:45.5, my:23, contact:["fr@aneralife.com"] },
-  { id:"uae",       flag:"https://flagcdn.com/w40/ae.png", country:"United Arab Emirates", name:"Anera Middle East",        desc:"Official distribution hub for the UAE and the broader GCC region. Dubai-based operations with regional reach across the Gulf.",                                   region:"middle-east",   primary:true,  mx:58.5, my:37, contact:["uae@aneralife.com"] },
-  { id:"ksa",       flag:"https://flagcdn.com/w40/sa.png", country:"Saudi Arabia",         name:"Anera KSA",                desc:"Serving the Saudi Arabian market with SFDA-compliant distribution. Authentic Anera products for the Kingdom\u2019s longevity community.",                        region:"middle-east",   primary:false, mx:57.0, my:42, contact:["ksa@aneralife.com"] },
-  { id:"singapore", flag:"https://flagcdn.com/w40/sg.png", country:"Singapore",            name:"Anera Singapore",          desc:"Distribution hub for Southeast Asia. Serving Singapore, Malaysia, Thailand, and surrounding markets with HSA-compliant products.",                              region:"asia",          primary:false, mx:74.5, my:48, contact:["sg@aneralife.com"] },
-  { id:"australia", flag:"https://flagcdn.com/w40/au.png", country:"Australia",            name:"Anera Australia",          desc:"Official Australian distribution. TGA-compliant products serving Australia and New Zealand\u2019s growing longevity community.",                                   region:"asia",          primary:false, mx:81.5, my:73, contact:["au@aneralife.com"] },
+const GLOBE_PARTNERS: GlobePartner[] = [
+  { id:1,  name:"Anera USA",       country:"United States",        region:"north-america", primary:true,  lon:-98,   lat:39   },
+  { id:2,  name:"Anera Canada",    country:"Canada",               region:"north-america", primary:false, lon:-96,   lat:56   },
+  { id:3,  name:"Anera México",    country:"Mexico",               region:"latin-america", primary:false, lon:-102,  lat:23   },
+  { id:4,  name:"Anera Brasil",    country:"Brazil",               region:"latin-america", primary:true,  lon:-51,   lat:-14  },
+  { id:5,  name:"Anera UK",        country:"United Kingdom",       region:"europe",        primary:false, lon:-2,    lat:54   },
+  { id:6,  name:"Anera GmbH",      country:"Germany",              region:"europe",        primary:true,  lon:10,    lat:51   },
+  { id:7,  name:"Anera UAE",       country:"United Arab Emirates", region:"middle-east",   primary:true,  lon:54,    lat:24   },
+  { id:8,  name:"Anera KSA",       country:"Saudi Arabia",         region:"middle-east",   primary:false, lon:45,    lat:24   },
+  { id:9,  name:"Anera India",     country:"India",                region:"asia",          primary:false, lon:79,    lat:22   },
+  { id:10, name:"Anera Singapore", country:"Singapore",            region:"asia",          primary:true,  lon:103.8, lat:1.3  },
+  { id:11, name:"Anera Australia", country:"Australia",            region:"asia",          primary:false, lon:134,   lat:-25  },
 ];
 
-const SHAPES: Record<string, number[][]> = {
-  "north-america":[[.065,.17],[.085,.12],[.105,.09],[.135,.08],[.165,.08],[.19,.09],[.21,.11],[.225,.14],[.23,.17],[.225,.20],[.215,.23],[.205,.26],[.195,.29],[.185,.32],[.175,.35],[.165,.38],[.16,.41],[.155,.43],[.145,.41],[.135,.38],[.125,.34],[.115,.30],[.105,.26],[.09,.22],[.075,.19]],
-  "greenland":[[.185,.06],[.205,.04],[.23,.045],[.245,.07],[.24,.10],[.225,.115],[.21,.11],[.195,.09],[.185,.07]],
-  "alaska":[[.045,.14],[.06,.12],[.07,.14],[.065,.17],[.05,.17]],
-  "latin-america":[[.155,.43],[.165,.41],[.18,.41],[.195,.43],[.205,.46],[.215,.50],[.22,.54],[.225,.58],[.225,.63],[.22,.68],[.21,.72],[.20,.76],[.19,.79],[.18,.80],[.17,.79],[.16,.76],[.155,.72],[.15,.67],[.148,.62],[.148,.57],[.15,.52],[.152,.47]],
-  "europe":[[.42,.13],[.435,.10],[.455,.08],[.48,.08],[.505,.09],[.52,.12],[.525,.15],[.52,.18],[.51,.21],[.50,.23],[.49,.24],[.475,.24],[.46,.23],[.45,.21],[.44,.18],[.43,.15]],
-  "scandinavia":[[.455,.07],[.47,.05],[.49,.05],[.505,.065],[.51,.09],[.505,.12],[.49,.13],[.47,.12],[.46,.09]],
-  "uk-shape":[[.42,.135],[.435,.10],[.445,.115],[.44,.155],[.43,.165]],
-  "iberia":[[.43,.21],[.447,.19],[.458,.21],[.452,.25],[.44,.26],[.43,.24]],
-  "italy":[[.478,.22],[.488,.21],[.493,.24],[.488,.28],[.48,.29],[.474,.26]],
-  "africa":[[.44,.27],[.46,.25],[.49,.25],[.52,.26],[.535,.29],[.545,.33],[.54,.38],[.53,.43],[.515,.48],[.50,.52],[.485,.55],[.47,.57],[.455,.56],[.445,.52],[.435,.47],[.428,.42],[.425,.37],[.428,.32],[.432,.29]],
-  "madagascar":[[.535,.47],[.545,.45],[.55,.48],[.545,.52],[.535,.53],[.53,.50]],
-  "middle-east":[[.52,.23],[.545,.21],[.57,.22],[.585,.24],[.59,.27],[.585,.31],[.575,.33],[.56,.34],[.545,.33],[.53,.31],[.52,.27]],
-  "arabia":[[.545,.33],[.565,.31],[.585,.33],[.595,.37],[.59,.42],[.575,.45],[.56,.46],[.548,.44],[.542,.39]],
-  "russia":[[.51,.10],[.545,.08],[.60,.065],[.66,.065],[.72,.07],[.78,.08],[.825,.10],[.845,.12],[.845,.16],[.83,.19],[.81,.21],[.785,.22],[.755,.23],[.725,.23],[.695,.23],[.665,.22],[.635,.21],[.605,.20],[.575,.20],[.55,.21],[.525,.19],[.515,.16],[.51,.13]],
-  "india":[[.60,.25],[.625,.24],[.642,.26],[.648,.29],[.642,.33],[.63,.36],[.615,.37],[.604,.35],[.598,.31],[.597,.27]],
-  "se-asia":[[.69,.25],[.715,.24],[.73,.255],[.735,.29],[.725,.32],[.71,.33],[.695,.32],[.686,.29]],
-  "china":[[.70,.17],[.73,.16],[.77,.165],[.805,.175],[.825,.19],[.825,.22],[.81,.245],[.785,.255],[.755,.255],[.725,.25],[.705,.245],[.695,.23],[.695,.20]],
-  "japan":[[.835,.175],[.848,.155],[.858,.175],[.852,.205],[.84,.215],[.832,.195]],
-  "korea":[[.808,.20],[.822,.19],[.828,.21],[.822,.235],[.81,.235],[.806,.22]],
-  "indonesia":[[.715,.40],[.745,.385],[.775,.385],[.80,.39],[.80,.42],[.775,.425],[.745,.425],[.715,.415]],
-  "indonesia2":[[.81,.39],[.84,.385],[.86,.39],[.86,.415],[.84,.42],[.81,.415]],
-  "australia-shape":[[.745,.565],[.775,.545],[.815,.545],[.848,.56],[.865,.595],[.87,.645],[.858,.695],[.838,.735],[.808,.755],[.778,.755],[.748,.73],[.732,.69],[.728,.64]],
-  "new-zealand":[[.878,.685],[.892,.665],[.902,.685],[.896,.725],[.882,.735],[.876,.71]],
+const REGION_CENTRES: Record<string, { lon: number; lat: number }> = {
+  "north-america": { lon: -100, lat: 40 },
+  "latin-america": { lon: -60, lat: -15 },
+  "europe":        { lon: 15, lat: 50 },
+  "middle-east":   { lon: 48, lat: 26 },
+  "asia":          { lon: 100, lat: 20 },
 };
 
-const REGION_SHAPES: Record<string, string[]> = {
-  "north-america":["north-america","greenland","alaska"],
-  "latin-america":["latin-america"],
-  "europe":["europe","scandinavia","uk-shape","iberia","italy"],
-  "middle-east":["middle-east","arabia"],
-  "africa":["africa","madagascar"],
-  "asia":["russia","india","se-asia","china","japan","korea","indonesia","indonesia2","australia-shape","new-zealand"],
-};
+const DESERT_IDS = new Set([12,818,504,434,729,706,686,710,566,24,516,270,788]);
+const ARCTIC_IDS = new Set([304,352,578,643]);
+const HIGH_IDS   = new Set([524,356,586,364,4,51,398,417,762,795]);
+const TROPICAL_IDS = new Set([76,484,320,340,332,192,214,84,858,600,604,218,170,616]);
+
+function landColor(id: string) {
+  const n = parseInt(id);
+  if (ARCTIC_IDS.has(n))   return "#e8e8f0";
+  if (DESERT_IDS.has(n))   return "#c8a96e";
+  if (HIGH_IDS.has(n))     return "#8b7355";
+  if (TROPICAL_IDS.has(n)) return "#3d8b3d";
+  return "#2d6a2d";
+}
 
 function DistMapSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mapRegion, setMapRegion] = useState("all");
-  const [selectedPartner, setSelectedPartner] = useState<MapPartner | null>(null);
-  const hoveredRef = useRef<MapPartner | null>(null);
-  const tickRef = useRef(0);
-  const animRef = useRef(0);
-  const sizeRef = useRef({ W: 0, H: 0 });
-
-  const filteredPartners = mapRegion === "all"
-    ? MAP_PARTNERS
-    : MAP_PARTNERS.filter(p => p.region === mapRegion);
-
-  const showDetail = useCallback((p: MapPartner) => {
-    hoveredRef.current = p;
-    setSelectedPartner(p);
-  }, []);
-
-  const showList = useCallback(() => {
-    hoveredRef.current = null;
-    setSelectedPartner(null);
-  }, []);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [globeRegion, setGlobeRegion] = useState("all");
+  const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const worldRef = useRef<any>(null);
+  const projRef = useRef<d3.GeoProjection | null>(null);
+  const autoRotRef = useRef(true);
+  const rotTimerRef = useRef<d3.Timer | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const svg = svgRef.current;
+    if (!canvas || !svg) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    function isDark() {
-      return document.documentElement.getAttribute("data-theme") === "dark";
+    const SIZE = 600;
+    const RADIUS = 285;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = SIZE * DPR;
+    canvas.height = SIZE * DPR;
+    canvas.style.width = SIZE + "px";
+    canvas.style.height = SIZE + "px";
+    ctx.scale(DPR, DPR);
+
+    const cx = SIZE / 2, cy = SIZE / 2;
+
+    const projection = d3.geoOrthographic()
+      .scale(RADIUS)
+      .translate([cx, cy])
+      .clipAngle(90)
+      .rotate([0, -20]);
+    projRef.current = projection;
+
+    const pathGen = d3.geoPath().projection(projection).context(ctx);
+
+    function drawGlobe() {
+      const world = worldRef.current;
+      if (!world || !ctx) return;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const countries = topojson.feature(world, world.objects.countries) as any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const borders = topojson.mesh(world, world.objects.countries, (a: any, b: any) => a !== b);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const land = topojson.feature(world, world.objects.land) as any;
+
+      ctx.clearRect(0, 0, SIZE, SIZE);
+
+      /* Shadow behind sphere */
+      ctx.save();
+      const shadow = ctx.createRadialGradient(cx + 30, cy + 30, RADIUS * 0.6, cx, cy, RADIUS * 1.35);
+      shadow.addColorStop(0, "rgba(0,0,0,0)");
+      shadow.addColorStop(1, "rgba(0,0,0,0.65)");
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS * 1.35, 0, Math.PI * 2);
+      ctx.fillStyle = shadow; ctx.fill();
+      ctx.restore();
+
+      /* Clip to sphere */
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2); ctx.clip();
+
+      /* Ocean gradient */
+      const oceanGrad = ctx.createRadialGradient(cx - 80, cy - 80, RADIUS * 0.1, cx, cy, RADIUS);
+      oceanGrad.addColorStop(0, "#1a5a9e");
+      oceanGrad.addColorStop(0.3, "#0e3d74");
+      oceanGrad.addColorStop(0.7, "#082852");
+      oceanGrad.addColorStop(1, "#030f22");
+      ctx.fillStyle = oceanGrad;
+      ctx.fillRect(0, 0, SIZE, SIZE);
+
+      /* Graticule */
+      const grat = d3.geoGraticule().step([15, 15])();
+      ctx.beginPath(); pathGen(grat);
+      ctx.strokeStyle = "rgba(255,255,255,0.07)";
+      ctx.lineWidth = 0.5; ctx.stroke();
+
+      /* Country fills */
+      countries.features.forEach((f: GeoJSON.Feature & { id?: string }) => {
+        ctx.beginPath(); pathGen(f);
+        ctx.fillStyle = landColor(f.id || "0");
+        ctx.fill();
+      });
+
+      /* Land edge shading */
+      ctx.beginPath(); pathGen(land as unknown as d3.GeoPermissibleObjects);
+      ctx.strokeStyle = "rgba(0,0,0,0.35)";
+      ctx.lineWidth = 0.6; ctx.stroke();
+
+      /* Country borders */
+      ctx.beginPath(); pathGen(borders);
+      ctx.strokeStyle = "rgba(0,0,0,0.45)";
+      ctx.lineWidth = 0.4; ctx.stroke();
+
+      ctx.restore();
+
+      /* Atmosphere rim */
+      const atmo = ctx.createRadialGradient(cx, cy, RADIUS * 0.92, cx, cy, RADIUS * 1.08);
+      atmo.addColorStop(0, "rgba(100,180,255,0)");
+      atmo.addColorStop(0.5, "rgba(80,150,255,0.09)");
+      atmo.addColorStop(1, "rgba(60,120,220,0)");
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS * 1.08, 0, Math.PI * 2);
+      ctx.fillStyle = atmo; ctx.fill();
+
+      /* Sphere border */
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(120,180,255,0.2)";
+      ctx.lineWidth = 1; ctx.stroke();
+
+      /* Specular highlight */
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2); ctx.clip();
+      const spec = ctx.createRadialGradient(cx - 110, cy - 100, 0, cx - 60, cy - 60, RADIUS * 0.7);
+      spec.addColorStop(0, "rgba(255,255,255,0.18)");
+      spec.addColorStop(0.3, "rgba(255,255,255,0.06)");
+      spec.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = spec; ctx.fillRect(0, 0, SIZE, SIZE);
+      ctx.restore();
+
+      /* Dark limb */
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2); ctx.clip();
+      const limb = ctx.createRadialGradient(cx - 60, cy - 60, RADIUS * 0.55, cx, cy, RADIUS);
+      limb.addColorStop(0, "rgba(0,0,0,0)");
+      limb.addColorStop(0.7, "rgba(0,0,0,0)");
+      limb.addColorStop(1, "rgba(0,0,0,0.55)");
+      ctx.fillStyle = limb; ctx.fillRect(0, 0, SIZE, SIZE);
+      ctx.restore();
+
+      /* Update SVG pin positions */
+      updatePins();
     }
 
-    /* theme-aware color palettes */
-    function colors() {
-      const dark = isDark();
-      return {
-        bg:           dark ? "#0a0a0f"  : "#f5f5f7",
-        gridDot:      dark ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.055)",
-        shapeActive:  dark ? "#1c1c26"  : "#dddde0",
-        shapeInactive:dark ? "#111118"  : "#e8e8eb",
-        strokeActive: dark ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.08)",
-        strokeInactive:dark? "rgba(255,255,255,0.018)" : "rgba(0,0,0,0.03)",
-        arc:    (a: number) => dark ? `rgba(255,255,255,${a})` : `rgba(0,0,0,${a})`,
-        pulseStroke:  (a: number) => dark ? `rgba(255,255,255,${a})` : `rgba(0,0,0,${a})`,
-        haloPrimLit:  dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",
-        haloSecLit:   dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)",
-        haloDim:      dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
-        dotPrimLit:   dark ? "#ffffff"                 : "#1d1d1f",
-        dotSecLit:    dark ? "rgba(255,255,255,0.52)"  : "rgba(0,0,0,0.45)",
-        dotDim:       dark ? "rgba(255,255,255,0.18)"  : "rgba(0,0,0,0.15)",
-        labelPrim:    dark ? "rgba(255,255,255,0.80)"  : "rgba(0,0,0,0.70)",
-        labelSec:     dark ? "rgba(255,255,255,0.42)"  : "rgba(0,0,0,0.35)",
-      };
-    }
-
-    function resize() {
-      const wrap = canvas!.parentElement!;
-      const r = wrap.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const W = r.width;
-      const H = r.height || 480;
-      canvas!.width = Math.round(W * dpr);
-      canvas!.height = Math.round(H * dpr);
-      canvas!.style.width = W + "px";
-      canvas!.style.height = H + "px";
-      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      sizeRef.current = { W, H };
-    }
-
-    function px(nx: number) { return nx * sizeRef.current.W; }
-    function py(ny: number) { return ny * sizeRef.current.H; }
-
-    function drawShape(pts: number[][], fill: string, stroke: string, sw: number) {
-      if (!pts || pts.length < 3) return;
-      ctx!.beginPath();
-      ctx!.moveTo(px(pts[0][0]), py(pts[0][1]));
-      for (let i = 1; i < pts.length; i++) ctx!.lineTo(px(pts[i][0]), py(pts[i][1]));
-      ctx!.closePath();
-      if (fill) { ctx!.fillStyle = fill; ctx!.fill(); }
-      if (stroke) { ctx!.strokeStyle = stroke; ctx!.lineWidth = sw || 0.6; ctx!.stroke(); }
-    }
-
-    function drawGrid(c: ReturnType<typeof colors>) {
-      const { W, H } = sizeRef.current;
-      const sp = Math.max(7, W / 95);
-      const r = sp * 0.15;
-      ctx!.fillStyle = c.gridDot;
-      for (let x = 0; x < W; x += sp)
-        for (let y = 0; y < H; y += sp) {
-          ctx!.beginPath(); ctx!.arc(x, y, r, 0, Math.PI * 2); ctx!.fill();
+    function updatePins() {
+      const svgEl = d3.select(svg);
+      svgEl.selectAll<SVGGElement, GlobePartner>(".pin-g").each(function (p) {
+        const g = d3.select(this);
+        const rot = projection.rotate();
+        const visible = d3.geoDistance([p.lon, p.lat], [-rot[0], -rot[1]]) < Math.PI / 2;
+        g.style("display", visible ? "" : "none");
+        if (visible) {
+          const pos = projection([p.lon, p.lat]);
+          if (pos) {
+            g.selectAll("circle").attr("cx", pos[0]).attr("cy", pos[1]);
+          }
         }
+      });
     }
 
-    function arcBetween(p1: MapPartner, p2: MapPartner) {
-      const x1 = px(p1.mx / 100), y1 = py(p1.my / 100);
-      const x2 = px(p2.mx / 100), y2 = py(p2.my / 100);
-      const d = Math.hypot(x2 - x1, y2 - y1);
-      const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2 - d * 0.30;
-      return { x1, y1, x2, y2, cx, cy };
-    }
+    function renderPins() {
+      const svgEl = d3.select(svg);
+      svgEl.selectAll("*").remove();
 
-    function drawArc(a: { x1: number; y1: number; x2: number; y2: number; cx: number; cy: number }, alpha: number, c: ReturnType<typeof colors>) {
-      ctx!.beginPath();
-      ctx!.moveTo(a.x1, a.y1);
-      ctx!.quadraticCurveTo(a.cx, a.cy, a.x2, a.y2);
-      ctx!.strokeStyle = c.arc(alpha);
-      ctx!.lineWidth = 0.7;
-      ctx!.setLineDash([2, 7]);
-      ctx!.stroke();
-      ctx!.setLineDash([]);
-    }
+      const defs = svgEl.append("defs");
+      const gf = defs.append("filter").attr("id", "pglow")
+        .attr("x", "-80%").attr("y", "-80%").attr("width", "260%").attr("height", "260%");
+      gf.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "b");
+      const gfm = gf.append("feMerge");
+      gfm.append("feMergeNode").attr("in", "b");
+      gfm.append("feMergeNode").attr("in", "SourceGraphic");
 
-    function evalQuad(a: { x1: number; y1: number; x2: number; y2: number; cx: number; cy: number }, t: number) {
-      const mt = 1 - t;
-      return { x: mt * mt * a.x1 + 2 * mt * t * a.cx + t * t * a.x2, y: mt * mt * a.y1 + 2 * mt * t * a.cy + t * t * a.y2 };
-    }
+      const fp = globeRegion === "all"
+        ? GLOBE_PARTNERS
+        : GLOBE_PARTNERS.filter(p => p.region === globeRegion);
 
-    function drawTraveller(a: { x1: number; y1: number; x2: number; y2: number; cx: number; cy: number }, t: number, alpha: number, c: ReturnType<typeof colors>) {
-      const { x, y } = evalQuad(a, t % 1);
-      ctx!.beginPath(); ctx!.arc(x, y, 2.2, 0, Math.PI * 2);
-      ctx!.fillStyle = c.arc(alpha); ctx!.fill();
-      const { x: tx, y: ty } = evalQuad(a, Math.max(0, (t % 1) - .04));
-      ctx!.beginPath(); ctx!.arc(tx, ty, 1.2, 0, Math.PI * 2);
-      ctx!.fillStyle = c.arc(alpha * 0.4); ctx!.fill();
-    }
+      fp.forEach((p, i) => {
+        const col = p.primary ? "#34c759" : "#c9a96e";
+        const haloCol = p.primary ? "rgba(52,199,89,.3)" : "rgba(201,169,110,.3)";
 
-    function drawPin(p: MapPartner, lit: boolean, c: ReturnType<typeof colors>) {
-      const x = px(p.mx / 100), y = py(p.my / 100);
-      const hov = hoveredRef.current && hoveredRef.current.id === p.id;
-      const tick = tickRef.current;
-      if (p.primary && lit) {
-        const pulse = (Math.sin(tick * 0.04 + p.mx * 0.3) * 0.5 + 0.5);
-        ctx!.beginPath(); ctx!.arc(x, y, 9 + pulse * 13, 0, Math.PI * 2);
-        ctx!.strokeStyle = c.pulseStroke(0.14 * (1 - pulse * 0.8));
-        ctx!.lineWidth = 1; ctx!.stroke();
-      }
-      const hr = hov ? 11 : (p.primary ? 8 : 6);
-      ctx!.beginPath(); ctx!.arc(x, y, hr, 0, Math.PI * 2);
-      ctx!.fillStyle = lit ? (p.primary ? c.haloPrimLit : c.haloSecLit) : c.haloDim;
-      ctx!.fill();
-      const dr = hov ? 5.5 : (p.primary ? 4.5 : 3.5);
-      ctx!.beginPath(); ctx!.arc(x, y, dr, 0, Math.PI * 2);
-      ctx!.fillStyle = lit ? (p.primary ? c.dotPrimLit : c.dotSecLit) : c.dotDim;
-      ctx!.fill();
-      if (lit) {
-        const { W } = sizeRef.current;
-        const showLabel = W > 600 ? true : (hov ? true : false);
-        if (showLabel) {
-          const fs = Math.max(8, W * 0.008);
-          ctx!.font = `600 ${fs}px 'Inter',sans-serif`;
-          ctx!.fillStyle = hov ? c.labelPrim : (p.primary ? c.labelPrim : c.labelSec);
-          ctx!.textAlign = "center";
-          ctx!.fillText(p.country.split(" ")[0].toUpperCase(), x, y - hr - 4);
-        }
-      }
-    }
+        const g = svgEl.append("g").attr("class", "pin-g").datum(p).style("cursor", "pointer");
 
-    function render() {
-      const { W, H } = sizeRef.current;
-      const c = colors();
-      ctx!.clearRect(0, 0, W, H);
-      ctx!.fillStyle = c.bg;
-      ctx!.fillRect(0, 0, W, H);
-      drawGrid(c);
+        g.append("circle").attr("class", "globe-pin-pulse").attr("r", 5)
+          .attr("fill", col).style("animation-delay", `${i * 0.3}s`);
 
-      const activeShapes = mapRegion === "all" ? null : new Set(REGION_SHAPES[mapRegion] || []);
-      Object.entries(SHAPES).forEach(([name, pts]) => {
-        const isActive = !activeShapes || activeShapes.has(name);
-        drawShape(pts, isActive ? c.shapeActive : c.shapeInactive, isActive ? c.strokeActive : c.strokeInactive, 0.7);
+        const halo = g.append("circle").attr("r", 10).attr("fill", haloCol)
+          .attr("filter", "url(#pglow)");
+
+        g.append("circle").attr("r", 6).attr("fill", "none")
+          .attr("stroke", col).attr("stroke-width", "0.8").attr("opacity", "0.5");
+
+        g.append("circle").attr("r", 4).attr("fill", col)
+          .attr("stroke", "#030a14").attr("stroke-width", "1.2");
+
+        const tt = tooltipRef.current;
+        g.on("mouseenter", function () {
+          halo.attr("r", 16);
+          if (tt) {
+            tt.querySelector(".globe-tt-name")!.textContent = p.name;
+            tt.querySelector(".globe-tt-ctry")!.textContent = p.country;
+            tt.style.opacity = "1";
+          }
+        })
+        .on("mousemove", function (ev) {
+          if (tt) {
+            const me = ev as unknown as MouseEvent;
+            let x = me.clientX + 14;
+            const y = me.clientY - 46;
+            if (x + 210 > window.innerWidth) x = me.clientX - 220;
+            tt.style.left = x + "px"; tt.style.top = y + "px";
+          }
+        })
+        .on("mouseleave", function () {
+          halo.attr("r", 10);
+          if (tt) tt.style.opacity = "0";
+        })
+        .on("click", () => flyTo(p));
       });
 
-      const prims = MAP_PARTNERS.filter(p => p.primary);
-      prims.forEach((p1, i) => {
-        prims.slice(i + 1).forEach((p2, j) => {
-          const bothLit = mapRegion === "all" || p1.region === mapRegion || p2.region === mapRegion;
-          if (!bothLit) return;
-          const a = arcBetween(p1, p2);
-          drawArc(a, 0.07, c);
-          const offset = (i * 0.33 + j * 0.17);
-          drawTraveller(a, tickRef.current * 0.004 + offset, 0.75, c);
-          drawTraveller(a, tickRef.current * 0.004 + offset + 0.5, 0.38, c);
-        });
-      });
-
-      MAP_PARTNERS.forEach(p => {
-        const lit = mapRegion === "all" || p.region === mapRegion;
-        drawPin(p, lit, c);
-      });
-
-      tickRef.current++;
-      animRef.current = requestAnimationFrame(render);
+      updatePins();
     }
 
-    resize();
-    render();
-
-    const onResize = () => { cancelAnimationFrame(animRef.current); resize(); render(); };
-    window.addEventListener("resize", onResize);
-
-    /* canvas interaction */
-    function pinAt(ex: number, ey: number) {
-      const r = canvas!.getBoundingClientRect();
-      const mx = ex - r.left, my = ey - r.top;
-      return MAP_PARTNERS.find(p => {
-        const px2 = px(p.mx / 100), py2 = py(p.my / 100);
-        return Math.hypot(mx - px2, my - py2) < 16;
-      }) || null;
+    function flyTo(p: { lon: number; lat: number }) {
+      autoRotRef.current = false;
+      const from = projection.rotate();
+      const to: [number, number, number] = [-p.lon, -p.lat + 12, from[2] || 0];
+      const interp = d3.interpolate(from, to);
+      d3.transition().duration(950).ease(d3.easeCubicInOut)
+        .tween("r", () => (t: number) => { projection.rotate(interp(t)); drawGlobe(); })
+        .on("end", () => { setTimeout(() => { autoRotRef.current = true; }, 4000); });
     }
 
-    const onMouseMove = (e: MouseEvent) => {
-      const p = pinAt(e.clientX, e.clientY);
-      canvas!.style.cursor = p ? "pointer" : "default";
-    };
-    const onClick = (e: MouseEvent) => {
-      const p = pinAt(e.clientX, e.clientY);
-      if (p) { hoveredRef.current = p; setSelectedPartner(p); }
-    };
-    const onTouchEnd = (e: TouchEvent) => {
-      e.preventDefault();
-      const t = e.changedTouches[0];
-      const p = pinAt(t.clientX, t.clientY);
-      if (p) { hoveredRef.current = p; setSelectedPartner(p); }
-    };
+    /* Start rotation */
+    if (rotTimerRef.current) rotTimerRef.current.stop();
+    rotTimerRef.current = d3.timer(() => {
+      if (!autoRotRef.current) return;
+      const r = projection.rotate();
+      projection.rotate([r[0] + 0.15, r[1]]);
+      drawGlobe();
+    });
 
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("click", onClick);
-    canvas.addEventListener("touchend", onTouchEnd, { passive: false });
+    /* Drag */
+    let startRot: [number, number, number] = [0, 0, 0];
+    let startPos: [number, number] = [0, 0];
+    let resumeTimeout: ReturnType<typeof setTimeout>;
+    const drag = d3.drag<HTMLCanvasElement, unknown>()
+      .on("start", (e) => {
+        autoRotRef.current = false;
+        startRot = projection.rotate() as [number, number, number];
+        startPos = [e.x, e.y];
+      })
+      .on("drag", (e) => {
+        const dx = e.x - startPos[0];
+        const dy = e.y - startPos[1];
+        projection.rotate([startRot[0] + dx * 0.28, startRot[1] - dy * 0.28, startRot[2]]);
+        drawGlobe();
+      })
+      .on("end", () => {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => { autoRotRef.current = true; }, 3000);
+      });
+    d3.select(canvas).call(drag);
+
+    /* Load world data */
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+      .then(r => r.json())
+      .then(world => {
+        worldRef.current = world;
+        setLoading(false);
+        renderPins();
+        drawGlobe();
+      })
+      .catch(err => {
+        console.error("Globe data load failed:", err);
+        setLoading(false);
+      });
 
     return () => {
-      cancelAnimationFrame(animRef.current);
-      window.removeEventListener("resize", onResize);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("click", onClick);
-      canvas.removeEventListener("touchend", onTouchEnd);
+      if (rotTimerRef.current) rotTimerRef.current.stop();
+      clearTimeout(resumeTimeout);
     };
-  }, [mapRegion]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* Re-render pins when region changes */
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || !worldRef.current || !projRef.current) return;
+
+    const svgEl = d3.select(svg);
+    svgEl.selectAll("*").remove();
+
+    const defs = svgEl.append("defs");
+    const gf = defs.append("filter").attr("id", "pglow")
+      .attr("x", "-80%").attr("y", "-80%").attr("width", "260%").attr("height", "260%");
+    gf.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "b");
+    const gfm = gf.append("feMerge");
+    gfm.append("feMergeNode").attr("in", "b");
+    gfm.append("feMergeNode").attr("in", "SourceGraphic");
+
+    const fp = globeRegion === "all"
+      ? GLOBE_PARTNERS
+      : GLOBE_PARTNERS.filter(p => p.region === globeRegion);
+
+    const projection = projRef.current;
+
+    fp.forEach((p, i) => {
+      const col = p.primary ? "#34c759" : "#c9a96e";
+      const haloCol = p.primary ? "rgba(52,199,89,.3)" : "rgba(201,169,110,.3)";
+
+      const g = svgEl.append("g").attr("class", "pin-g").datum(p).style("cursor", "pointer");
+
+      g.append("circle").attr("class", "globe-pin-pulse").attr("r", 5)
+        .attr("fill", col).style("animation-delay", `${i * 0.3}s`);
+
+      const halo = g.append("circle").attr("r", 10).attr("fill", haloCol)
+        .attr("filter", "url(#pglow)");
+
+      g.append("circle").attr("r", 6).attr("fill", "none")
+        .attr("stroke", col).attr("stroke-width", "0.8").attr("opacity", "0.5");
+
+      g.append("circle").attr("r", 4).attr("fill", col)
+        .attr("stroke", "#030a14").attr("stroke-width", "1.2");
+
+      const tt = tooltipRef.current;
+      g.on("mouseenter", function () {
+        halo.attr("r", 16);
+        if (tt) {
+          tt.querySelector(".globe-tt-name")!.textContent = p.name;
+          tt.querySelector(".globe-tt-ctry")!.textContent = p.country;
+          tt.style.opacity = "1";
+        }
+      })
+      .on("mousemove", function (ev) {
+        if (tt) {
+          const me = ev as unknown as MouseEvent;
+          let x = me.clientX + 14;
+          const y = me.clientY - 46;
+          if (x + 210 > window.innerWidth) x = me.clientX - 220;
+          tt.style.left = x + "px"; tt.style.top = y + "px";
+        }
+      })
+      .on("mouseleave", function () {
+        halo.attr("r", 10);
+        if (tt) tt.style.opacity = "0";
+      })
+      .on("click", () => {
+        autoRotRef.current = false;
+        const from = projection.rotate();
+        const to: [number, number, number] = [-p.lon, -p.lat + 12, from[2] || 0];
+        const interp = d3.interpolate(from, to);
+        d3.transition().duration(950).ease(d3.easeCubicInOut)
+          .tween("r", () => (t: number) => { projection.rotate(interp(t)); })
+          .on("end", () => { setTimeout(() => { autoRotRef.current = true; }, 4000); });
+      });
+    });
+
+    /* Fly to region centre */
+    if (globeRegion !== "all" && REGION_CENTRES[globeRegion]) {
+      const c = REGION_CENTRES[globeRegion];
+      autoRotRef.current = false;
+      const from = projection.rotate();
+      const to: [number, number, number] = [-c.lon, -c.lat + 12, from[2] || 0];
+      const interp = d3.interpolate(from, to);
+      d3.transition().duration(950).ease(d3.easeCubicInOut)
+        .tween("r", () => (t: number) => { projection.rotate(interp(t)); })
+        .on("end", () => { setTimeout(() => { autoRotRef.current = true; }, 4000); });
+    }
+  }, [globeRegion]);
 
   return (
-    <section className="dist-map-section" id="dist-map-section">
-      <div className="dist-map-inner">
-        {/* LEFT: Map */}
-        <div className="dist-map-canvas-col">
-          <p className="dist-map-eyebrow">Global Reach &mdash; Verified Partners</p>
-          <div className="dist-map-canvas-wrap">
-            <canvas ref={canvasRef} />
-          </div>
-          <div className="dist-map-tabs">
-            {[
-              { id: "all", label: "All Regions" },
-              { id: "north-america", label: "North America" },
-              { id: "latin-america", label: "Latin America" },
-              { id: "europe", label: "Europe" },
-              { id: "middle-east", label: "Middle East" },
-              { id: "asia", label: "Asia Pacific" },
-            ].map(r => (
-              <button
-                key={r.id}
-                className={`dist-map-tab${mapRegion === r.id ? " active" : ""}`}
-                onClick={() => { setMapRegion(r.id); showList(); }}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT: Panel */}
-        <div className="dist-map-panel">
-          <h2 className="dist-panel-title">Official Verified<br />Anera Partners</h2>
-          <p className="dist-panel-sub">Hover a pin on the map or select a region to explore our global distribution network.</p>
-          <div className="dist-panel-divider" />
-
-          {!selectedPartner ? (
-            <div className="dist-panel-list">
-              {filteredPartners.map(p => (
-                <div key={p.id} className="dist-panel-row" onClick={() => showDetail(p)}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="dist-panel-row__flag" src={p.flag} alt={p.country} />
-                  <div className="dist-panel-row__info">
-                    <div className="dist-panel-row__name">{p.name}</div>
-                    <div className="dist-panel-row__country">{p.country}</div>
-                  </div>
-                  {p.primary && <span className="dist-panel-row__badge">Primary</span>}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="dist-detail-card visible">
-              <button className="dist-detail-back" onClick={showList}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M7.5 2L4 6l3.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                All Partners
-              </button>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="dist-detail-flag" src={selectedPartner.flag} alt={selectedPartner.country} />
-              <div className="dist-detail-country">{selectedPartner.country}</div>
-              <div className="dist-detail-name">{selectedPartner.name}</div>
-              <p className="dist-detail-desc">{selectedPartner.desc}</p>
-              <div className="dist-detail-verified">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <circle cx="5" cy="5" r="5" fill="#34c759" opacity=".18" />
-                  <path d="M3 5l1.5 1.5L7 3.5" stroke="#34c759" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Verified Official Partner
-              </div>
-              <div className="dist-detail-contacts">
-                {selectedPartner.contact.map(c =>
-                  c.includes("@")
-                    ? <a key={c} href={`mailto:${c}`}>{c}</a>
-                    : <a key={c} href={`https://${c}`} target="_blank" rel="noopener noreferrer">{c}</a>
-                )}
-              </div>
-              <div className="dist-detail-qr">
-                <span>Scan product QR code to verify authenticity at aneralife.com</span>
-              </div>
-            </div>
-          )}
-        </div>
+    <>
+      {/* Tooltip */}
+      <div ref={tooltipRef} className="globe-tooltip">
+        <div className="globe-tt-name" />
+        <div className="globe-tt-ctry" />
       </div>
 
-      {/* Stats strip */}
-      <div className="dist-map-stats">
-        <div className="dist-stat">
-          <div className="dist-stat__num">11<sup>+</sup></div>
-          <div className="dist-stat__label">Countries</div>
+      <section className="dist-globe-section" id="dist-map-section">
+        <p className="dist-globe-eyebrow">Global Reach &mdash; Verified Partners</p>
+        <h2 className="dist-globe-headline">Official Anera Partners<br />Worldwide</h2>
+
+        <div className="dist-globe-wrap">
+          <div className="dist-globe-stage">
+            {loading && (
+              <div className="dist-globe-loading">
+                <span>Rendering globe</span>
+                <div className="dist-globe-lbar"><div className="dist-globe-lbar-fill" /></div>
+              </div>
+            )}
+            <canvas ref={canvasRef} id="globe-canvas" />
+            <svg ref={svgRef} className="dist-globe-pin-svg" viewBox="0 0 600 600" />
+          </div>
+
+          <div className="dist-globe-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" opacity=".5" />
+              <path d="M6 2v8M2 6h8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity=".6" />
+            </svg>
+            Drag to rotate &nbsp;&middot;&nbsp; Auto-spinning
+          </div>
+
+          
         </div>
-        <div className="dist-stat">
-          <div className="dist-stat__num">5</div>
-          <div className="dist-stat__label">Regions</div>
+
+        <div className="dist-globe-stats">
+          <div className="dist-globe-stat"><div className="dist-globe-stat__num">11<sup>+</sup></div><div className="dist-globe-stat__lbl">Countries</div></div>
+          <div className="dist-globe-stat"><div className="dist-globe-stat__num">5</div><div className="dist-globe-stat__lbl">Regions</div></div>
+          <div className="dist-globe-stat"><div className="dist-globe-stat__num">3</div><div className="dist-globe-stat__lbl">Primary Markets</div></div>
+          <div className="dist-globe-stat"><div className="dist-globe-stat__num">100<sup>%</sup></div><div className="dist-globe-stat__lbl">QR Authenticated</div></div>
         </div>
-        <div className="dist-stat">
-          <div className="dist-stat__num">3</div>
-          <div className="dist-stat__label">Primary Markets</div>
-        </div>
-        <div className="dist-stat">
-          <div className="dist-stat__num">100<sup>%</sup></div>
-          <div className="dist-stat__label">QR Authenticated</div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
@@ -551,57 +603,7 @@ export default function DistributionPage() {
       <DistMapSection />
 
       {/* ── Region Tabs ───────────────────────────────────────── */}
-      <section id="regions" className="dist-regions">
-        <div className="dist-regions__inner">
-          <p className="dist-regions__eyebrow dist-reveal">Find an Authorized Partner Near You</p>
-          <h2 className="dist-regions__title dist-reveal">Official Verified<br />Anera Partners</h2>
-
-          <nav className="dist-region-tabs__nav">
-            {regions.map((r) => (
-              <button
-                key={r.id}
-                className={`dist-region-tab-btn${activeRegion === r.id ? " active" : ""}`}
-                onClick={() => setActiveRegion(r.id)}
-              >
-                {r.emoji} {r.label}
-              </button>
-            ))}
-          </nav>
-
-          {regions.map((r) => (
-            <div key={r.id} id={`panel-${r.id}`} className={`dist-region-panel${activeRegion === r.id ? " active" : ""}`}>
-              
-              <div className="dist-partner-grid">
-                {r.partners.map((p, i) => (
-                  <div key={i} className={`dist-partner-card dist-reveal${i > 0 ? ` dist-reveal-delay-${i}` : ""}`}>
-                    {p.verified && <div className="dist-partner-card__verified">{"\u2713"} Verified</div>}
-                    <div className="dist-partner-card__flag">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.flag} alt={p.country} />
-                    </div>
-                    <div className="dist-partner-card__body">
-                      <div className="dist-partner-card__country">{p.country}</div>
-                      <div className="dist-partner-card__name">{p.name}</div>
-                      <p className="dist-partner-card__desc">{p.desc}</p>
-                      <div className="dist-partner-card__contact">
-                        {p.emails.map((email) => (
-                          <a key={email} href={`mailto:${email}`}>{email}</a>
-                        ))}
-                        {p.website && <a href="#">{p.website}</a>}
-                      </div>
-                      {p.verified && (
-                        <div className="dist-partner-card__qr">
-                          <span>{"\ud83d\udcf1"}</span> Scan QR to verify
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
       {/* ── Benefits ──────────────────────────────────────────── */}
       <section className="dist-benefits">
