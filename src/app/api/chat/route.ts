@@ -23,6 +23,13 @@ Manuel Riegner (Integrative & Longevity Medicine), Dr. Dean Raffelock (Clinical 
 - Endotoxin levels below 20 Eu/g (industry average: 50–1000 Eu/g)
 - The only NMN supplement clinically tested in human trials
 
+**NMN 15000** — $105 CAD
+- 250 mg NMN per capsule, 60 capsules per bottle
+- High-potency NAD+ support for stronger energy and cellular repair
+- NPN Certified — License No. 80135670
+- GMP-certified manufacturing, third-party tested
+- Made in Canada
+
 ## Mission & Vision
 Mission: To advance human health by delivering clinically validated, biologically intelligent solutions that address the root causes of aging and disease.
 Vision: A world where biological aging is a manageable, measurable process that every person has the tools to influence.
@@ -45,32 +52,34 @@ Vision: A world where biological aging is a manageable, measurable process that 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return new Response("API key not configured", { status: 500 });
   }
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
+      "Authorization": `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "claude-haiku-4-5",
+      model: "gpt-4o-mini",
       max_tokens: 1024,
       stream: true,
-      system: SYSTEM_PROMPT,
-      messages,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages,
+      ],
     }),
   });
 
   if (!response.ok || !response.body) {
+    const errorText = await response.text().catch(() => "unknown error");
+    console.error("OpenAI API error:", response.status, errorText);
     return new Response("Failed to reach AI service", { status: 502 });
   }
 
-  // Forward the SSE stream, extracting only text deltas
   const readable = new ReadableStream({
     async start(controller) {
       const reader = response.body!.getReader();
@@ -92,13 +101,9 @@ export async function POST(req: NextRequest) {
             if (data === "[DONE]") continue;
             try {
               const parsed = JSON.parse(data);
-              if (
-                parsed.type === "content_block_delta" &&
-                parsed.delta?.type === "text_delta"
-              ) {
-                controller.enqueue(
-                  new TextEncoder().encode(parsed.delta.text)
-                );
+              const content = parsed.choices?.[0]?.delta?.content;
+              if (content) {
+                controller.enqueue(new TextEncoder().encode(content));
               }
             } catch {
               // skip malformed lines
