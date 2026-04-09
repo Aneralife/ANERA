@@ -188,6 +188,18 @@ const catItems = [
   { label: "Taurine 300000", img: "/assets/Taurine.png", available: false, href: "#" },
 ];
 
+type PlanOption = {
+  label: string;
+  months: number;
+  save: number;
+  pricePerMonth: number;
+  totalOriginal: number;
+  totalDiscounted: number;
+  variantId: string;
+  recommended?: boolean;
+  bestValue?: boolean;
+};
+
 type PCard = {
   name: string;
   cat: string;
@@ -199,10 +211,28 @@ type PCard = {
   bestSeller?: boolean;
   handle?: string;
   variantId?: string;
+  originalPrice?: number;
+  plans?: PlanOption[];
+  highlights?: string[];
 };
 
 const productCards: PCard[] = [
-  { name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster", desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.", price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg", available: true, bestSeller: true, handle: "nmn-trans-resveratrol-24000-dual-cellular-support", variantId: "gid://shopify/ProductVariant/45032073297999" },
+  {
+    name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster",
+    desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.",
+    price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg",
+    available: true, bestSeller: true,
+    handle: "nmn-trans-resveratrol-24000-dual-cellular-support",
+    variantId: "gid://shopify/ProductVariant/45075095519311",
+    originalPrice: 120,
+    highlights: ["Boosts NAD+ production & cellular energy", "Fights oxidative stress with Trans-Resveratrol", "Pharmaceutical-grade, third-party tested"],
+    plans: [
+      { label: "1-month supply", months: 1, save: 15, pricePerMonth: 102, totalOriginal: 120, totalDiscounted: 102, variantId: "gid://shopify/ProductVariant/45075095519311" },
+      { label: "3-month supply", months: 3, save: 20, pricePerMonth: 96, totalOriginal: 360, totalDiscounted: 288, variantId: "gid://shopify/ProductVariant/45075095552079" },
+      { label: "6-month supply", months: 6, save: 25, pricePerMonth: 90, totalOriginal: 720, totalDiscounted: 540, variantId: "gid://shopify/ProductVariant/45075095584847", recommended: true },
+      { label: "12-month supply", months: 12, save: 30, pricePerMonth: 84, totalOriginal: 1440, totalDiscounted: 1008, variantId: "gid://shopify/ProductVariant/45075095617615", bestValue: true },
+    ],
+  },
   { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true, handle: "nmn-tr-24000", variantId: "gid://shopify/ProductVariant/44918841737295" },
   { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", imgHover: "/assets/second-all.jpeg", available: false },
   { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", imgHover: "/assets/second-all.jpeg", available: false },
@@ -263,6 +293,104 @@ const faqs = [
   { q: "Can I take NMN with other supplements or medications?", a: "NMN is generally well-tolerated alongside other supplements. However, if you are taking prescription medications, particularly blood thinners or diabetes medications, we recommend consulting your healthcare provider before starting any new supplement regimen." },
 ];
 
+/* ── Product Modal ──────────────────────────────────────────── */
+function ProductModal({ card, onClose, onAddToCart }: { card: PCard; onClose: () => void; onAddToCart: (variantId: string) => void }) {
+  const [selectedPlan, setSelectedPlan] = useState(card.plans?.[2]?.variantId || card.plans?.[0]?.variantId || "");
+  const [adding, setAdding] = useState(false);
+
+  const handleAdd = async () => {
+    if (!selectedPlan || adding) return;
+    setAdding(true);
+    onAddToCart(selectedPlan);
+    setTimeout(() => { setAdding(false); onClose(); }, 600);
+  };
+
+  const handleBuyNow = async () => {
+    if (!selectedPlan) return;
+    setAdding(true);
+    try {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "buyNow", variantId: selectedPlan, quantity: 1 }),
+      });
+      const data = await res.json();
+      if (data.checkoutUrl) window.location.href = data.checkoutUrl;
+    } catch { setAdding(false); }
+  };
+
+  if (!card.plans) return null;
+
+  return (
+    <div className="st-modal-overlay" onClick={onClose}>
+      <div className="st-modal" onClick={e => e.stopPropagation()}>
+        <button className="st-modal__close" onClick={onClose}>&times;</button>
+
+        <div className="st-modal__header">
+          <div className="st-modal__badges">
+            <span className="st-modal__badge st-modal__badge--dark">PHARMACEUTICAL GRADE</span>
+            {card.bestSeller && <span className="st-modal__badge st-modal__badge--red">BEST SELLER</span>}
+          </div>
+          <h2 className="st-modal__title">{card.name}</h2>
+          <p className="st-modal__subtitle">{card.cat}</p>
+          <div className="st-modal__guarantee">30 DAY MONEY-BACK GUARANTEE</div>
+          <p className="st-modal__desc">{card.desc}</p>
+          {card.highlights && (
+            <div className="st-modal__highlights">
+              {card.highlights.map((h, i) => (
+                <div key={i} className="st-modal__highlight">
+                  <span className="st-modal__highlight-bar">&#9612;</span>{h}
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="st-modal__plan-label">Subscribe &amp; Save:</p>
+        </div>
+
+        <div className="st-modal__plans">
+          {card.plans.map((plan) => (
+            <label
+              key={plan.variantId}
+              className={`st-modal__plan${selectedPlan === plan.variantId ? " st-modal__plan--selected" : ""}${plan.recommended ? " st-modal__plan--recommended" : ""}`}
+              onClick={() => setSelectedPlan(plan.variantId)}
+            >
+              {plan.recommended && <span className="st-modal__plan-tag st-modal__plan-tag--dark">CLINICALLY RECOMMENDED</span>}
+              {plan.bestValue && <span className="st-modal__plan-tag st-modal__plan-tag--light">BEST VALUE</span>}
+              <div className="st-modal__plan-inner">
+                <div className="st-modal__plan-left">
+                  <div className={`st-modal__radio${selectedPlan === plan.variantId ? " st-modal__radio--on" : ""}`}>
+                    {selectedPlan === plan.variantId && <div className="st-modal__radio-dot" />}
+                  </div>
+                  <div>
+                    <div className="st-modal__plan-name">{plan.label}</div>
+                    <div className="st-modal__plan-save">Save {plan.save}%</div>
+                  </div>
+                </div>
+                <div className="st-modal__plan-right">
+                  <div className="st-modal__plan-price">${plan.pricePerMonth}<span>/mo</span></div>
+                  <div className="st-modal__plan-total"><s>${plan.totalOriginal}</s> ${plan.totalDiscounted}</div>
+                </div>
+              </div>
+            </label>
+          ))}
+        </div>
+
+        <div className="st-modal__footer">
+          <button className="st-modal__btn-primary" onClick={handleAdd} disabled={adding}>
+            {adding ? "ADDING..." : "ADD TO CART"}
+          </button>
+          <button className="st-modal__btn-buy" onClick={handleBuyNow} disabled={adding}>
+            BUY NOW
+          </button>
+          <div className="st-modal__onetime">
+            <span className="st-modal__onetime-link">ONE-TIME PURCHASE</span> &middot; ${card.originalPrice} CAD
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Arrow SVG ───────────────────────────────────────────────── */
 function ArrowSvg({ dir }: { dir: "prev" | "next" }) {
   return (
@@ -295,6 +423,7 @@ export default function StorePage() {
   const botCarousel = useCarousel(400, 20, 3);  // 3 cards per page
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [modalCard, setModalCard] = useState<PCard | null>(null);
 
   function toggleAudio() {
     const audio = audioRef.current;
@@ -415,7 +544,9 @@ export default function StorePage() {
                     onClick={(e) => {
                       e.preventDefault();
                       if (botCarousel.dragState.current.wasDrag) return;
-                      if (card.handle) {
+                      if (card.available && card.plans) {
+                        setModalCard(card);
+                      } else if (card.handle) {
                         router.push(`/products/${card.handle}`);
                       }
                     }}
@@ -630,6 +761,14 @@ export default function StorePage() {
           </div>
         </div>
       </section>
+      {/* ── Product Modal ── */}
+      {modalCard && (
+        <ProductModal
+          card={modalCard}
+          onClose={() => setModalCard(null)}
+          onAddToCart={(variantId) => addItem(variantId)}
+        />
+      )}
     </>
   );
 }

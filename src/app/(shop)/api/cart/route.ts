@@ -58,10 +58,26 @@ export async function POST(req: NextRequest) {
       }
 
       case "buyNow": {
-        const buyCart = await createCart([
-          { merchandiseId: variantId, quantity: quantity || 1 },
-        ]);
-        return NextResponse.json({ checkoutUrl: buyCart.checkoutUrl });
+        if (cartId) {
+          // Add the item to existing cart, then redirect to its checkout
+          const updatedCart = await addToCart(cartId, [
+            { merchandiseId: variantId, quantity: quantity || 1 },
+          ]);
+          return NextResponse.json({ checkoutUrl: updatedCart.checkoutUrl });
+        } else {
+          // No cart yet — create one with this item
+          const newCart = await createCart([
+            { merchandiseId: variantId, quantity: quantity || 1 },
+          ]);
+          const response = NextResponse.json({ checkoutUrl: newCart.checkoutUrl });
+          response.cookies.set("cartId", newCart.id, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60 * 24 * 30,
+          });
+          return response;
+        }
       }
 
       default:

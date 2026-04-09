@@ -308,8 +308,8 @@ export function ChatWidget() {
             <div className="chat-header__info">
               <div className="chat-header__dot" />
               <div>
-                <div className="chat-header__title">Anera Assistant</div>
-                <div className="chat-header__sub">Powered by AI</div>
+                <div className="chat-header__title">ANY</div>
+                <div className="chat-header__sub">A New You</div>
               </div>
             </div>
             <button className="chat-header__close" onClick={() => setOpen(false)}>×</button>
