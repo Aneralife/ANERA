@@ -2805,7 +2805,7 @@ img, video { display: block; max-width: 100%; }
 .pdp-hero {
   position: relative;
   overflow: hidden;
-  padding: 100px 24px 80px;
+  padding: 200px 24px 80px;
   font-family: "SF Pro Display", "SF Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .pdp-hero__bg-video {

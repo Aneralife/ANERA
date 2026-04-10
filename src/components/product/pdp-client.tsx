@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import type { Product } from "@/lib/shopify/types";
 import { formatPrice } from "@/lib/utils";
 
@@ -80,7 +81,7 @@ export function PdpGallery({ images, alt }: { images: string[]; alt: string }) {
         ))}
       </div>
 
-      {lightboxIndex !== null && (
+      {lightboxIndex !== null && createPortal(
         <div className="pdp-lightbox" onClick={() => setLightboxIndex(null)}>
           <button className="pdp-lightbox__close" onClick={() => setLightboxIndex(null)}>&times;</button>
           <button
@@ -99,7 +100,8 @@ export function PdpGallery({ images, alt }: { images: string[]; alt: string }) {
             onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % images.length); }}
           >&#8250;</button>
           <div className="pdp-lightbox__counter">{lightboxIndex + 1} / {images.length}</div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
