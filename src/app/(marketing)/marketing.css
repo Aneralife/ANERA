@@ -3259,6 +3259,7 @@ img, video { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  margin-top: 10px;
   margin-bottom: 24px;
   padding: 16px;
   border: 1px solid var(--border, rgba(0,0,0,.08));

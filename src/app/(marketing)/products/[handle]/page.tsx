@@ -59,9 +59,7 @@ export default async function ProductPage({ params }: Props) {
 
       {/* ── Two-Column Hero ── */}
       <section className="pdp-hero" id="pdp-cta">
-        <video className="pdp-hero__bg-video" autoPlay muted loop playsInline>
-          <source src="/assets/product-video.mp4" type="video/mp4" />
-        </video>
+  
         <div className="pdp-hero__overlay" />
         <div className="pdp-hero__inner">
           {/* Left: Image Column */}
