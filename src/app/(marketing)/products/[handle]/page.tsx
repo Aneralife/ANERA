@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 
 import { getProductByHandle } from "@/lib/shopify";
-import { formatPrice } from "@/lib/utils";
 import { PurchaseWidget } from "@/components/product/purchase-widget";
 import { PdpFaq, PdpGallery } from "@/components/product/pdp-client";
 
@@ -46,12 +45,16 @@ export default async function ProductPage({ params }: Props) {
   const defaultVariant =
     product.variants.find((v) => v.availableForSale) || product.variants[0];
 
-  const price = formatPrice(product.priceRange.minVariantPrice);
   const hasImage = product.images.length > 0;
 
-  /* Compute per-capsule price (assuming 60 capsules per bottle) */
-  const priceNum = parseFloat(product.priceRange.minVariantPrice.amount);
-  const perCapsule = (priceNum / 60).toFixed(2);
+  /* Base price per bottle (before subscription discounts) */
+  const basePriceMap: Record<string, number> = {
+    "nmn-trans-resveratrol-24000-dual-cellular-support": 120,
+    "nmn-tr-24000": 105,
+  };
+  const basePrice = basePriceMap[params.handle] || parseFloat(product.priceRange.minVariantPrice.amount);
+  const price = `CA$${basePrice}`;
+  const perCapsule = (basePrice / 60).toFixed(2);
 
   return (
     <>
@@ -134,7 +137,7 @@ export default async function ProductPage({ params }: Props) {
                 price: v.price.amount,
                 currencyCode: v.price.currencyCode,
               }))}
-              originalPrice={Math.round(parseFloat(product.priceRange.minVariantPrice.amount) / 0.85)}
+              originalPrice={basePrice}
             />
 
             {/* Trust row */}
@@ -211,6 +214,8 @@ export default async function ProductPage({ params }: Props) {
             <div className="pdp-details-grid">
               {/* Benefits */}
               <div className="pdp-details-card">
+                <video className="pdp-details-card__bg" autoPlay muted loop playsInline><source src="/assets/product-video.mp4" type="video/mp4" /></video>
+                <div className="pdp-details-card__overlay" />
                 <div className="pdp-details-card__eyebrow">01 — Benefits</div>
                 <h2 className="pdp-details-card__title">What it does<br />for you</h2>
                 <ul className="pdp-benefits-list">
@@ -294,6 +299,8 @@ export default async function ProductPage({ params }: Props) {
             <div className="pdp-details-grid">
               {/* Benefits */}
               <div className="pdp-details-card">
+                <video className="pdp-details-card__bg" autoPlay muted loop playsInline><source src="/assets/product-video.mp4" type="video/mp4" /></video>
+                <div className="pdp-details-card__overlay" />
                 <div className="pdp-details-card__eyebrow">01 — Benefits</div>
                 <h2 className="pdp-details-card__title">What it does<br />for you</h2>
                 <ul className="pdp-benefits-list">

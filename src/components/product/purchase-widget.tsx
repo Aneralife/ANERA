@@ -22,12 +22,13 @@ type FreqOption = {
   label: string;
   months: number;
   savePercent: number;
+  recommended?: boolean;
 };
 
 const FREQUENCIES: FreqOption[] = [
-  { key: "1", label: "1-month supply", months: 1, savePercent: 15 },
   { key: "3", label: "3-month supply", months: 3, savePercent: 20 },
-  { key: "6", label: "6-month supply", months: 6, savePercent: 25 },
+  { key: "6", label: "6-month supply", months: 6, savePercent: 25, recommended: true },
+  { key: "12", label: "12-month supply", months: 12, savePercent: 30 },
 ];
 
 export function PurchaseWidget({ availableForSale, defaultVariantId, variants, originalPrice }: Props) {
@@ -113,13 +114,15 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         <div className="pw-freq-label">Select Frequency</div>
         <div className="pw-freq-buttons">
           {FREQUENCIES.map(f => (
-            <button
-              key={f.key}
-              className={`pw-freq-btn${selectedFreq === f.key ? " pw-freq-btn--active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); setSelectedFreq(f.key); setIsSubscribe(true); }}
-            >
-              {f.label}
-            </button>
+            <div key={f.key} className="pw-freq-btn-wrap">
+              {f.recommended && <span className="pw-freq-recommended">Recommended</span>}
+              <button
+                className={`pw-freq-btn${selectedFreq === f.key ? " pw-freq-btn--active" : ""}`}
+                onClick={(e) => { e.stopPropagation(); setSelectedFreq(f.key); setIsSubscribe(true); }}
+              >
+                {f.label}
+              </button>
+            </div>
           ))}
         </div>
 
