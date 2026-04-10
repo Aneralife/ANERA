@@ -60,6 +60,51 @@ export function PdpTabs({ product }: PdpTabsProps) {
   );
 }
 
+/* ── Gallery with Lightbox ───────────────────────────────── */
+
+export function PdpGallery({ images, alt }: { images: string[]; alt: string }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  return (
+    <>
+      <div className="pdp-gallery-grid">
+        {images.map((file, i) => (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            key={i}
+            src={`/assets/${file}`}
+            alt={`${alt} - ${i + 1}`}
+            className="pdp-gallery-grid__img"
+            onClick={() => setLightboxIndex(i)}
+          />
+        ))}
+      </div>
+
+      {lightboxIndex !== null && (
+        <div className="pdp-lightbox" onClick={() => setLightboxIndex(null)}>
+          <button className="pdp-lightbox__close" onClick={() => setLightboxIndex(null)}>&times;</button>
+          <button
+            className="pdp-lightbox__nav pdp-lightbox__nav--prev"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + images.length) % images.length); }}
+          >&#8249;</button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/assets/${images[lightboxIndex]}`}
+            alt={`${alt} - ${lightboxIndex + 1}`}
+            className="pdp-lightbox__img"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            className="pdp-lightbox__nav pdp-lightbox__nav--next"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % images.length); }}
+          >&#8250;</button>
+          <div className="pdp-lightbox__counter">{lightboxIndex + 1} / {images.length}</div>
+        </div>
+      )}
+    </>
+  );
+}
+
 /* ── FAQ Section ─────────────────────────────────────────── */
 
 type FaqItem = { q: string; a: string };

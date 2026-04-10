@@ -106,7 +106,7 @@ export default function MarketingLayout({
   return (
     <>
       {/* Nav */}
-      <nav className={`nav${pathname === "/about" || pathname === "/contact" ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
+      <nav className={`nav${pathname === "/about" || pathname === "/contact" || pathname.startsWith("/products/") ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
         <Link href="/" className="nav__logo">
           ANERA
         </Link>

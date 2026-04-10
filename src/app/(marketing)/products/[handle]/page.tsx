@@ -5,7 +5,7 @@ import Image from "next/image";
 import { getProductByHandle } from "@/lib/shopify";
 import { formatPrice } from "@/lib/utils";
 import { PurchaseWidget } from "@/components/product/purchase-widget";
-import { PdpFaq } from "@/components/product/pdp-client";
+import { PdpFaq, PdpGallery } from "@/components/product/pdp-client";
 
 const NMN24000_FAQS = [
   { q: "What is NMN + Trans-Resveratrol 24000?", a: "NMN + Trans-Resveratrol 24000 combines 250mg of pharmaceutical-grade NMN with 150mg of Trans-Resveratrol per capsule. NMN directly boosts NAD+ levels for cellular energy, while Trans-Resveratrol provides potent antioxidant protection — together delivering dual-action support for healthy aging." },
@@ -104,20 +104,10 @@ export default async function ProductPage({ params }: Props) {
 
             {/* Product gallery */}
             {params.handle === "nmn-trans-resveratrol-24000-dual-cellular-support" && (
-              <div className="pdp-gallery-grid">
-                {["24-1.png","24-2.png","24-3.png","24-4.png","24-5.png","24-6.png"].map((file, i) => (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img key={i} src={`/assets/${file}`} alt={`NMN 24000 - ${i + 1}`} className="pdp-gallery-grid__img" />
-                ))}
-              </div>
+              <PdpGallery images={["24-1.png","24-2.png","24-3.png","24-4.png","24-5.png","24-6.png"]} alt="NMN 24000" />
             )}
             {params.handle === "nmn-tr-24000" && (
-              <div className="pdp-gallery-grid">
-                {["15-1.png","15-2.png","15-3.png","15-4.png","15-5.png","15-6.png"].map((file, i) => (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img key={i} src={`/assets/${file}`} alt={`NMN 15000 - ${i + 1}`} className="pdp-gallery-grid__img" />
-                ))}
-              </div>
+              <PdpGallery images={["15-1.png","15-2.png","15-3.png","15-4.png","15-5.png","15-6.png"]} alt="NMN 15000" />
             )}
           </div>
 
@@ -169,7 +159,7 @@ export default async function ProductPage({ params }: Props) {
                   <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
                   <rect x="3" y="3" width="18" height="18" rx="3" />
                 </svg>
-                <span>Clinical Grade</span>
+                <span>Pharmaceutical Grade</span>
               </div>
               <div className="pdp-trust-row__item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -253,13 +243,13 @@ export default async function ProductPage({ params }: Props) {
                   <h2 className="pdp-details-card__title">What&apos;s inside</h2>
                   <div className="pdp-ingredient-list">
                     <div className="pdp-ingredient">
-                      <div className="pdp-ingredient__bar" />
+                      
                       <div className="pdp-ingredient__name">Nicotinamide Mononucleotide</div>
                       <div className="pdp-ingredient__dose">NMN · 250 mg per capsule</div>
                       <div className="pdp-ingredient__desc">Increases NAD+ levels, supporting cellular energy production, metabolism, and DNA repair.</div>
                     </div>
                     <div className="pdp-ingredient">
-                      <div className="pdp-ingredient__bar" />
+                      
                       <div className="pdp-ingredient__name">Trans-Resveratrol</div>
                       <div className="pdp-ingredient__dose">150 mg per capsule</div>
                       <div className="pdp-ingredient__desc">A potent antioxidant known to activate sirtuins and protect cells from oxidative damage.</div>
@@ -335,13 +325,13 @@ export default async function ProductPage({ params }: Props) {
                   <h2 className="pdp-details-card__title">What&apos;s inside</h2>
                   <div className="pdp-ingredient-list">
                     <div className="pdp-ingredient">
-                      <div className="pdp-ingredient__bar" />
+                      
                       <div className="pdp-ingredient__name">NMN (β-Nicotinamide Mononucleotide)</div>
                       <div className="pdp-ingredient__dose">250 mg per capsule</div>
                       <div className="pdp-ingredient__desc">This powerful compound supports NAD+ production, cellular repair, and energy metabolism.</div>
                     </div>
                     <div className="pdp-ingredient">
-                      <div className="pdp-ingredient__bar" />
+                      
                       <div className="pdp-ingredient__name">Capsule Type</div>
                       <div className="pdp-ingredient__dose">Vegan-friendly</div>
                       <div className="pdp-ingredient__desc">No fillers, additives, or unnecessary compounds.</div>
