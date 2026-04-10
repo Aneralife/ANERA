@@ -293,104 +293,6 @@ const faqs = [
   { q: "Can I take NMN with other supplements or medications?", a: "NMN is generally well-tolerated alongside other supplements. However, if you are taking prescription medications, particularly blood thinners or diabetes medications, we recommend consulting your healthcare provider before starting any new supplement regimen." },
 ];
 
-/* ── Product Modal ──────────────────────────────────────────── */
-function ProductModal({ card, onClose, onAddToCart }: { card: PCard; onClose: () => void; onAddToCart: (variantId: string) => void }) {
-  const [selectedPlan, setSelectedPlan] = useState(card.plans?.[2]?.variantId || card.plans?.[0]?.variantId || "");
-  const [adding, setAdding] = useState(false);
-
-  const handleAdd = async () => {
-    if (!selectedPlan || adding) return;
-    setAdding(true);
-    onAddToCart(selectedPlan);
-    setTimeout(() => { setAdding(false); onClose(); }, 600);
-  };
-
-  const handleBuyNow = async () => {
-    if (!selectedPlan) return;
-    setAdding(true);
-    try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "buyNow", variantId: selectedPlan, quantity: 1 }),
-      });
-      const data = await res.json();
-      if (data.checkoutUrl) window.location.href = data.checkoutUrl;
-    } catch { setAdding(false); }
-  };
-
-  if (!card.plans) return null;
-
-  return (
-    <div className="st-modal-overlay" onClick={onClose}>
-      <div className="st-modal" onClick={e => e.stopPropagation()}>
-        <button className="st-modal__close" onClick={onClose}>&times;</button>
-
-        <div className="st-modal__header">
-          <div className="st-modal__badges">
-            <span className="st-modal__badge st-modal__badge--dark">PHARMACEUTICAL GRADE</span>
-            {card.bestSeller && <span className="st-modal__badge st-modal__badge--red">BEST SELLER</span>}
-          </div>
-          <h2 className="st-modal__title">{card.name}</h2>
-          <p className="st-modal__subtitle">{card.cat}</p>
-          <div className="st-modal__guarantee">30 DAY MONEY-BACK GUARANTEE</div>
-          <p className="st-modal__desc">{card.desc}</p>
-          {card.highlights && (
-            <div className="st-modal__highlights">
-              {card.highlights.map((h, i) => (
-                <div key={i} className="st-modal__highlight">
-                  <span className="st-modal__highlight-bar">&#9612;</span>{h}
-                </div>
-              ))}
-            </div>
-          )}
-          <p className="st-modal__plan-label">Subscribe &amp; Save:</p>
-        </div>
-
-        <div className="st-modal__plans">
-          {card.plans.map((plan) => (
-            <label
-              key={plan.variantId}
-              className={`st-modal__plan${selectedPlan === plan.variantId ? " st-modal__plan--selected" : ""}${plan.recommended ? " st-modal__plan--recommended" : ""}`}
-              onClick={() => setSelectedPlan(plan.variantId)}
-            >
-              {plan.recommended && <span className="st-modal__plan-tag st-modal__plan-tag--dark">CLINICALLY RECOMMENDED</span>}
-              {plan.bestValue && <span className="st-modal__plan-tag st-modal__plan-tag--light">BEST VALUE</span>}
-              <div className="st-modal__plan-inner">
-                <div className="st-modal__plan-left">
-                  <div className={`st-modal__radio${selectedPlan === plan.variantId ? " st-modal__radio--on" : ""}`}>
-                    {selectedPlan === plan.variantId && <div className="st-modal__radio-dot" />}
-                  </div>
-                  <div>
-                    <div className="st-modal__plan-name">{plan.label}</div>
-                    <div className="st-modal__plan-save">Save {plan.save}%</div>
-                  </div>
-                </div>
-                <div className="st-modal__plan-right">
-                  <div className="st-modal__plan-price">${plan.pricePerMonth}<span>/mo</span></div>
-                  <div className="st-modal__plan-total"><s>${plan.totalOriginal}</s> ${plan.totalDiscounted}</div>
-                </div>
-              </div>
-            </label>
-          ))}
-        </div>
-
-        <div className="st-modal__footer">
-          <button className="st-modal__btn-primary" onClick={handleAdd} disabled={adding}>
-            {adding ? "ADDING..." : "ADD TO CART"}
-          </button>
-          <button className="st-modal__btn-buy" onClick={handleBuyNow} disabled={adding}>
-            BUY NOW
-          </button>
-          <div className="st-modal__onetime">
-            <span className="st-modal__onetime-link">ONE-TIME PURCHASE</span> &middot; ${card.originalPrice} CAD
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ── Arrow SVG ───────────────────────────────────────────────── */
 function ArrowSvg({ dir }: { dir: "prev" | "next" }) {
   return (
@@ -423,7 +325,6 @@ export default function StorePage() {
   const botCarousel = useCarousel(400, 20, 3);  // 3 cards per page
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
-  const [modalCard, setModalCard] = useState<PCard | null>(null);
 
   function toggleAudio() {
     const audio = audioRef.current;
@@ -544,9 +445,7 @@ export default function StorePage() {
                     onClick={(e) => {
                       e.preventDefault();
                       if (botCarousel.dragState.current.wasDrag) return;
-                      if (card.available && card.plans) {
-                        setModalCard(card);
-                      } else if (card.handle) {
+                      if (card.handle) {
                         router.push(`/products/${card.handle}`);
                       }
                     }}
@@ -761,14 +660,6 @@ export default function StorePage() {
           </div>
         </div>
       </section>
-      {/* ── Product Modal ── */}
-      {modalCard && (
-        <ProductModal
-          card={modalCard}
-          onClose={() => setModalCard(null)}
-          onAddToCart={(variantId) => addItem(variantId)}
-        />
-      )}
     </>
   );
 }

@@ -60,6 +60,39 @@ export function PdpTabs({ product }: PdpTabsProps) {
   );
 }
 
+/* ── FAQ Section ─────────────────────────────────────────── */
+
+type FaqItem = { q: string; a: string };
+
+function PdpAccordionItem({ q, a }: FaqItem) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="st-accordion-item">
+      <button className={`st-accordion-btn${open ? " open" : ""}`} onClick={() => setOpen(!open)}>
+        {q}
+      </button>
+      <div className={`st-accordion-body${open ? " open" : ""}`}>{a}</div>
+    </div>
+  );
+}
+
+export function PdpFaq({ faqs, title }: { faqs: FaqItem[]; title?: string }) {
+  return (
+    <section className="st-faq">
+      <div className="st-faq__inner">
+        <div className="st-faq-header">
+          <h2>{title || "Frequently Asked Questions"}</h2>
+        </div>
+        <div className="st-accordion">
+          {faqs.map((f, i) => (
+            <PdpAccordionItem key={i} q={f.q} a={f.a} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── Sticky Bottom Bar ────────────────────────────────────── */
 
 type PdpStickyBarProps = {
