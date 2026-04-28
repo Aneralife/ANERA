@@ -10,12 +10,14 @@ const ADVISORS = [
     role: "Integrative & Longevity Medicine",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/manuel.jpeg",
     bio: "A leading practitioner in integrative and longevity medicine, Manuel Riegner brings a systems-based approach to patient care that bridges conventional diagnostics with advanced regenerative protocols focused on optimizing biological age and extending healthspan.",
+    linkedin: "https://www.linkedin.com/in/manuel-riegner/",
   },
   {
     name: "Dr. Dean Raffelock",
     role: "Clinical Nutrition & Formulation",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/dean.jpeg",
     bio: "A recognized authority in clinical nutrition and nutraceutical formulation, with decades of experience developing evidence-based supplementation protocols. His expertise in micronutrient science and metabolic optimization directly informs Anera's product formulation strategy.",
+    linkedin: "https://www.linkedin.com/in/dr-dean-raffelock-46190636/",
   },
   {
     name: "Dr. Keith Moeller",
@@ -28,42 +30,49 @@ const ADVISORS = [
     role: "Biological Dentistry",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/scott.jpeg",
     bio: "A leading voice in biological dentistry, championing the critical connection between oral health and systemic wellness. His clinical practice and research focus on biocompatible dental materials, detoxification protocols, and the role of oral microbiome health in overall longevity.",
+    linkedin: "https://www.linkedin.com/in/scott-chandler-4458611aa/",
   },
   {
     name: "Dr. Brad Labrecque",
     role: "Nanotechnology Innovation",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/brad.jpeg",
     bio: "An innovator in applied nanotechnology with a focus on translating laboratory breakthroughs into clinically viable therapeutics. His work in nanoparticle delivery systems and bioavailability enhancement plays a key role in advancing Anera's next-generation product pipeline.",
+    linkedin: "https://www.linkedin.com/in/brad-labrecque-5367a511/",
   },
   {
     name: "Dr. Craig Young",
     role: "Oral-Systemic Health",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/craig.jpeg",
     bio: "A specialist in the emerging field of oral-systemic health, exploring the bidirectional relationship between the oral cavity and the body's broader physiological systems. His research highlights how oral inflammation and microbial imbalance can drive systemic disease.",
+    linkedin: "https://www.linkedin.com/in/craig-young-01944625/",
   },
   {
     name: "Dr. Paul Sidhu",
     role: "Longevity Medicine",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/Paul.jpeg",
     bio: "A clinician and researcher dedicated to the science of longevity medicine, with a particular focus on hormonal optimization, cellular senescence, and the integration of wearable health data into personalized longevity protocols.",
+    linkedin: "https://www.linkedin.com/in/paul-sidhu-54871262/",
   },
   {
     name: "Dr. Kevin Mudrow",
     role: "Biomimetic Dentistry",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/kevin.jpeg",
     bio: "A specialist in biomimetic dentistry — a discipline focused on restoring teeth to their natural form, function, and aesthetics using materials and techniques that mimic natural tooth structure. His work informs Anera's oral health innovation strategy.",
+    linkedin: "https://www.linkedin.com/in/kevin-mudrow-dds-093b6378/",
   },
   {
     name: "Dr. Gregory Eckel",
     role: "Integrative Medicine",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/gregory.jpeg",
     bio: "A practitioner and thought leader in integrative medicine, combining the best of conventional and complementary approaches to support whole-person health. His clinical philosophy — that the body has an innate capacity for healing when given the right conditions — aligns closely with Anera's core mission.",
+    linkedin: "https://www.linkedin.com/in/drgregeckel/",
   },
   {
     name: "Dr. Gabriel Alizaidy",
     role: "Scientific Advisory Board",
     photo: "https://aneralife.com/wp-content/uploads/2026/03/Gabriel.jpeg",
     bio: "Anera continues to expand its Scientific Advisory Board with world-class experts advancing the frontiers of longevity science, regenerative medicine, and clinical innovation. An announcement is forthcoming.",
+    linkedin: "https://www.linkedin.com/in/galizaidy/",
   },
 ];
 
@@ -414,6 +423,16 @@ export default function AboutPage() {
                   <h4>{a.name}</h4>
                   <p className="ab-advisor__role">{a.role}</p>
                   <p className="ab-advisor__bio">{a.bio}</p>
+                  {a.linkedin && (
+                    <a
+                      href={a.linkedin}
+                      className="ab-leader__linkedin"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <LinkedInIcon /> LinkedIn Profile
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
