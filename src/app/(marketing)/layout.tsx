@@ -304,13 +304,13 @@ export default function MarketingLayout({
             </p>
             <ul className="footer__legal">
               <li>
-                <a href="#">Privacy</a>
+                <Link href="/privacy-policy">Privacy</Link>
               </li>
               <li>
-                <a href="#">Terms</a>
+                <Link href="/terms">Terms</Link>
               </li>
               <li>
-                <a href="#">Returns</a>
+                <Link href="/returns">Returns</Link>
               </li>
             </ul>
           </div>

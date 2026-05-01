@@ -5,12 +5,18 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-provider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aneralife.com"),
   title: {
-    default: "Anera Life — Longevity Is the New Flex",
-    template: "%s — Anera",
+    default: "High-Quality NMN Supplements in Canada and USA | Anera Life",
+    template: "%s | Anera Life",
   },
   description:
-    "Pharmaceutical-grade NMN supplements. Pure. Proven. Life-changing. Canada & USA.",
+    "True strength isn't about shortcuts — it's about building a foundation for a thriving, vibrant future. Daily NMN fuels your body and mind, giving you the energy, clarity, and resilience to stay ahead.",
+  openGraph: {
+    siteName: "Anera Life",
+    type: "website",
+    locale: "en_CA",
+  },
 };
 
 export default function RootLayout({

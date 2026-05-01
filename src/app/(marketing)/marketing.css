@@ -3600,3 +3600,75 @@ img, video { display: block; max-width: 100%; }
   .pdp-sticky-bar__info { gap: 10px; }
   .pdp-sticky-bar__title { font-size: 13px; }
 }
+
+/* ─── Legal Pages (Privacy, Terms, Returns) ──────────────────── */
+.legal-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+.legal-page__inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+  color: var(--fg);
+}
+.legal-page__inner h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+.legal-page__lead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fg-secondary);
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.legal-page__inner section {
+  margin-bottom: 40px;
+}
+.legal-page__inner h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin-bottom: 12px;
+  color: var(--fg);
+}
+.legal-page__inner h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: var(--fg);
+}
+.legal-page__inner p,
+.legal-page__inner li {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--fg-secondary);
+}
+.legal-page__inner ul,
+.legal-page__inner ol {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+.legal-page__inner li {
+  margin-bottom: 8px;
+}
+.legal-page__inner address {
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--fg-secondary);
+  margin-top: 12px;
+}
+.legal-page__inner a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal-page__inner a:hover {
+  opacity: .7;
+}
