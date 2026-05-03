@@ -1412,15 +1412,15 @@ img, video { display: block; max-width: 100%; }
 /* Partner detail panel */
 .dist-partner-panel{width:240px;flex:0 0 240px;background:rgba(10,16,30,.92);border:1px solid rgba(201,169,110,.22);border-radius:18px;padding:28px 24px;backdrop-filter:blur(18px);opacity:0;pointer-events:none;transform:translateX(-12px);transition:opacity .3s ease,transform .3s ease;min-height:200px;display:flex;flex-direction:column;gap:0;margin-top:12px;position:relative;}
 .dist-partner-panel--visible{opacity:1;pointer-events:auto;transform:translateX(0);}
-.dist-partner-panel__close{position:absolute;top:14px;right:16px;background:transparent;border:none;color:var(--fg-muted);font-size:16px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:color .15s;}
-.dist-partner-panel__close:hover{color:var(--fg);}
+.dist-partner-panel__close{position:absolute;top:14px;right:16px;background:transparent;border:none;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:color .15s;}
+.dist-partner-panel__close:hover{color:#e8e2d9;}
 .dist-partner-panel__row{display:flex;flex-direction:column;gap:3px;margin-bottom:16px;}
-.dist-partner-panel__label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-muted);}
-.dist-partner-panel__value{font-size:13px;font-weight:300;color:var(--fg);line-height:1.4;}
+.dist-partner-panel__label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.dist-partner-panel__value{font-size:13px;font-weight:300;color:#e8e2d9;line-height:1.4;}
 .dist-partner-panel__link{color:#c9a96e;text-decoration:none;transition:opacity .15s;}
 .dist-partner-panel__link:hover{opacity:.75;}
-.dist-partner-panel__soon{color:var(--fg-muted);font-style:italic;}
-.dist-partner-panel__empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;flex:1;color:var(--fg-muted);text-align:center;}
+.dist-partner-panel__soon{color:rgba(255,255,255,.35);font-style:italic;}
+.dist-partner-panel__empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;flex:1;color:rgba(255,255,255,.35);text-align:center;}
 .dist-partner-panel__empty p{font-size:12px;line-height:1.6;letter-spacing:.03em;}
 
 /* Globe loading */
