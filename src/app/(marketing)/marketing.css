@@ -921,7 +921,8 @@ img, video { display: block; max-width: 100%; }
   margin-bottom: 16px; color: var(--fg);
 }
 .st-benefit-panel__text p { font-size: 16px; color: var(--fg-muted); line-height: 1.65; margin-bottom: 16px; }
-.st-benefit-panel__source { font-size: 12px; color: var(--fg-muted);  }
+.st-benefit-panel__source { font-size: 12px; color: var(--fg-muted); text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; cursor: pointer; }
+.st-benefit-panel__source:hover { color: var(--fg); }
 
 /* Timeline */
 .st-timeline { position: relative; overflow: hidden; padding: 100px 24px; }

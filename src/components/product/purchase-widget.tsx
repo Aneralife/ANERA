@@ -66,6 +66,10 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
   }
 
   const currentFreq = getFreqData(selectedFreq);
+  const onetimeTotal = basePrice * quantity;
+  const subscribeTotal = Math.round(currentFreq.totalDiscounted * quantity);
+  const subscribeOriginal = currentFreq.totalOriginal * quantity;
+  const buyNowPrice = isSubscribe ? subscribeTotal : onetimeTotal;
 
   function handleAddToCart() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
@@ -107,8 +111,8 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
             <div className="pw-card-sub">{currentFreq.paidLabel}</div>
           </div>
           <div className="pw-card-price">
-            <div className="pw-price-original">${currentFreq.totalOriginal}.00</div>
-            <div className="pw-price-current">${currentFreq.totalDiscounted}<sup>CAD</sup></div>
+            <div className="pw-price-original">${subscribeOriginal}.00</div>
+            <div className="pw-price-current">${subscribeTotal}<sup>CAD</sup></div>
           </div>
         </div>
 
@@ -149,7 +153,26 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         onClick={() => setIsSubscribe(false)}
       >
         <div className="pw-onetime-title">One-time purchase</div>
-        <div className="pw-onetime-price">${basePrice} CAD</div>
+        <div className="pw-onetime-price">${onetimeTotal} CAD</div>
+      </div>
+
+      {/* Quantity stepper */}
+      <div className="pw-qty">
+        <span className="pw-qty__label">Quantity</span>
+        <div className="pw-qty__controls">
+          <button
+            className="pw-qty__btn"
+            onClick={() => setQuantity(q => Math.max(1, q - 1))}
+            disabled={quantity <= 1}
+            aria-label="Decrease quantity"
+          >−</button>
+          <span className="pw-qty__num">{quantity}</span>
+          <button
+            className="pw-qty__btn"
+            onClick={() => setQuantity(q => q + 1)}
+            aria-label="Increase quantity"
+          >+</button>
+        </div>
       </div>
 
       {/* Quantity stepper */}
@@ -186,7 +209,7 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         onClick={handleBuyNow}
         disabled={!availableForSale || buying}
       >
-        {buying ? "Redirecting…" : "Buy Now"}
+        {buying ? "Redirecting…" : `Buy Now — CA$${buyNowPrice}`}
       </button>
     </div>
   );
