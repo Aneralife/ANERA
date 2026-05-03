@@ -4,6 +4,7 @@ import {
   Cart,
   Collection,
   Connection,
+  GlobePartner,
   Product,
   ShopifyCart,
   ShopifyCollection,
@@ -20,6 +21,7 @@ import {
   GET_PAGES_QUERY,
   GET_BLOG_BY_HANDLE_QUERY,
   GET_ARTICLE_BY_HANDLE_QUERY,
+  GET_GLOBE_PARTNERS_QUERY,
   CREATE_CART_MUTATION,
   ADD_TO_CART_MUTATION,
   UPDATE_CART_MUTATION,
@@ -252,4 +254,32 @@ export async function removeFromCart(
   }>(REMOVE_FROM_CART_MUTATION, { cartId, lineIds });
 
   return reshapeCart(data.cartLinesRemove.cart);
+}
+
+// ─── Globe Partners (Metaobjects) ─────────────────────────
+
+export async function getGlobePartners(): Promise<GlobePartner[]> {
+  try {
+    const data = await shopifyFetch<{
+      metaobjects: Connection<{
+        id: string;
+        handle: string;
+        fields: { key: string; value: string }[];
+      }>;
+    }>(GET_GLOBE_PARTNERS_QUERY, {});
+
+    return flattenConnection(data.metaobjects).map((obj, i) => {
+      const f = Object.fromEntries(obj.fields.map((field) => [field.key, field.value]));
+      return {
+        id: i + 1,
+        name: f.name ?? "",
+        country: f.country ?? "",
+        lon: parseFloat(f.longitude ?? "0"),
+        lat: parseFloat(f.latitude ?? "0"),
+        website: f.website || undefined,
+      };
+    });
+  } catch {
+    return [];
+  }
 }

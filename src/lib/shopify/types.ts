@@ -178,6 +178,15 @@ export type ShopifyCollection = {
   };
 };
 
+export type GlobePartner = {
+  id: number;
+  name: string;
+  country: string;
+  lon: number;
+  lat: number;
+  website?: string;
+};
+
 export type ShopifyCart = {
   id: string;
   checkoutUrl: string;
