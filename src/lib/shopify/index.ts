@@ -12,6 +12,7 @@ export {
   addToCart,
   updateCart,
   removeFromCart,
+  getGlobePartners,
 } from "./client";
 
 export type {
@@ -25,4 +26,5 @@ export type {
   ShopifyPage,
   Article,
   Blog,
+  GlobePartner,
 } from "./types";

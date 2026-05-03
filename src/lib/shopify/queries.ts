@@ -350,6 +350,23 @@ export const UPDATE_CART_MUTATION = `
   }
 `;
 
+export const GET_GLOBE_PARTNERS_QUERY = `
+  query GetGlobePartners {
+    metaobjects(type: "globe_partner", first: 50) {
+      edges {
+        node {
+          id
+          handle
+          fields {
+            key
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const REMOVE_FROM_CART_MUTATION = `
   ${CART_FRAGMENT}
   mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
