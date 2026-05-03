@@ -156,24 +156,26 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         <div className="pw-onetime-price">${onetimeTotal} CAD</div>
       </div>
 
-      {/* Quantity stepper */}
-      <div className="pw-qty">
-        <span className="pw-qty__label">Quantity</span>
-        <div className="pw-qty__controls">
-          <button
-            className="pw-qty__btn"
-            onClick={() => setQuantity(q => Math.max(1, q - 1))}
-            disabled={quantity <= 1}
-            aria-label="Decrease quantity"
-          >−</button>
-          <span className="pw-qty__num">{quantity}</span>
-          <button
-            className="pw-qty__btn"
-            onClick={() => setQuantity(q => q + 1)}
-            aria-label="Increase quantity"
-          >+</button>
+      {/* Quantity stepper — only for one-time purchases */}
+      {!isSubscribe && (
+        <div className="pw-qty">
+          <span className="pw-qty__label">Quantity</span>
+          <div className="pw-qty__controls">
+            <button
+              className="pw-qty__btn"
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              disabled={quantity <= 1}
+              aria-label="Decrease quantity"
+            >−</button>
+            <span className="pw-qty__num">{quantity}</span>
+            <button
+              className="pw-qty__btn"
+              onClick={() => setQuantity(q => q + 1)}
+              aria-label="Increase quantity"
+            >+</button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Quantity stepper */}
       <div className="pw-qty">
