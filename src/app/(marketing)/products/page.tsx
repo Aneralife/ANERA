@@ -257,11 +257,11 @@ const compSupplements = [
 ];
 
 const benefitTabs = [
-  { id: "energy", label: "Energy", number: "78", unit: "%", statLabel: "of participants reported increased sustained energy within 30 days", title: "Sustained All-Day Energy", text: "NMN directly fuels NAD+ production in every cell, restoring the metabolic efficiency that declines with age. Unlike caffeine, which masks fatigue, NMN addresses the root cause.", source: "Igarashi et al., 2022 \u2014 Randomized, double-blind, placebo-controlled" },
-  { id: "aging", label: "Cellular Aging", number: "38", unit: "%", statLabel: "improvement in key biomarkers of cellular aging over 60 days", title: "Reverse Cellular Clock", text: "NAD+ activates sirtuins \u2014 the \"longevity genes\" \u2014 that repair DNA damage and regulate epigenetic aging. Higher NAD+ levels are directly linked to slower biological aging.", source: "Yi et al., 2023 \u2014 NAD+ and sirtuin activation study" },
-  { id: "brain", label: "Brain Health", number: "2.4", unit: "\u00d7", statLabel: "faster cognitive processing speed versus placebo group", title: "Sharper Mind, Faster Recall", text: "The brain consumes 20% of the body\u2019s energy. NMN ensures mitochondria in neurons operate at peak efficiency, supporting memory, focus, and neuroprotection against age-related decline.", source: "Niu et al., 2021 \u2014 Neurological benefits of NMN" },
-  { id: "sleep", label: "Sleep Quality", number: "62", unit: "%", statLabel: "of users reported improved sleep quality within 3 weeks", title: "Deeper, More Restorative Sleep", text: "NAD+ is essential for circadian rhythm regulation. By restoring NAD+ levels, NMN helps synchronize your internal clock, leading to deeper REM cycles and more restorative sleep.", source: "Levine et al., 2020 \u2014 NAD+ and circadian biology" },
-  { id: "cardio", label: "Cardiovascular", number: "29", unit: "%", statLabel: "improvement in vascular elasticity in clinical studies", title: "Healthier Heart & Vessels", text: "NMN improves endothelial function, the lining of blood vessels responsible for healthy blood flow. Combined with Trans-Resveratrol\u2019s cardioprotective properties, it offers comprehensive cardiovascular support.", source: "de Picciotto et al., 2016 \u2014 NMN and vascular aging" },
+  { id: "energy", label: "Energy", number: "78", unit: "%", statLabel: "of participants reported increased sustained energy within 30 days", title: "Sustained All-Day Energy", text: "NMN directly fuels NAD+ production in every cell, restoring the metabolic efficiency that declines with age. Unlike caffeine, which masks fatigue, NMN addresses the root cause.", source: "Igarashi et al., 2022 \u2014 Randomized, double-blind, placebo-controlled", sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/35927255/" },
+  { id: "aging", label: "Cellular Aging", number: "38", unit: "%", statLabel: "improvement in key biomarkers of cellular aging over 60 days", title: "Reverse Cellular Clock", text: "NAD+ activates sirtuins \u2014 the \"longevity genes\" \u2014 that repair DNA damage and regulate epigenetic aging. Higher NAD+ levels are directly linked to slower biological aging.", source: "Yi et al., 2023 \u2014 NAD+ and sirtuin activation study", sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36482258/" },
+  { id: "brain", label: "Brain Health", number: "2.4", unit: "\u00d7", statLabel: "faster cognitive processing speed versus placebo group", title: "Sharper Mind, Faster Recall", text: "The brain consumes 20% of the body\u2019s energy. NMN ensures mitochondria in neurons operate at peak efficiency, supporting memory, focus, and neuroprotection against age-related decline.", source: "Niu et al., 2021 \u2014 Neurological benefits of NMN", sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/34646864/" },
+  { id: "sleep", label: "Sleep Quality", number: "62", unit: "%", statLabel: "of users reported improved sleep quality within 3 weeks", title: "Deeper, More Restorative Sleep", text: "NAD+ is essential for circadian rhythm regulation. By restoring NAD+ levels, NMN helps synchronize your internal clock, leading to deeper REM cycles and more restorative sleep.", source: "Levine et al., 2020 \u2014 NAD+ and circadian biology", sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/32369735/" },
+  { id: "cardio", label: "Cardiovascular", number: "29", unit: "%", statLabel: "improvement in vascular elasticity in clinical studies", title: "Healthier Heart & Vessels", text: "NMN improves endothelial function, the lining of blood vessels responsible for healthy blood flow. Combined with Trans-Resveratrol\u2019s cardioprotective properties, it offers comprehensive cardiovascular support.", source: "de Picciotto et al., 2016 \u2014 NMN and vascular aging", sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/26970090/" },
 ];
 
 const timelinePanels = [
@@ -581,7 +581,14 @@ export default function StorePage() {
               <div className="st-benefit-panel__text">
                 <h3>{tab.title}</h3>
                 <p>{tab.text}</p>
-                <div className="st-benefit-panel__source">{tab.source}</div>
+                <a
+                  href={tab.sourceUrl}
+                  className="st-benefit-panel__source"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {tab.source} ↗
+                </a>
               </div>
             </div>
           ))}

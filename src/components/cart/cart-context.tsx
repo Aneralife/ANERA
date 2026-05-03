@@ -18,7 +18,7 @@ type CartAction =
 type CartContextType = {
   cart: Cart | null;
   isPending: boolean;
-  addItem: (variantId: string) => Promise<void>;
+  addItem: (variantId: string, quantity?: number) => Promise<void>;
   updateItem: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
 };
@@ -74,14 +74,14 @@ export function CartProvider({
   const [isPending, startTransition] = useTransition();
 
   const addItem = useCallback(
-    async (variantId: string) => {
+    async (variantId: string, quantity = 1) => {
       startTransition(async () => {
         setOptimisticCart({ type: "ADD_ITEM", variantId });
 
         const res = await fetch("/api/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "add", variantId }),
+          body: JSON.stringify({ action: "add", variantId, quantity }),
         });
         const updatedCart = await res.json();
         setOptimisticCart({ type: "SET_CART", cart: updatedCart });
