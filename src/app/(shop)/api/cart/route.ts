@@ -12,13 +12,14 @@ export async function POST(req: NextRequest) {
 
     switch (action) {
       case "add": {
+        const addQty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
         if (cartId) {
           cart = await addToCart(cartId, [
-            { merchandiseId: variantId, quantity: 1 },
+            { merchandiseId: variantId, quantity: addQty },
           ]);
         } else {
           cart = await createCart([
-            { merchandiseId: variantId, quantity: 1 },
+            { merchandiseId: variantId, quantity: addQty },
           ]);
           // Set cart cookie
           const response = NextResponse.json(cart);

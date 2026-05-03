@@ -34,6 +34,7 @@ const FREQUENCIES: FreqOption[] = [
 export function PurchaseWidget({ availableForSale, defaultVariantId, variants, originalPrice }: Props) {
   const [selectedFreq, setSelectedFreq] = useState("6");
   const [isSubscribe, setIsSubscribe] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [buying, setBuying] = useState(false);
   const { addItem } = useCart();
@@ -69,7 +70,7 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
   function handleAddToCart() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
     if (!vid || !availableForSale) return;
-    addItem(vid);
+    addItem(vid, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
@@ -82,7 +83,7 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
       const res = await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "buyNow", variantId: vid, quantity: 1 }),
+        body: JSON.stringify({ action: "buyNow", variantId: vid, quantity }),
       });
       const data = await res.json();
       if (data.checkoutUrl) window.location.href = data.checkoutUrl;
@@ -149,6 +150,25 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
       >
         <div className="pw-onetime-title">One-time purchase</div>
         <div className="pw-onetime-price">${basePrice} CAD</div>
+      </div>
+
+      {/* Quantity stepper */}
+      <div className="pw-qty">
+        <span className="pw-qty__label">Quantity</span>
+        <div className="pw-qty__controls">
+          <button
+            className="pw-qty__btn"
+            onClick={() => setQuantity(q => Math.max(1, q - 1))}
+            disabled={quantity <= 1}
+            aria-label="Decrease quantity"
+          >−</button>
+          <span className="pw-qty__num">{quantity}</span>
+          <button
+            className="pw-qty__btn"
+            onClick={() => setQuantity(q => q + 1)}
+            aria-label="Increase quantity"
+          >+</button>
+        </div>
       </div>
 
       {/* Add to cart */}
