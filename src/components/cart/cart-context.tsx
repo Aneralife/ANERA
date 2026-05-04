@@ -6,6 +6,7 @@ import {
   useOptimistic,
   useTransition,
   useCallback,
+  useState,
 } from "react";
 import type { Cart } from "@/lib/shopify/types";
 
@@ -18,6 +19,9 @@ type CartAction =
 type CartContextType = {
   cart: Cart | null;
   isPending: boolean;
+  isOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
   addItem: (variantId: string, quantity?: number) => Promise<void>;
   updateItem: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
@@ -72,6 +76,10 @@ export function CartProvider({
     cartReducer
   );
   const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openCart = useCallback(() => setIsOpen(true), []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
 
   const addItem = useCallback(
     async (variantId: string, quantity = 1) => {
@@ -129,6 +137,9 @@ export function CartProvider({
       value={{
         cart: optimisticCart,
         isPending,
+        isOpen,
+        openCart,
+        closeCart,
         addItem,
         updateItem,
         removeItem,

@@ -11,7 +11,7 @@ const navigation = [
 ];
 
 export function Header() {
-  const { cart } = useCart();
+  const { cart, openCart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
@@ -101,10 +101,11 @@ export function Header() {
         {/* Theme toggle + Cart */}
         <div className="flex items-center gap-2">
           <ThemeToggle className="p-1.5 opacity-60 transition-opacity duration-400 ease-apple hover:opacity-100" />
-          <Link
-            href="/cart"
+          <button
+            type="button"
+            onClick={openCart}
             className="relative p-1.5 opacity-80 transition-opacity duration-400 ease-apple hover:opacity-100"
-            style={{ color: 'var(--foreground)' }}
+            style={{ color: 'var(--foreground)', background: 'none', border: 'none', cursor: 'pointer' }}
             aria-label={`Shopping cart with ${itemCount} items`}
           >
             <svg
@@ -125,7 +126,7 @@ export function Header() {
                 {itemCount}
               </span>
             )}
-          </Link>
+          </button>
         </div>
       </nav>
 

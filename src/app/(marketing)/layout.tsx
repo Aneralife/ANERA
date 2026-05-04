@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/components/auth-provider";
 import { ChatWidget } from "@/components/chat-widget";
+import { CartDrawer } from "@/components/cart/cart-drawer";
 import "./marketing.css";
 
 export default function MarketingLayout({
@@ -195,6 +196,9 @@ export default function MarketingLayout({
       <main>{children}</main>
 
 
+
+      {/* Cart Drawer */}
+      <CartDrawer />
 
       {/* AI Chat Widget */}
       <ChatWidget />

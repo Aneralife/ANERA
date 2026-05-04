@@ -35,9 +35,7 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
   const [selectedFreq, setSelectedFreq] = useState("6");
   const [isSubscribe, setIsSubscribe] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
-  const [buying, setBuying] = useState(false);
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
 
   const basePrice = originalPrice || 105;
   const hasVariants = variants && variants.length > 1;
@@ -75,25 +73,14 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
     if (!vid || !availableForSale) return;
     addItem(vid, quantity);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    openCart();
   }
 
-  async function handleBuyNow() {
+  function handleBuyNow() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
-    if (!vid || !availableForSale || buying) return;
-    setBuying(true);
-    try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "buyNow", variantId: vid, quantity }),
-      });
-      const data = await res.json();
-      if (data.checkoutUrl) window.location.href = data.checkoutUrl;
-    } catch {
-      setBuying(false);
-    }
+    if (!vid || !availableForSale) return;
+    addItem(vid, quantity);
+    openCart();
   }
 
   return (
@@ -179,20 +166,20 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
 
       {/* Add to cart */}
       <button
-        className={`pw-atc${added ? " pw-atc--done" : ""}`}
+        className="pw-atc"
         onClick={handleAddToCart}
         disabled={!availableForSale}
       >
-        {!availableForSale ? "Sold Out" : added ? "✓ Added!" : "Add to cart"}
+        {!availableForSale ? "Sold Out" : "Add to cart"}
       </button>
 
       {/* Buy Now */}
       <button
         className="pw-buy"
         onClick={handleBuyNow}
-        disabled={!availableForSale || buying}
+        disabled={!availableForSale}
       >
-        {buying ? "Redirecting…" : `Buy Now — CA$${buyNowPrice}`}
+        {`Buy Now — CA$${buyNowPrice}`}
       </button>
     </div>
   );
