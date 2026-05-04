@@ -6,6 +6,7 @@ import {
   useOptimistic,
   useTransition,
   useCallback,
+  useState,
 } from "react";
 import type { Cart } from "@/lib/shopify/types";
 
@@ -18,9 +19,12 @@ type CartAction =
 type CartContextType = {
   cart: Cart | null;
   isPending: boolean;
-  addItem: (variantId: string) => Promise<void>;
-  updateItem: (lineId: string, quantity: number) => Promise<void>;
-  removeItem: (lineId: string) => Promise<void>;
+  isOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
+  addItem: (variantId: string, quantity?: number, openAfter?: boolean) => void;
+  updateItem: (lineId: string, quantity: number) => void;
+  removeItem: (lineId: string) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -67,33 +71,38 @@ export function CartProvider({
   children: React.ReactNode;
   initialCart: Cart | null;
 }) {
-  const [optimisticCart, setOptimisticCart] = useOptimistic(
-    initialCart,
-    cartReducer
-  );
+  // Real confirmed state — useOptimistic reverts to this after each transition
+  const [cart, setCart] = useState<Cart | null>(initialCart);
+  const [optimisticCart, addOptimistic] = useOptimistic(cart, cartReducer);
   const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openCart = useCallback(() => setIsOpen(true), []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
 
   const addItem = useCallback(
-    async (variantId: string) => {
+    (variantId: string, quantity = 1, openAfter = false) => {
       startTransition(async () => {
-        setOptimisticCart({ type: "ADD_ITEM", variantId });
+        addOptimistic({ type: "ADD_ITEM", variantId });
 
         const res = await fetch("/api/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "add", variantId }),
+          body: JSON.stringify({ action: "add", variantId, quantity }),
         });
         const updatedCart = await res.json();
-        setOptimisticCart({ type: "SET_CART", cart: updatedCart });
+        setCart(updatedCart);
+
+        if (openAfter) setIsOpen(true);
       });
     },
-    [setOptimisticCart]
+    [addOptimistic]
   );
 
   const updateItem = useCallback(
-    async (lineId: string, quantity: number) => {
+    (lineId: string, quantity: number) => {
       startTransition(async () => {
-        setOptimisticCart({ type: "UPDATE_ITEM", lineId, quantity });
+        addOptimistic({ type: "UPDATE_ITEM", lineId, quantity });
 
         const res = await fetch("/api/cart", {
           method: "POST",
@@ -101,16 +110,16 @@ export function CartProvider({
           body: JSON.stringify({ action: "update", lineId, quantity }),
         });
         const updatedCart = await res.json();
-        setOptimisticCart({ type: "SET_CART", cart: updatedCart });
+        setCart(updatedCart);
       });
     },
-    [setOptimisticCart]
+    [addOptimistic]
   );
 
   const removeItem = useCallback(
-    async (lineId: string) => {
+    (lineId: string) => {
       startTransition(async () => {
-        setOptimisticCart({ type: "REMOVE_ITEM", lineId });
+        addOptimistic({ type: "REMOVE_ITEM", lineId });
 
         const res = await fetch("/api/cart", {
           method: "POST",
@@ -118,10 +127,10 @@ export function CartProvider({
           body: JSON.stringify({ action: "remove", lineId }),
         });
         const updatedCart = await res.json();
-        setOptimisticCart({ type: "SET_CART", cart: updatedCart });
+        setCart(updatedCart);
       });
     },
-    [setOptimisticCart]
+    [addOptimistic]
   );
 
   return (
@@ -129,6 +138,9 @@ export function CartProvider({
       value={{
         cart: optimisticCart,
         isPending,
+        isOpen,
+        openCart,
+        closeCart,
         addItem,
         updateItem,
         removeItem,

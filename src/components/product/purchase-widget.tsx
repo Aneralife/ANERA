@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/components/cart/cart-context";
 
 type VariantOption = {
@@ -34,9 +34,12 @@ const FREQUENCIES: FreqOption[] = [
 export function PurchaseWidget({ availableForSale, defaultVariantId, variants, originalPrice }: Props) {
   const [selectedFreq, setSelectedFreq] = useState("6");
   const [isSubscribe, setIsSubscribe] = useState(true);
-  const [added, setAdded] = useState(false);
-  const [buying, setBuying] = useState(false);
-  const { addItem } = useCart();
+  const [clicked, setClicked] = useState<"atc" | "buy" | null>(null);
+  const { addItem, isPending } = useCart();
+
+  useEffect(() => {
+    if (!isPending) setClicked(null);
+  }, [isPending]);
 
   const basePrice = originalPrice || 105;
   const hasVariants = variants && variants.length > 1;
@@ -65,30 +68,21 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
   }
 
   const currentFreq = getFreqData(selectedFreq);
+  const onetimeTotal = basePrice;
+  const subscribeTotal = Math.round(currentFreq.totalDiscounted);
+  const subscribeOriginal = currentFreq.totalOriginal;
 
   function handleAddToCart() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
-    if (!vid || !availableForSale) return;
-    addItem(vid);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    if (!vid || !availableForSale || isPending) return;
+    setClicked("atc");
+    addItem(vid, 1, true);
   }
 
-  async function handleBuyNow() {
+  function handleBuyNow() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
-    if (!vid || !availableForSale || buying) return;
-    setBuying(true);
-    try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "buyNow", variantId: vid, quantity: 1 }),
-      });
-      const data = await res.json();
-      if (data.checkoutUrl) window.location.href = data.checkoutUrl;
-    } catch {
-      setBuying(false);
-    }
+    if (!vid || !availableForSale || isPending) return;
+    addItem(vid, 1, true);
   }
 
   return (
@@ -106,8 +100,8 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
             <div className="pw-card-sub">{currentFreq.paidLabel}</div>
           </div>
           <div className="pw-card-price">
-            <div className="pw-price-original">${currentFreq.totalOriginal}.00</div>
-            <div className="pw-price-current">${currentFreq.totalDiscounted}<sup>CAD</sup></div>
+            <div className="pw-price-original">${subscribeOriginal}.00</div>
+            <div className="pw-price-current">${subscribeTotal}<sup>CAD</sup></div>
           </div>
         </div>
 
@@ -148,25 +142,25 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         onClick={() => setIsSubscribe(false)}
       >
         <div className="pw-onetime-title">One-time purchase</div>
-        <div className="pw-onetime-price">${basePrice} CAD</div>
+        <div className="pw-onetime-price">${onetimeTotal} CAD</div>
       </div>
 
       {/* Add to cart */}
       <button
-        className={`pw-atc${added ? " pw-atc--done" : ""}`}
+        className="pw-atc"
         onClick={handleAddToCart}
-        disabled={!availableForSale}
+        disabled={!availableForSale || isPending}
       >
-        {!availableForSale ? "Sold Out" : added ? "✓ Added!" : "Add to cart"}
+        {clicked === "atc" && isPending ? "Adding…" : !availableForSale ? "Sold Out" : "Add to cart"}
       </button>
 
-      {/* Buy Now */}
+      {/* Buy Now — goes directly to Shopify checkout */}
       <button
         className="pw-buy"
         onClick={handleBuyNow}
-        disabled={!availableForSale || buying}
+        disabled={!availableForSale || isPending}
       >
-        {buying ? "Redirecting…" : "Buy Now"}
+        Buy Now
       </button>
     </div>
   );
