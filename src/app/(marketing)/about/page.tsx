@@ -104,59 +104,36 @@ const FOCUS_PILLARS = [
   },
 ];
 
-const founderStorySections = [
+const TIMELINE_NODES = [
   {
-    title: "My Personal Journey with ANERA NMN: From Pain to Purpose",
-    paragraphs: [
-      "In 2020, fitness enthusiast Truc Tran's life was derailed by severe, unexplained foot pain that resisted all treatments and impacted his family life. After years of searching, a 2023 trial of NMN (Nicotinamide Mononucleotide) offered transformative relief, restoring his mobility and vitality. Inspired, he founded ANERA to share NMN's healing power with others. ANERA's mission is to empower individuals to reclaim health, strength, and focus, helping humanity heal, one life at a time. In 2020, at the height of the pandemic, my life took an unexpected and painful turn. For over 20 years, I had been an avid fitness enthusiast — always in the gym, eating well, and staying active. But as I entered my 40s, I began experiencing severe pain in both my feet, pain so excruciating that it started to dictate my entire life. I couldn't understand what had caused it, and no one seemed to have answers. For years, I sought help. I saw doctors, specialists, did bloodwork and x-rays, but nothing came back conclusive. I was referred to a rheumatologist who ordered an MRI, but all they found were some trace fluids in my ankle joints — nothing that explained the constant pain I was living with. I even visited a podiatrist and tried specialized shoes and insoles, but instead of relief, the pain only worsened. My feet would swell to twice their size, and I found myself limping, barely able to walk most days.",
-    ],
-  },
- 
-
-  {
-    title: "The Impact on My Family and Everyday Life",
-    paragraphs: [
-      "This pain robbed me of my routine, and more importantly, it took a toll on my life with my family. I'm a dad, and the hardest part was not being able to do the things I loved with my kids — running around, playing sports, or even enjoying a family vacation without having to cut the day short due to my pain. Mornings were a struggle just to get out of bed, and my wife had to help me, something no husband or father ever wants to ask for.",
-    ],
+    year: "2020",
+    title: "The Pain Begins",
+    text: "After 20 years as a fitness enthusiast, severe unexplained foot pain derailed everything. Doctors, specialists, MRIs — nothing conclusive. My feet would swell to twice their size and I could barely walk.",
+    highlight: false,
   },
   {
-    title: "Desperate for a Solution",
-    paragraphs: [
-      "I tried everything: acupuncture, rehabilitation, massages — anything that offered a sliver of hope. Nothing worked. I was on a cycle of painkillers just to make it through each day. My life was consumed by this pain, and I was losing hope.",
-    ],
+    year: "2020 – 2022",
+    title: "No Answers",
+    text: "Acupuncture, rehab, painkillers, specialized shoes — nothing worked. I was losing hope, and the pain was consuming my life and my time with my family.",
+    highlight: false,
   },
   {
-    title: "A Life-Changing Breakthrough",
-    paragraphs: [
-      "Then, in 2023, everything changed. A friend introduced me to NMN (Nicotinamide Mononucleotide), a compound I had never heard of before. His family member had brought it over from Asia, and he suggested I try it. I was skeptical, of course, after so many failed attempts, but I was willing to give anything a shot at that point.",
-    ],
+    year: "2023",
+    title: "A Friend's Suggestion",
+    text: "A friend introduced me to NMN — a compound I had never heard of. Skeptical after so many failed attempts, I was willing to try anything.",
+    highlight: false,
   },
   {
-    title: "My First Experience with NMN",
-    paragraphs: [
-      "Within three days of taking NMN, something remarkable happened — the pain started to fade. I couldn't believe it. After years of suffering, it felt like a miracle. A week later, the improvement was undeniable. I told myself, 'Let's see how I feel after a couple more weeks.' And sure enough, the results only got better. By the end of the first month, my pain was 95% gone. The swelling in my feet had completely disappeared, and I could walk again without limping. I could wear my favorite shoes again, and I didn't dread getting out of bed each morning.",
-    ],
+    year: "2023",
+    title: "\"Within three days, the pain started to fade.\"",
+    text: "By the end of the first month, the pain was 95% gone. The swelling disappeared. I could walk again, return to the gym, and be the father I wanted to be.",
+    highlight: true,
   },
   {
-    title: "How NMN Gave Me My Life Back",
-    paragraphs: [
-      "NMN didn't just take away my pain — it gave me my life back. I was able to return to the gym, start training again, and most importantly, I could be there for my family the way I wanted to be. I felt energized, focused, and alive in a way I hadn't in years.",
-    ],
-  },
-  {
+    year: "2024",
     title: "Founding ANERA",
-    paragraphs: [
-      "This experience changed everything for me. I knew I couldn't keep this to myself — I had to share it with others who might be suffering like I was. That's why I founded ANERA, a company built on the simple but profound mission to Help Heal Humanity. I made it my goal to find the best NMN available and bring it to market, so others could experience the same life-changing benefits that I did.",
-    ],
-  },
-  {
-    title: "Building ANERA to Share the Healing Power of NMN",
-    paragraphs: [
-      "At ANERA, we're not just selling a product. We're offering a path to reclaim your vitality, your energy, and your health. I believe that this longevity supplement is the key foundation for helping others regain a sense of strength, focus, and youthful energy that so many of us lose as we age.",
-      "As a hardworking dad devoted to family and community, I feel a deep responsibility to assist others in finding healing and well-being. My mission with ANERA is to make the Best NMN Supplements in Canada accessible to as many people as possible. Together, we can embark on a journey to help heal humanity, one life at a time.",
-      "Let's walk this path together.",
-      "Truc Tran, CEO and Founder",
-    ],
+    text: "I couldn't keep this to myself. ANERA was founded on a simple mission: Help Heal Humanity — bringing the best NMN to as many people as possible, one life at a time.",
+    highlight: false,
   },
 ];
 
@@ -262,17 +239,25 @@ export default function AboutPage() {
               <div className="ab-leader__right">
                 <h3 className="ab-leader__name">Truc Tran</h3>
                 <p className="ab-leader__title">CEO &amp; Founder</p>
-                {founderStorySections[0].paragraphs.map((text, i) => (
-                  <p key={i}>{text}</p>
-                ))}
+                <blockquote className="ab-founder__pullquote">
+                  &ldquo;I went from barely being able to walk, to returning to the gym, to founding a company — all because of one compound I almost never tried.&rdquo;
+                </blockquote>
+                <p className="ab-founder__pullquote-attr">— Truc Tran, on discovering NMN in 2023</p>
               </div>
             </div>
-            <div className="ab-founder__bottom">
-              {founderStorySections.slice(1).map((section) => (
-                <div key={section.title}>
-                  {section.paragraphs.map((text, i) => (
-                    <p key={i}>{text}</p>
-                  ))}
+
+            <div className="ab-founder__timeline">
+              {TIMELINE_NODES.map((node, i) => (
+                <div key={i} className={`ab-tl-node${node.highlight ? " ab-tl-node--highlight" : ""}`}>
+                  <div className="ab-tl-marker">
+                    <span className="ab-tl-dot" />
+                    {i < TIMELINE_NODES.length - 1 && <span className="ab-tl-line" />}
+                  </div>
+                  <div className="ab-tl-content">
+                    <span className="ab-tl-year">{node.year}</span>
+                    <h4 className="ab-tl-title">{node.title}</h4>
+                    <p className="ab-tl-text">{node.text}</p>
+                  </div>
                 </div>
               ))}
             </div>
