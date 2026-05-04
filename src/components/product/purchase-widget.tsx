@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/components/cart/cart-context";
 
 type VariantOption = {
@@ -34,8 +34,12 @@ const FREQUENCIES: FreqOption[] = [
 export function PurchaseWidget({ availableForSale, defaultVariantId, variants, originalPrice }: Props) {
   const [selectedFreq, setSelectedFreq] = useState("6");
   const [isSubscribe, setIsSubscribe] = useState(true);
-  const [quantity, setQuantity] = useState(1);
-  const { addItem, openCart } = useCart();
+  const [clicked, setClicked] = useState<"atc" | "buy" | null>(null);
+  const { addItem, isPending } = useCart();
+
+  useEffect(() => {
+    if (!isPending) setClicked(null);
+  }, [isPending]);
 
   const basePrice = originalPrice || 105;
   const hasVariants = variants && variants.length > 1;
@@ -64,23 +68,21 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
   }
 
   const currentFreq = getFreqData(selectedFreq);
-  const onetimeTotal = basePrice * quantity;
-  const subscribeTotal = Math.round(currentFreq.totalDiscounted * quantity);
-  const subscribeOriginal = currentFreq.totalOriginal * quantity;
-  const buyNowPrice = isSubscribe ? subscribeTotal : onetimeTotal;
+  const onetimeTotal = basePrice;
+  const subscribeTotal = Math.round(currentFreq.totalDiscounted);
+  const subscribeOriginal = currentFreq.totalOriginal;
 
   function handleAddToCart() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
-    if (!vid || !availableForSale) return;
-    addItem(vid, quantity);
-    openCart();
+    if (!vid || !availableForSale || isPending) return;
+    setClicked("atc");
+    addItem(vid, 1, true);
   }
 
   function handleBuyNow() {
     const vid = isSubscribe ? getVariantForFreq(selectedFreq) : defaultVariantId;
-    if (!vid || !availableForSale) return;
-    addItem(vid, quantity);
-    openCart();
+    if (!vid || !availableForSale || isPending) return;
+    addItem(vid, 1, true);
   }
 
   return (
@@ -143,43 +145,22 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
         <div className="pw-onetime-price">${onetimeTotal} CAD</div>
       </div>
 
-      {/* Quantity stepper — only for one-time purchases */}
-      {!isSubscribe && (
-        <div className="pw-qty">
-          <span className="pw-qty__label">Quantity</span>
-          <div className="pw-qty__controls">
-            <button
-              className="pw-qty__btn"
-              onClick={() => setQuantity(q => Math.max(1, q - 1))}
-              disabled={quantity <= 1}
-              aria-label="Decrease quantity"
-            >−</button>
-            <span className="pw-qty__num">{quantity}</span>
-            <button
-              className="pw-qty__btn"
-              onClick={() => setQuantity(q => q + 1)}
-              aria-label="Increase quantity"
-            >+</button>
-          </div>
-        </div>
-      )}
-
       {/* Add to cart */}
       <button
         className="pw-atc"
         onClick={handleAddToCart}
-        disabled={!availableForSale}
+        disabled={!availableForSale || isPending}
       >
-        {!availableForSale ? "Sold Out" : "Add to cart"}
+        {clicked === "atc" && isPending ? "Adding…" : !availableForSale ? "Sold Out" : "Add to cart"}
       </button>
 
-      {/* Buy Now */}
+      {/* Buy Now — goes directly to Shopify checkout */}
       <button
         className="pw-buy"
         onClick={handleBuyNow}
-        disabled={!availableForSale}
+        disabled={!availableForSale || isPending}
       >
-        {`Buy Now — CA$${buyNowPrice}`}
+        Buy Now
       </button>
     </div>
   );

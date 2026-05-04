@@ -2,11 +2,109 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useTransition } from "react";
 import { useCart } from "./cart-context";
+import type { CartItem } from "@/lib/shopify/types";
 import { formatPrice } from "@/lib/utils";
 
+// Isolated per-item component so isPending only affects the row being changed
+function CartLineItem({
+  item,
+  onUpdate,
+  onRemove,
+  onLinkClick,
+}: {
+  item: CartItem;
+  onUpdate: (lineId: string, quantity: number) => void;
+  onRemove: (lineId: string) => void;
+  onLinkClick: () => void;
+}) {
+  const [isPending, startTransition] = useTransition();
+
+  function update(qty: number) {
+    startTransition(() => {
+      if (qty < 1) onRemove(item.id);
+      else onUpdate(item.id, qty);
+    });
+  }
+
+  function remove() {
+    startTransition(() => onRemove(item.id));
+  }
+
+  return (
+    <li className={`cd-item${isPending ? " cd-item--pending" : ""}`}>
+      <Link
+        href={`/products/${item.merchandise.product.handle}`}
+        className="cd-item__img-wrap"
+        onClick={onLinkClick}
+      >
+        {item.merchandise.product.featuredImage ? (
+          <Image
+            src={item.merchandise.product.featuredImage.url}
+            alt={item.merchandise.product.featuredImage.altText || item.merchandise.product.title}
+            fill
+            sizes="80px"
+            className="cd-item__img"
+          />
+        ) : (
+          <div className="cd-item__img-placeholder" />
+        )}
+      </Link>
+
+      <div className="cd-item__details">
+        <div className="cd-item__top">
+          <Link
+            href={`/products/${item.merchandise.product.handle}`}
+            className="cd-item__name"
+            onClick={onLinkClick}
+          >
+            {item.merchandise.product.title}
+          </Link>
+          <button
+            className="cd-item__remove"
+            onClick={remove}
+            disabled={isPending}
+            aria-label="Remove item"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {item.merchandise.title !== "Default Title" && (
+          <p className="cd-item__variant">{item.merchandise.title}</p>
+        )}
+
+        <div className="cd-item__bottom">
+          <div className="cd-qty">
+            <button
+              className="cd-qty__btn"
+              onClick={() => update(item.quantity - 1)}
+              disabled={isPending}
+              aria-label="Decrease quantity"
+            >−</button>
+            <span className="cd-qty__num">{item.quantity}</span>
+            <button
+              className="cd-qty__btn"
+              onClick={() => update(item.quantity + 1)}
+              disabled={isPending}
+              aria-label="Increase quantity"
+            >+</button>
+          </div>
+
+          <span className="cd-item__price">
+            {formatPrice(item.cost.totalAmount)}
+          </span>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export function CartDrawer() {
-  const { cart, isOpen, closeCart, updateItem, removeItem, isPending } = useCart();
+  const { cart, isOpen, closeCart, updateItem, removeItem } = useCart();
   const itemCount = cart?.totalQuantity ?? 0;
 
   return (
@@ -55,80 +153,13 @@ export function CartDrawer() {
           ) : (
             <ul className="cd-items">
               {cart.lines.map((item) => (
-                <li key={item.id} className="cd-item">
-                  {/* Product image */}
-                  <Link
-                    href={`/products/${item.merchandise.product.handle}`}
-                    className="cd-item__img-wrap"
-                    onClick={closeCart}
-                  >
-                    {item.merchandise.product.featuredImage ? (
-                      <Image
-                        src={item.merchandise.product.featuredImage.url}
-                        alt={item.merchandise.product.featuredImage.altText || item.merchandise.product.title}
-                        fill
-                        sizes="80px"
-                        className="cd-item__img"
-                      />
-                    ) : (
-                      <div className="cd-item__img-placeholder" />
-                    )}
-                  </Link>
-
-                  {/* Details */}
-                  <div className="cd-item__details">
-                    <div className="cd-item__top">
-                      <Link
-                        href={`/products/${item.merchandise.product.handle}`}
-                        className="cd-item__name"
-                        onClick={closeCart}
-                      >
-                        {item.merchandise.product.title}
-                      </Link>
-                      <button
-                        className="cd-item__remove"
-                        onClick={() => removeItem(item.id)}
-                        disabled={isPending}
-                        aria-label="Remove item"
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                          <path d="M18 6L6 18M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {item.merchandise.title !== "Default Title" && (
-                      <p className="cd-item__variant">{item.merchandise.title}</p>
-                    )}
-
-                    <div className="cd-item__bottom">
-                      {/* Qty controls */}
-                      <div className="cd-qty">
-                        <button
-                          className="cd-qty__btn"
-                          onClick={() =>
-                            item.quantity > 1
-                              ? updateItem(item.id, item.quantity - 1)
-                              : removeItem(item.id)
-                          }
-                          disabled={isPending}
-                          aria-label="Decrease quantity"
-                        >−</button>
-                        <span className="cd-qty__num">{item.quantity}</span>
-                        <button
-                          className="cd-qty__btn"
-                          onClick={() => updateItem(item.id, item.quantity + 1)}
-                          disabled={isPending}
-                          aria-label="Increase quantity"
-                        >+</button>
-                      </div>
-
-                      <span className="cd-item__price">
-                        {formatPrice(item.cost.totalAmount)}
-                      </span>
-                    </div>
-                  </div>
-                </li>
+                <CartLineItem
+                  key={item.id}
+                  item={item}
+                  onUpdate={updateItem}
+                  onRemove={removeItem}
+                  onLinkClick={closeCart}
+                />
               ))}
             </ul>
           )}
@@ -142,10 +173,7 @@ export function CartDrawer() {
               <span>{formatPrice(cart.cost.subtotalAmount)}</span>
             </div>
             <p className="cd-footer__note">Shipping &amp; taxes calculated at checkout</p>
-            <a
-              href={cart.checkoutUrl}
-              className="cd-footer__checkout"
-            >
+            <a href={cart.checkoutUrl} className="cd-footer__checkout">
               Proceed to Checkout
             </a>
             <button className="cd-footer__continue" onClick={closeCart}>
