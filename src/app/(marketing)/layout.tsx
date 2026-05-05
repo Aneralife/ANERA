@@ -133,23 +133,15 @@ export default function MarketingLayout({
         </ul>
         <div className="nav__right">
           <ThemeToggle className="theme-toggle" />
-          {!authLoading && (
-            user ? (
-              <>
-                {user.role === "admin" && (
-                  <Link href="/admin" className="nav__links" style={{ fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "var(--fg-secondary)" }}>
-                    Admin
-                  </Link>
-                )}
-                <button onClick={signOut} className="nav__cta" style={{ background: "none", cursor: "pointer", border: "1px solid var(--cta-border)", fontFamily: "inherit" }}>
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <Link href="/signin" className="nav__cta">
-                Sign In
+          {!authLoading && user?.role === "admin" && (
+            <>
+              <Link href="/admin" className="nav__links" style={{ fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "var(--fg-secondary)" }}>
+                Admin
               </Link>
-            )
+              <button onClick={signOut} className="nav__cta" style={{ background: "none", cursor: "pointer", border: "1px solid var(--cta-border)", fontFamily: "inherit" }}>
+                Sign Out
+              </button>
+            </>
           )}
           <button
             className="nav__hamburger"
@@ -172,22 +164,12 @@ export default function MarketingLayout({
           <li><Link href="/about">About</Link></li>
           <li><Link href="/contact">Contact</Link></li>
         </ul>
-        {!authLoading && (
+        {!authLoading && user?.role === "admin" && (
           <div className="nav-mobile__actions">
-            {user ? (
-              <>
-                {user.role === "admin" && (
-                  <Link href="/admin" className="nav-mobile__link">Admin</Link>
-                )}
-                <button onClick={signOut} className="nav__cta nav-mobile__cta">
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <Link href="/signin" className="nav__cta nav-mobile__cta">
-                Sign In
-              </Link>
-            )}
+            <Link href="/admin" className="nav-mobile__link">Admin</Link>
+            <button onClick={signOut} className="nav__cta nav-mobile__cta">
+              Sign Out
+            </button>
           </div>
         )}
       </div>
