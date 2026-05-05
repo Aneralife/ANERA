@@ -32,10 +32,11 @@ const domain = process.env.SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 const endpoint = `https://${domain}/api/2024-01/graphql.json`;
 
+// IPv6 is unreachable on this host — force IPv4 to avoid Happy Eyeballs ETIMEDOUT
 const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
 const dispatcherPromise = proxyUrl
   ? import("undici").then(({ ProxyAgent }) => new ProxyAgent(proxyUrl)).catch(() => undefined)
-  : Promise.resolve(undefined);
+  : import("undici").then(({ Agent }) => new Agent({ connect: { family: 4 } })).catch(() => undefined);
 
 // ─── Core Fetch ───────────────────────────────────────────
 
@@ -46,9 +47,13 @@ type ShopifyResponse<T> = {
 
 async function shopifyFetch<T>(
   query: string,
-  variables: Record<string, unknown> = {}
+  variables: Record<string, unknown> = {},
+  mutation = false
 ): Promise<T> {
   const resolvedDispatcher = await dispatcherPromise;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 10_000);
+
   const options: Record<string, unknown> = {
     method: "POST",
     headers: {
@@ -56,12 +61,17 @@ async function shopifyFetch<T>(
       "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
     },
     body: JSON.stringify({ query, variables }),
-    next: { revalidate: 120 },
+    signal: controller.signal,
+    // Mutations must never be cached; queries revalidate every 2 min
+    ...(mutation ? { cache: "no-store" } : { next: { revalidate: 120 } }),
   };
   if (resolvedDispatcher) {
     options.dispatcher = resolvedDispatcher;
   }
-  const response = await fetch(endpoint, options as RequestInit);
+
+  const response = await fetch(endpoint, options as RequestInit).finally(() =>
+    clearTimeout(timer)
+  );
 
   if (!response.ok) {
     throw new Error(`Shopify API error: ${response.status} ${response.statusText}`);
@@ -218,7 +228,7 @@ export async function createCart(
 ): Promise<Cart> {
   const data = await shopifyFetch<{
     cartCreate: { cart: ShopifyCart };
-  }>(CREATE_CART_MUTATION, { lines });
+  }>(CREATE_CART_MUTATION, { lines }, true);
 
   return reshapeCart(data.cartCreate.cart);
 }
@@ -229,18 +239,18 @@ export async function addToCart(
 ): Promise<Cart> {
   const data = await shopifyFetch<{
     cartLinesAdd: { cart: ShopifyCart };
-  }>(ADD_TO_CART_MUTATION, { cartId, lines });
+  }>(ADD_TO_CART_MUTATION, { cartId, lines }, true);
 
   return reshapeCart(data.cartLinesAdd.cart);
 }
 
 export async function updateCart(
   cartId: string,
-  lines: { id: string; merchandiseId: string; quantity: number }[]
+  lines: { id: string; merchandiseId?: string; quantity: number }[]
 ): Promise<Cart> {
   const data = await shopifyFetch<{
     cartLinesUpdate: { cart: ShopifyCart };
-  }>(UPDATE_CART_MUTATION, { cartId, lines });
+  }>(UPDATE_CART_MUTATION, { cartId, lines }, true);
 
   return reshapeCart(data.cartLinesUpdate.cart);
 }
@@ -251,7 +261,7 @@ export async function removeFromCart(
 ): Promise<Cart> {
   const data = await shopifyFetch<{
     cartLinesRemove: { cart: ShopifyCart };
-  }>(REMOVE_FROM_CART_MUTATION, { cartId, lineIds });
+  }>(REMOVE_FROM_CART_MUTATION, { cartId, lineIds }, true);
 
   return reshapeCart(data.cartLinesRemove.cart);
 }

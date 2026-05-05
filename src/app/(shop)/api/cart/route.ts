@@ -41,9 +41,9 @@ export async function POST(req: NextRequest) {
             { status: 400 }
           );
         }
-        cart = await updateCart(cartId, [
-          { id: lineId, merchandiseId: variantId, quantity },
-        ]);
+        const updateLine: { id: string; merchandiseId?: string; quantity: number } = { id: lineId, quantity };
+        if (variantId) updateLine.merchandiseId = variantId;
+        cart = await updateCart(cartId, [updateLine]);
         break;
       }
 

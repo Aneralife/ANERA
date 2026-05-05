@@ -136,6 +136,7 @@ export default async function ProductPage({ params }: Props) {
                 title: v.title,
                 price: v.price.amount,
                 currencyCode: v.price.currencyCode,
+                selectedOptions: v.selectedOptions,
               }))}
               originalPrice={basePrice}
             />
