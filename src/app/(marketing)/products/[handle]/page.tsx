@@ -149,13 +149,18 @@ export default async function ProductPage({ params }: Props) {
                 </svg>
                 <span>GMP Certified</span>
               </div>
-              <div className="pdp-trust-row__item">
+              <a
+                className="pdp-trust-row__item pdp-trust-row__item--link"
+                href="/third-party-lab-tested.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <circle cx="12" cy="12" r="9" />
                   <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span>3rd Party Tested</span>
-              </div>
+              </a>
               <div className="pdp-trust-row__item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />

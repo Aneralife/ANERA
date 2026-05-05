@@ -3360,6 +3360,17 @@ img, video { display: block; max-width: 100%; }
   flex-shrink: 0;
   color: var(--fg-muted, #86868b);
 }
+a.pdp-trust-row__item--link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+a.pdp-trust-row__item--link:hover {
+  color: var(--fg, #1d1d1f);
+}
+a.pdp-trust-row__item--link:hover svg {
+  color: var(--fg, #1d1d1f);
+}
 
 /* Highlights */
 .pdp-highlights {
