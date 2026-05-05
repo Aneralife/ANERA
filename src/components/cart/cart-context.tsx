@@ -20,6 +20,7 @@ type CartContextType = {
   cart: Cart | null;
   isPending: boolean;
   isOpen: boolean;
+  cartError: string | null;
   openCart: () => void;
   closeCart: () => void;
   addItem: (variantId: string, quantity?: number, openAfter?: boolean) => void;
@@ -28,6 +29,10 @@ type CartContextType = {
 };
 
 const CartContext = createContext<CartContextType | null>(null);
+
+function isCart(data: unknown): data is Cart {
+  return typeof data === "object" && data !== null && "lines" in data && "checkoutUrl" in data;
+}
 
 function cartReducer(state: Cart | null, action: CartAction): Cart | null {
   if (!state) return state;
@@ -71,29 +76,41 @@ export function CartProvider({
   children: React.ReactNode;
   initialCart: Cart | null;
 }) {
-  // Real confirmed state — useOptimistic reverts to this after each transition
   const [cart, setCart] = useState<Cart | null>(initialCart);
   const [optimisticCart, addOptimistic] = useOptimistic(cart, cartReducer);
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
+  const [cartError, setCartError] = useState<string | null>(null);
 
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
 
   const addItem = useCallback(
     (variantId: string, quantity = 1, openAfter = false) => {
+      setCartError(null);
       startTransition(async () => {
         addOptimistic({ type: "ADD_ITEM", variantId });
 
-        const res = await fetch("/api/cart", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "add", variantId, quantity }),
-        });
-        const updatedCart = await res.json();
-        setCart(updatedCart);
+        try {
+          const res = await fetch("/api/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "add", variantId, quantity }),
+          });
+          const data = await res.json();
 
-        if (openAfter) setIsOpen(true);
+          if (!isCart(data)) {
+            console.error("Cart API error:", data);
+            setCartError(data?.error ?? "Failed to add item. Please try again.");
+            return;
+          }
+
+          setCart(data);
+          if (openAfter) setIsOpen(true);
+        } catch (err) {
+          console.error("addItem error:", err);
+          setCartError("Failed to add item. Please try again.");
+        }
       });
     },
     [addOptimistic]
@@ -104,13 +121,17 @@ export function CartProvider({
       startTransition(async () => {
         addOptimistic({ type: "UPDATE_ITEM", lineId, quantity });
 
-        const res = await fetch("/api/cart", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "update", lineId, quantity }),
-        });
-        const updatedCart = await res.json();
-        setCart(updatedCart);
+        try {
+          const res = await fetch("/api/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "update", lineId, quantity }),
+          });
+          const data = await res.json();
+          if (isCart(data)) setCart(data);
+        } catch (err) {
+          console.error("updateItem error:", err);
+        }
       });
     },
     [addOptimistic]
@@ -121,13 +142,23 @@ export function CartProvider({
       startTransition(async () => {
         addOptimistic({ type: "REMOVE_ITEM", lineId });
 
-        const res = await fetch("/api/cart", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "remove", lineId }),
-        });
-        const updatedCart = await res.json();
-        setCart(updatedCart);
+        try {
+          const res = await fetch("/api/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "remove", lineId }),
+          });
+          const data = await res.json();
+          if (isCart(data)) {
+            setCart(data);
+          } else {
+            // Force a re-render with the unchanged cart so the item reappears
+            setCart((prev) => prev ? { ...prev } : prev);
+          }
+        } catch (err) {
+          console.error("removeItem error:", err);
+          setCart((prev) => prev ? { ...prev } : prev);
+        }
       });
     },
     [addOptimistic]
@@ -139,6 +170,7 @@ export function CartProvider({
         cart: optimisticCart,
         isPending,
         isOpen,
+        cartError,
         openCart,
         closeCart,
         addItem,
