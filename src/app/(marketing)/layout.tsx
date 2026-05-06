@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/components/auth-provider";
 import { ChatWidget } from "@/components/chat-widget";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import { PopupModal } from "@/components/popup-modal";
 import "./marketing.css";
 
 export default function MarketingLayout({
@@ -181,6 +182,7 @@ export default function MarketingLayout({
 
       {/* Cart Drawer */}
       <CartDrawer />
+      <PopupModal />
 
       {/* AI Chat Widget */}
       <ChatWidget />
