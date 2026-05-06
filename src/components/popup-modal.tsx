@@ -53,6 +53,7 @@ export function PopupModal() {
           <div className="popup__video-text">
             <div className="popup__brand">ANERA</div>
             <p className="popup__tagline">Pharmaceutical-grade NMN.<br />Pure. Proven. Life-changing.</p>
+            <p className="popup__offer-text">Get 10% off your first order — send us your email at <strong>info@aneralife.com</strong></p>
           </div>
         </div>
 
