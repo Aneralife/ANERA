@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { Agent } from "undici";
 
 const FILE = path.join(process.cwd(), "data", "subscribers.json");
 const DISCOUNT_CODE = process.env.DISCOUNT_CODE || "WELCOME10";
@@ -8,7 +9,10 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY!;
 const FROM = process.env.RESEND_FROM || "onboarding@resend.dev";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "info@aneralife.com";
 
+const ipv4Agent = new Agent({ connect: { family: 4 } });
+
 async function sendEmail(to: string, subject: string, html: string) {
+  console.log(`[subscribe] Sending email to: ${to}, from: ${FROM}`);
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -16,11 +20,15 @@ async function sendEmail(to: string, subject: string, html: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ from: FROM, to, subject, html }),
+    // @ts-expect-error undici dispatcher not in standard RequestInit types
+    dispatcher: ipv4Agent,
   });
+  const body = await res.json();
   if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Resend error: ${err}`);
+    console.error(`[subscribe] Resend error ${res.status}:`, JSON.stringify(body));
+    throw new Error(`Resend ${res.status}: ${JSON.stringify(body)}`);
   }
+  console.log(`[subscribe] Email sent OK:`, JSON.stringify(body));
 }
 
 export async function POST(req: NextRequest) {
@@ -76,4 +84,13 @@ export async function POST(req: NextRequest) {
   );
 
   return NextResponse.json({ ok: true });
+}
+
+export async function GET() {
+  return NextResponse.json({
+    apiKeySet: !!RESEND_API_KEY,
+    from: FROM,
+    notifyEmail: NOTIFY_EMAIL,
+    discountCode: DISCOUNT_CODE,
+  });
 }
