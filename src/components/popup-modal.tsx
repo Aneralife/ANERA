@@ -6,6 +6,10 @@ const STORAGE_KEY = "anera_popup_dismissed";
 
 export function PopupModal() {
   const [visible, setVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY) === "true") return;
@@ -15,56 +19,80 @@ export function PopupModal() {
 
   if (!visible) return null;
 
-  function handleCancel() {
-    setVisible(false);
-  }
+  function handleClose() { setVisible(false); }
+  function handleDoNotShow() { localStorage.setItem(STORAGE_KEY, "true"); setVisible(false); }
 
-  function handleDoNotShow() {
-    localStorage.setItem(STORAGE_KEY, "true");
-    setVisible(false);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        localStorage.setItem(STORAGE_KEY, "true");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <div className="popup-overlay" onClick={handleCancel}>
+    <div className="popup-overlay" onClick={handleClose}>
       <div className="popup" onClick={(e) => e.stopPropagation()}>
 
-        {/* Close button */}
-        <button className="popup__close" onClick={handleCancel} aria-label="Close">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-
-        {/* Video */}
-        <div className="popup__video-wrap">
-          <video
-            src="/popup-video.webm"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="popup__video"
-          />
-          {/* Gradient overlay for text legibility */}
-          <div className="popup__video-gradient" />
-
-          {/* Brand text on video */}
-          <div className="popup__video-text">
-            <div className="popup__brand">ANERA</div>
-            <p className="popup__tagline">Pharmaceutical-grade NMN.<br />Pure. Proven. Life-changing.</p>
-            <p className="popup__offer-text">Get 10% off your first order — send us your email at <strong>info@aneralife.com</strong></p>
-          </div>
+        {/* Left — video */}
+        <div className="popup__left">
+          <video src="/popup-video.webm" autoPlay muted loop playsInline className="popup__video" />
         </div>
 
-        {/* Footer */}
-        <div className="popup__footer">
-          <button className="popup__btn-dismiss" onClick={handleDoNotShow}>
-            Don&apos;t show this again
+        {/* Right — content */}
+        <div className="popup__right">
+          <button className="popup__close" onClick={handleClose} aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
-          <button className="popup__btn-cta" onClick={handleCancel}>
-            Shop Now
-          </button>
+
+          {submitted ? (
+            <div className="popup__body">
+              <p className="popup__eyebrow">You&apos;re all set!</p>
+              <h2 className="popup__headline">Check your email!</h2>
+              <p className="popup__sub">We&apos;ve sent your 10% off code to <strong>{email}</strong>. Use it at checkout on your first order.</p>
+              <button className="popup__submit" onClick={handleClose}>Shop Now</button>
+            </div>
+          ) : (
+            <div className="popup__body">
+              <p className="popup__eyebrow">More Energy. Better Aging</p>
+              <h2 className="popup__headline">10% OFF<br />TO START</h2>
+              <p className="popup__sub">Join thousands transforming their daily lives with Anera NMN. Pure. Proven. Life-changing.</p>
+              <form className="popup__form" onSubmit={handleSubmit}>
+                <input
+                  className="popup__input"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <button className="popup__submit" type="submit" disabled={loading}>
+                  {loading ? "Sending…" : "Send My Code"}
+                </button>
+              </form>
+              {error && <p style={{ color: "#c0392b", fontSize: 13, margin: 0 }}>{error}</p>}
+              <button className="popup__skip" onClick={handleDoNotShow}>No thanks</button>
+            </div>
+          )}
         </div>
 
       </div>
