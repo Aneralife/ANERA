@@ -287,8 +287,38 @@ export default function MediaPage() {
   const prevArticle = activeArticle > 0 ? ARTICLES[activeArticle - 1] : null;
   const nextArticle = activeArticle < ARTICLES.length - 1 ? ARTICLES[activeArticle + 1] : null;
 
+  /* Sync state from URL hash on mount and browser back/forward */
+  useEffect(() => {
+    const syncFromHash = () => {
+      const hash = window.location.hash.slice(1);
+      const found = ARTICLES.find((a) => a.slug === hash);
+      if (found) {
+        setActiveArticle(found.id);
+        setActiveView("article");
+      } else {
+        setActiveView("hub");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // Sync on initial load (handles refresh on article URL)
+    const hash = window.location.hash.slice(1);
+    const found = ARTICLES.find((a) => a.slug === hash);
+    if (found) {
+      setActiveArticle(found.id);
+      setActiveView("article");
+    }
+
+    // hashchange fires on browser back/forward when the hash changes
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, []);
+
   /* Open article */
   const openArticle = useCallback((id: number) => {
+    const slug = ARTICLES[id].slug;
+    // pushState does NOT trigger hashchange — update state manually here
+    window.history.pushState(null, "", `/media#${slug}`);
     setActiveArticle(id);
     setActiveView("article");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -296,8 +326,8 @@ export default function MediaPage() {
 
   /* Back to hub */
   const backToHub = useCallback(() => {
-    setActiveView("hub");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Go back in history — hashchange will fire and sync state
+    window.history.back();
   }, []);
 
   /* Reading progress bar */

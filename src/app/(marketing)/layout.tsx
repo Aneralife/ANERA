@@ -50,7 +50,8 @@ export default function MarketingLayout({
         // Hide/show based on direction (only after scrolling past nav height)
         // Don't hide when mobile menu is open
         const isProductPage = window.location.pathname.startsWith("/products/");
-        if (!isProductPage && !mobileMenuOpen && y > 64 && y > lastY) {
+        const isMediaPage = window.location.pathname === "/media";
+        if (!isProductPage && !isMediaPage && !mobileMenuOpen && y > 64 && y > lastY) {
           nav.classList.add("nav--hidden");
         } else {
           nav.classList.remove("nav--hidden");
@@ -108,7 +109,7 @@ export default function MarketingLayout({
   return (
     <>
       {/* Nav */}
-      <nav className={`nav${pathname === "/about" || pathname === "/contact" || pathname.startsWith("/products/") ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
+      <nav className={`nav${pathname === "/about" || pathname === "/contact" || pathname.startsWith("/products/") || pathname === "/media" ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
         <Link href="/" className="nav__logo">
           ANERA
         </Link>
