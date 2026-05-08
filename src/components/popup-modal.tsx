@@ -50,19 +50,21 @@ export function PopupModal() {
     <div className="popup-overlay" onClick={handleClose}>
       <div className="popup" onClick={(e) => e.stopPropagation()}>
 
-        {/* Left — video */}
+        {/* Close button — top-right of entire popup */}
+        <button className="popup__close" onClick={handleClose} aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        {/* Top — video */}
         <div className="popup__left">
           <video src="/popup-video.webm" autoPlay muted loop playsInline className="popup__video" />
         </div>
 
-        {/* Right — content */}
+        {/* Bottom — content */}
         <div className="popup__right">
-          <button className="popup__close" onClick={handleClose} aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
 
           {submitted ? (
             <div className="popup__body">
@@ -74,7 +76,7 @@ export function PopupModal() {
           ) : (
             <div className="popup__body">
               <p className="popup__eyebrow">More Energy. Better Aging</p>
-              <h2 className="popup__headline">10% OFF<br />TO START</h2>
+              <h2 className="popup__headline">10% OFF TO START</h2>
               <p className="popup__sub">Join thousands transforming their daily lives with Anera NMN. Pure. Proven. Life-changing.</p>
               <form className="popup__form" onSubmit={handleSubmit}>
                 <input
