@@ -24,12 +24,19 @@ const NMN15000_FAQS = [
   { q: "Can I take NMN 15000 with other supplements?", a: "NMN is generally well-tolerated alongside other supplements. However, if you are taking prescription medications, we recommend consulting your healthcare provider before starting any new supplement regimen." },
 ];
 
+// Maps clean URL handles → Shopify product handles
+const SHOPIFY_HANDLE: Record<string, string> = {
+  "nmn-15000": "nmn-tr-24000",
+  "nmn-24000": "nmn-trans-resveratrol-24000-dual-cellular-support",
+};
+
 type Props = {
   params: { handle: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = await getProductByHandle(params.handle);
+  const shopifyHandle = SHOPIFY_HANDLE[params.handle] ?? params.handle;
+  const product = await getProductByHandle(shopifyHandle);
   if (!product) return { title: "Product Not Found" };
 
   return {
@@ -39,7 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const product = await getProductByHandle(params.handle);
+  const shopifyHandle = SHOPIFY_HANDLE[params.handle] ?? params.handle;
+  const product = await getProductByHandle(shopifyHandle);
   if (!product) notFound();
 
   const defaultVariant =
@@ -49,8 +57,8 @@ export default async function ProductPage({ params }: Props) {
 
   /* Base price per bottle (before subscription discounts) */
   const basePriceMap: Record<string, number> = {
-    "nmn-trans-resveratrol-24000-dual-cellular-support": 120,
-    "nmn-tr-24000": 105,
+    "nmn-24000": 120,
+    "nmn-15000": 105,
   };
   const basePrice = basePriceMap[params.handle] || parseFloat(product.priceRange.minVariantPrice.amount);
   const price = `CA$${basePrice}`;
@@ -104,10 +112,10 @@ export default async function ProductPage({ params }: Props) {
             )}
 
             {/* Product gallery */}
-            {params.handle === "nmn-trans-resveratrol-24000-dual-cellular-support" && (
+            {params.handle === "nmn-24000" && (
               <PdpGallery images={["24-1.png","24-2.png","24-3.png","24-4.png","24-5.png","24-6.png"]} alt="NMN 24000" />
             )}
-            {params.handle === "nmn-tr-24000" && (
+            {params.handle === "nmn-15000" && (
               <PdpGallery images={["15-1.png","15-2.png","15-3.png","15-4.png","15-5.png","15-6.png"]} alt="NMN 15000" />
             )}
           </div>
@@ -208,7 +216,7 @@ export default async function ProductPage({ params }: Props) {
       </section>
 
       {/* ── Product Details ── */}
-      {params.handle === "nmn-trans-resveratrol-24000-dual-cellular-support" ? (
+      {params.handle === "nmn-24000" ? (
         <section className="pdp-details-section">
           <div className="pdp-details-section__inner">
             <div className="pdp-details-header">
@@ -385,7 +393,7 @@ export default async function ProductPage({ params }: Props) {
 
       {/* ── FAQ ── */}
       <PdpFaq
-        faqs={params.handle === "nmn-trans-resveratrol-24000-dual-cellular-support" ? NMN24000_FAQS : NMN15000_FAQS}
+        faqs={params.handle === "nmn-24000" ? NMN24000_FAQS : NMN15000_FAQS}
       />
 
     </>
