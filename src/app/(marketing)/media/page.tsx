@@ -8,7 +8,16 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
 const ARTICLES = [
   {
-    id: 0, slug: "top-10-nmn-brands-in-canada",
+    id: 0, slug: "when-nmn-works-best-for-your-body-clock",
+    title: "Morning vs Night: When NMN Works Best for Your Body Clock",
+    date: "May 15, 2026", tag: "Timing & Dosage", filter: "timing", icon: "🕐", bannerClass: "", readTime: "12 min read",
+    lead: "NAD⁺ levels follow a daily rhythm — taking NMN at the right time can align with your body's natural cycles, improving absorption, energy output, and overall effectiveness.",
+    takeaways: ["Morning NMN aligns with natural NAD⁺ peaks", "Night use may disrupt sleep for most users", "Consistency with timing is key for long-term results"],
+    content: "",
+    externalHref: "/when-nmn-works-best-for-your-body-clock",
+  },
+  {
+    id: 1, slug: "top-10-nmn-brands-in-canada",
     title: "Top 10 NMN Brands in Canada for 2026",
     date: "May 12, 2026", tag: "Canada", filter: "canada", icon: "🇨🇦", bannerClass: "", readTime: "10 min read",
     lead: "NMN has surged in popularity across Canada — but low-quality imports and vague purity claims make choosing the right brand harder than ever. Here's how to identify the best.",
@@ -17,7 +26,7 @@ const ARTICLES = [
     externalHref: "/top-10-nmn-brands-in-canada",
   },
   {
-    id: 1, slug: "how-nmn-15000-supports-nad-levels",
+    id: 2, slug: "how-nmn-15000-supports-nad-levels",
     title: "How NMN 15000 Supports NAD⁺ Levels — Why It Matters for Energy & Aging",
     date: "March 25, 2026", tag: "NMN Supplement", filter: "nmn", icon: "🧬", bannerClass: "", readTime: "8 min read",
     lead: "Aging doesn't just show up in the mirror. It begins deep inside your cells.",
@@ -25,7 +34,7 @@ const ARTICLES = [
     content: "<h2>The NAD⁺ Crisis Inside Your Cells</h2><p>By the time most people reach their 40s, their cellular NAD⁺ levels have already fallen significantly. Research suggests this decline reaches 40–50% by middle age.</p><h2>What Is NMN and Why Does It Matter?</h2><p>NMN (Nicotinamide Mononucleotide) is a naturally occurring nucleotide and the most direct precursor to NAD⁺ in the human body.</p><h2>Why NMN 15000?</h2><p>NMN 15000 provides 250mg of pharmaceutical-grade NMN per capsule — a dose within the range studied in human clinical trials.</p>"
   },
   {
-    id: 2, slug: "dr-gabriel-alizaidy-joins-advisory-board",
+    id: 3, slug: "dr-gabriel-alizaidy-joins-advisory-board",
     title: "Dr. Gabriel Alizaidy Joins the Anera Scientific Advisory Board",
     date: "March 9, 2026", tag: "Anera Announcement", filter: "announcement", icon: "🧬", bannerClass: "alt1", readTime: "5 min read",
     lead: "A new chapter in Anera's commitment to clinical-grade supplements.",
@@ -33,7 +42,7 @@ const ARTICLES = [
     content: "<h2>A New Era of Scientific Leadership</h2><p>Anera Life is proud to announce that Dr. Gabriel Alizaidy has joined the Anera Scientific Advisory Board, bringing decades of clinical expertise.</p>"
   },
   {
-    id: 3, slug: "vo2-max-mitochondria-nmn",
+    id: 4, slug: "vo2-max-mitochondria-nmn",
     title: "VO₂ Max, Mitochondria, and NMN: How Oxygen Power Drives Longevity",
     date: "March 5, 2026", tag: "NMN Supplement", filter: "nmn", icon: "🫁", bannerClass: "alt2", readTime: "10 min read",
     lead: "Your body's ability to use oxygen is one of the strongest predictors of how long you'll live.",
@@ -41,7 +50,7 @@ const ARTICLES = [
     content: "<h2>VO₂ Max: The Longevity Biomarker</h2><p>VO₂ max measures the maximum rate at which your body can consume oxygen during intense exercise. It is strongly correlated with longevity.</p>"
   },
   {
-    id: 4, slug: "how-long-does-nmn-take-to-work",
+    id: 5, slug: "how-long-does-nmn-take-to-work",
     title: "How Long Does NMN Take to Work? Realistic Timeline From Day 1 to 6 Months",
     date: "February 24, 2026", tag: "Timing & Dosage", filter: "timing", icon: "⏱️", bannerClass: "alt3", readTime: "7 min read",
     lead: "A realistic timeline of what to expect from NMN supplementation.",
@@ -49,7 +58,7 @@ const ARTICLES = [
     content: "<h2>Setting Realistic Expectations</h2><p>NMN is not a stimulant. It works at the cellular level to restore NAD⁺, and results build over time.</p>"
   },
   {
-    id: 5, slug: "best-nmn-supplement-canada-2026",
+    id: 6, slug: "best-nmn-supplement-canada-2026",
     title: "Best NMN Supplement in Canada 2026 — Quality, Purity & Trust",
     date: "February 15, 2026", tag: "Canada", filter: "canada", icon: "🇨🇦", bannerClass: "alt4", readTime: "9 min read",
     lead: "How to identify the best NMN supplement in Canada — and why purity matters more than you think.",
@@ -57,7 +66,7 @@ const ARTICLES = [
     content: "<h2>The Canadian NMN Landscape</h2><p>As NMN gains popularity in Canada, the market has been flooded with products of varying quality.</p>"
   },
   {
-    id: 6, slug: "nmn-trans-resveratrol-24000-explained",
+    id: 7, slug: "nmn-trans-resveratrol-24000-explained",
     title: "NMN + Trans-Resveratrol 24000 Explained — The Science Behind the Stack",
     date: "February 8, 2026", tag: "NMN Supplement", filter: "nmn", icon: "🔬", bannerClass: "alt5", readTime: "11 min read",
     lead: "Why combining NMN with Trans-Resveratrol creates a synergistic longevity formula.",
@@ -65,7 +74,7 @@ const ARTICLES = [
     content: "<h2>The Dual-Action Approach</h2><p>NMN and Trans-Resveratrol target different but complementary pathways in the longevity cascade.</p>"
   },
   {
-    id: 7, slug: "when-to-take-nmn-morning-or-night",
+    id: 8, slug: "when-to-take-nmn-morning-or-night",
     title: "When to Take NMN — Morning or Night? The Definitive Timing Guide",
     date: "January 28, 2026", tag: "Timing & Dosage", filter: "timing", icon: "🌅", bannerClass: "alt1", readTime: "6 min read",
     lead: "The timing of NMN supplementation can influence its effectiveness.",
@@ -73,7 +82,7 @@ const ARTICLES = [
     content: "<h2>Circadian Biology and NAD⁺</h2><p>Your body's NAD⁺ levels naturally fluctuate throughout the day, peaking in the morning.</p>"
   },
   {
-    id: 8, slug: "nmn-vs-nr-which-is-better",
+    id: 9, slug: "nmn-vs-nr-which-is-better",
     title: "NMN vs NR (Nicotinamide Riboside) — Which NAD⁺ Booster Is Better?",
     date: "January 20, 2026", tag: "Supplement Guide", filter: "guide", icon: "⚖️", bannerClass: "alt2", readTime: "9 min read",
     lead: "A comprehensive comparison of the two leading NAD⁺ precursors.",
@@ -81,7 +90,7 @@ const ARTICLES = [
     content: "<h2>Understanding the NAD⁺ Pathway</h2><p>Both NMN and NR are precursors to NAD⁺, but they enter the biosynthesis pathway at different points.</p>"
   },
   {
-    id: 9, slug: "5-signs-nad-levels-are-low",
+    id: 10, slug: "5-signs-nad-levels-are-low",
     title: "5 Signs Your NAD⁺ Levels Are Low — And What to Do About It",
     date: "January 12, 2026", tag: "NMN Supplement", filter: "nmn", icon: "⚡", bannerClass: "alt3", readTime: "6 min read",
     lead: "Your body may be signaling that NAD⁺ levels are declining.",
@@ -89,7 +98,7 @@ const ARTICLES = [
     content: "<h2>Recognizing the Signs</h2><p>NAD⁺ decline doesn't happen overnight. The symptoms are gradual and often attributed to 'just getting older.'</p>"
   },
   {
-    id: 10, slug: "nmn-and-exercise-performance",
+    id: 11, slug: "nmn-and-exercise-performance",
     title: "NMN and Exercise Performance — How NAD⁺ Fuels Athletic Recovery",
     date: "January 5, 2026", tag: "NMN Supplement", filter: "nmn", icon: "🏃", bannerClass: "alt4", readTime: "8 min read",
     lead: "How NMN supplementation supports athletic performance and recovery.",
@@ -97,7 +106,7 @@ const ARTICLES = [
     content: "<h2>The Athlete's Energy Crisis</h2><p>Exercise demands enormous amounts of cellular energy, and NAD⁺ is at the center of that process.</p>"
   },
   {
-    id: 11, slug: "nmn-dosage-guide-250mg-vs-500mg",
+    id: 12, slug: "nmn-dosage-guide-250mg-vs-500mg",
     title: "NMN Dosage Guide: 250mg vs 500mg — Finding Your Optimal Dose",
     date: "December 28, 2025", tag: "Timing & Dosage", filter: "timing", icon: "💊", bannerClass: "alt5", readTime: "7 min read",
     lead: "Understanding NMN dosing — how much is enough, and when is more too much?",
@@ -105,7 +114,7 @@ const ARTICLES = [
     content: "<h2>Dose-Response in NMN Research</h2><p>Clinical trials have studied NMN at doses ranging from 250mg to 1200mg per day.</p>"
   },
   {
-    id: 12, slug: "what-is-nad-and-why-does-it-decline",
+    id: 13, slug: "what-is-nad-and-why-does-it-decline",
     title: "What Is NAD⁺ and Why Does It Decline With Age?",
     date: "December 20, 2025", tag: "NMN Supplement", filter: "nmn", icon: "🔋", bannerClass: "alt1", readTime: "8 min read",
     lead: "NAD⁺ is essential for life. Understanding why it declines is the first step to addressing it.",
@@ -113,7 +122,7 @@ const ARTICLES = [
     content: "<h2>NAD⁺: The Master Molecule</h2><p>NAD⁺ was first discovered in 1906, but its role in aging has only recently been understood.</p>"
   },
   {
-    id: 13, slug: "nmn-and-brain-health-cognitive-benefits",
+    id: 14, slug: "nmn-and-brain-health-cognitive-benefits",
     title: "NMN and Brain Health — Can NAD⁺ Support Cognitive Function?",
     date: "December 12, 2025", tag: "NMN Supplement", filter: "nmn", icon: "🧠", bannerClass: "alt2", readTime: "9 min read",
     lead: "The brain is the most energy-demanding organ. NAD⁺ may hold the key to maintaining cognitive function.",
@@ -121,7 +130,7 @@ const ARTICLES = [
     content: "<h2>The Brain's Energy Demands</h2><p>Your brain accounts for only 2% of body weight but consumes 20% of your energy.</p>"
   },
   {
-    id: 14, slug: "nmn-supplement-safety-side-effects",
+    id: 15, slug: "nmn-supplement-safety-side-effects",
     title: "Is NMN Safe? Side Effects, Clinical Data & What the Research Shows",
     date: "December 5, 2025", tag: "Supplement Guide", filter: "guide", icon: "🛡️", bannerClass: "alt3", readTime: "7 min read",
     lead: "A comprehensive review of NMN safety data from human clinical trials.",
@@ -129,7 +138,7 @@ const ARTICLES = [
     content: "<h2>Clinical Safety Evidence</h2><p>Multiple human clinical trials have evaluated NMN safety at doses ranging from 250mg to 1200mg daily.</p>"
   },
   {
-    id: 15, slug: "trans-resveratrol-benefits-longevity",
+    id: 16, slug: "trans-resveratrol-benefits-longevity",
     title: "Trans-Resveratrol: Benefits, Science & Why It Pairs With NMN",
     date: "November 28, 2025", tag: "Supplement Guide", filter: "guide", icon: "🍇", bannerClass: "alt4", readTime: "8 min read",
     lead: "Trans-Resveratrol is more than a red wine compound — it's a powerful sirtuin activator.",
@@ -137,7 +146,7 @@ const ARTICLES = [
     content: "<h2>Beyond Red Wine</h2><p>While resveratrol gained fame as the 'red wine molecule,' its bioactive trans form is far more potent.</p>"
   },
   {
-    id: 16, slug: "nmn-and-skin-health-anti-aging",
+    id: 17, slug: "nmn-and-skin-health-anti-aging",
     title: "NMN and Skin Health — How NAD⁺ Supports Anti-Aging From Within",
     date: "November 20, 2025", tag: "NMN Supplement", filter: "nmn", icon: "✨", bannerClass: "alt5", readTime: "7 min read",
     lead: "Skin aging is driven by the same cellular decline that affects every organ.",
@@ -145,7 +154,7 @@ const ARTICLES = [
     content: "<h2>Skin Aging at the Cellular Level</h2><p>Your skin is your largest organ and one of the first to show signs of NAD⁺ decline.</p>"
   },
   {
-    id: 17, slug: "nmn-for-women-hormones-and-aging",
+    id: 18, slug: "nmn-for-women-hormones-and-aging",
     title: "NMN for Women — Hormones, Metabolism & Healthy Aging",
     date: "November 12, 2025", tag: "NMN Supplement", filter: "nmn", icon: "♀️", bannerClass: "alt1", readTime: "8 min read",
     lead: "Women face unique challenges as NAD⁺ declines — from hormonal shifts to metabolic changes.",
@@ -153,7 +162,7 @@ const ARTICLES = [
     content: "<h2>Women and NAD⁺ Decline</h2><p>Women experience NAD⁺ decline differently than men, particularly around perimenopause and menopause.</p>"
   },
   {
-    id: 18, slug: "how-to-stack-nmn-with-other-supplements",
+    id: 19, slug: "how-to-stack-nmn-with-other-supplements",
     title: "How to Stack NMN With Other Supplements — A Science-Based Guide",
     date: "November 5, 2025", tag: "Stacking", filter: "stack", icon: "📚", bannerClass: "alt2", readTime: "10 min read",
     lead: "Maximize your longevity protocol with evidence-based supplement stacking.",
@@ -161,7 +170,7 @@ const ARTICLES = [
     content: "<h2>Building Your Longevity Stack</h2><p>NMN works best as part of a comprehensive supplement strategy.</p>"
   },
   {
-    id: 19, slug: "nmn-and-sleep-quality",
+    id: 20, slug: "nmn-and-sleep-quality",
     title: "NMN and Sleep Quality — How NAD⁺ Regulates Your Circadian Rhythm",
     date: "October 28, 2025", tag: "NMN Supplement", filter: "nmn", icon: "😴", bannerClass: "alt3", readTime: "7 min read",
     lead: "Poor sleep accelerates aging. NAD⁺ plays a critical role in your body's internal clock.",
@@ -169,7 +178,7 @@ const ARTICLES = [
     content: "<h2>The Sleep-Aging Connection</h2><p>Sleep is when your body does its most critical repair work, and NAD⁺ is essential to that process.</p>"
   },
   {
-    id: 20, slug: "endotoxin-testing-why-it-matters",
+    id: 21, slug: "endotoxin-testing-why-it-matters",
     title: "Endotoxin Testing: Why <20 Eu/g Matters for NMN Quality",
     date: "October 20, 2025", tag: "Supplement Guide", filter: "guide", icon: "🔬", bannerClass: "alt4", readTime: "8 min read",
     lead: "Most NMN brands don't test for endotoxins. Here's why Anera does.",
@@ -177,7 +186,7 @@ const ARTICLES = [
     content: "<h2>The Hidden Contamination Problem</h2><p>In 2022, researchers revealed that many NMN supplements were contaminated with endotoxins.</p>"
   },
   {
-    id: 21, slug: "nmn-and-heart-health",
+    id: 22, slug: "nmn-and-heart-health",
     title: "NMN and Heart Health — Cardiovascular Benefits of NAD⁺ Restoration",
     date: "October 12, 2025", tag: "NMN Supplement", filter: "nmn", icon: "❤️", bannerClass: "alt5", readTime: "8 min read",
     lead: "Heart disease remains the leading cause of death. NAD⁺ may offer a new approach to cardiovascular health.",
@@ -185,7 +194,7 @@ const ARTICLES = [
     content: "<h2>NAD⁺ and the Cardiovascular System</h2><p>Your heart is one of the most metabolically active organs, making it especially sensitive to NAD⁺ decline.</p>"
   },
   {
-    id: 22, slug: "nmn-canada-legal-status-2026",
+    id: 23, slug: "nmn-canada-legal-status-2026",
     title: "NMN in Canada: Legal Status, Regulations & What You Need to Know (2026)",
     date: "October 5, 2025", tag: "Canada", filter: "canada", icon: "⚖️", bannerClass: "alt1", readTime: "6 min read",
     lead: "Understanding the regulatory landscape for NMN supplements in Canada.",
@@ -193,7 +202,7 @@ const ARTICLES = [
     content: "<h2>NMN's Regulatory Status in Canada</h2><p>Unlike the US where NMN faced an FDA challenge, Canada's regulatory environment is different.</p>"
   },
   {
-    id: 23, slug: "nmn-and-weight-management",
+    id: 24, slug: "nmn-and-weight-management",
     title: "NMN and Weight Management — How NAD⁺ Influences Metabolism",
     date: "September 28, 2025", tag: "NMN Supplement", filter: "nmn", icon: "⚖️", bannerClass: "alt2", readTime: "7 min read",
     lead: "Metabolism slows with age — not because of laziness, but because of NAD⁺ decline.",
@@ -201,7 +210,7 @@ const ARTICLES = [
     content: "<h2>The Metabolic Slowdown</h2><p>Most people notice their metabolism slowing in their 30s and 40s. This isn't coincidence — it correlates with NAD⁺ decline.</p>"
   },
   {
-    id: 24, slug: "nmn-for-immune-system-support",
+    id: 25, slug: "nmn-for-immune-system-support",
     title: "NMN and Immune Function — How NAD⁺ Supports Your Body's Defense System",
     date: "September 20, 2025", tag: "NMN Supplement", filter: "nmn", icon: "🛡️", bannerClass: "alt3", readTime: "7 min read",
     lead: "Your immune system depends on NAD⁺ for optimal function.",
@@ -209,7 +218,7 @@ const ARTICLES = [
     content: "<h2>Immunity and Aging</h2><p>As we age, our immune system becomes less effective — a process known as immunosenescence.</p>"
   },
   {
-    id: 25, slug: "buying-nmn-online-canada-what-to-look-for",
+    id: 26, slug: "buying-nmn-online-canada-what-to-look-for",
     title: "Buying NMN Online in Canada — What to Look For (And What to Avoid)",
     date: "September 12, 2025", tag: "Canada", filter: "canada", icon: "🛒", bannerClass: "alt4", readTime: "6 min read",
     lead: "A practical guide to purchasing NMN supplements safely in Canada.",
@@ -563,7 +572,7 @@ export default function MediaPage() {
             </p>
             <div className="mh-hero__stats">
               <div className="mh-hero__stat">
-                <span className="mh-hero__stat-number">26</span>
+                <span className="mh-hero__stat-number">27</span>
                 <span className="mh-hero__stat-label">Articles</span>
               </div>
               <div className="mh-hero__stat">
