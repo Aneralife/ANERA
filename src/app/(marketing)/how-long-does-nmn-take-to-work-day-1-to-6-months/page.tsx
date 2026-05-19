@@ -231,7 +231,7 @@ export default function HowLongNMNWorksPage() {
         </p>
 
         <p>
-          Brands like <Link href="/">Anera Life</Link> emphasize third-party testing, protective
+          Brands like <a href="/" style={{color:"#1a6fdb",textDecoration:"underline"}}>Anera Life</a> emphasize third-party testing, protective
           packaging, and high-purity formulations — factors that directly influence real-world
           outcomes.
         </p>
@@ -337,7 +337,7 @@ export default function HowLongNMNWorksPage() {
         <h2>Best Way to Take NMN for Faster Results</h2>
 
         <p>
-          To maximize results, take NMN in the morning on an empty stomach, use a consistent daily
+          To maximize results, <a href="https://www.aneralife.com/when-nmn-works-best-for-your-body-clock" style={{color:"#1a6fdb",textDecoration:"underline"}}>take NMN in the morning</a> on an empty stomach, use a consistent daily
           dose (250–500 mg), pair with exercise, and maintain long-term supplementation for at
           least 3 months.
         </p>
@@ -487,8 +487,7 @@ export default function HowLongNMNWorksPage() {
             className="art-img art-img--cta"
           />
           <p>
-            If you&apos;re ready to support your NAD+ levels the right way, explore a premium NMN
-            supplement from Anera Life built for long-term cellular health and lasting vitality.
+            If you&apos;re ready to support your NAD+ levels the right way, explore a <a href="https://www.aneralife.com/products" style={{color:"#1a6fdb",textDecoration:"underline"}}>premium NMN supplement from Anera Life</a> built for long-term cellular health and lasting vitality.
           </p>
           <div className="art-cta-buttons">
             <Link href="/products/nad-booster-nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
