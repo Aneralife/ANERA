@@ -242,7 +242,7 @@ export default function TopNMNBrandsCanadaPage() {
         </p>
 
         <div className="art-products">
-          <Link href="/products/nmn-15000" className="art-product">
+          <Link href="/products/nad-booster-nmn-15000" className="art-product">
             <div className="art-product__name">NMN 15000</div>
             <div className="art-product__desc">
               A clean, single-ingredient NMN formula designed for daily NAD⁺ support, cellular
@@ -260,7 +260,7 @@ export default function TopNMNBrandsCanadaPage() {
             <span className="art-product__cta">Shop NMN 15000 →</span>
           </Link>
 
-          <Link href="/products/nmn-24000" className="art-product">
+          <Link href="/products/nmn-trans-resveratrol-24000" className="art-product">
             <div className="art-product__badge">Best Seller</div>
             <div className="art-product__name">NMN + Trans-Resveratrol 24000</div>
             <div className="art-product__desc">
@@ -285,11 +285,11 @@ export default function TopNMNBrandsCanadaPage() {
           <p><strong>Quick Decision Guide</strong></p>
           <p>
             Want pure, foundational NAD⁺ support?{" "}
-            → <Link href="/products/nmn-15000">Choose NMN 15000</Link>
+            → <Link href="/products/nad-booster-nmn-15000">Choose NMN 15000</Link>
           </p>
           <p>
             Want upgraded longevity support with added cellular protection?{" "}
-            → <Link href="/products/nmn-24000">Choose NMN + TR 24000</Link>
+            → <Link href="/products/nmn-trans-resveratrol-24000">Choose NMN + TR 24000</Link>
           </p>
         </div>
 
@@ -358,8 +358,8 @@ export default function TopNMNBrandsCanadaPage() {
             made to Canadian standards, explore Anera Life&apos;s pharmaceutical-grade NMN supplements.
           </p>
           <div className="art-cta-buttons">
-            <Link href="/products/nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
-            <Link href="/products/nmn-24000" className="art-cta-btn art-cta-btn--secondary">
+            <Link href="/products/nad-booster-nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
+            <Link href="/products/nmn-trans-resveratrol-24000" className="art-cta-btn art-cta-btn--secondary">
               Shop NMN + TR 24000
             </Link>
           </div>

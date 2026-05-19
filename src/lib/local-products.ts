@@ -22,7 +22,7 @@ export type LocalProduct = {
 const products: LocalProduct[] = [
   {
     id: "prod-001",
-    handle: "nmn-15000",
+    handle: "nad-booster-nmn-15000",
     title: "NMN 15000",
     description:
       "250 mg · 60 capsules. Pharmaceutical-grade NMN with industry-leading purity. Endotoxin <20 Eu/g — the cleanest NMN available.",
@@ -38,7 +38,7 @@ const products: LocalProduct[] = [
   },
   {
     id: "prod-002",
-    handle: "nmn-24000",
+    handle: "nmn-trans-resveratrol-24000",
     title: "NMN 24000",
     description:
       "400 mg · 60 capsules. Maximum-strength formula for peak longevity. The only NMN in the world clinically tested in human trials.",
