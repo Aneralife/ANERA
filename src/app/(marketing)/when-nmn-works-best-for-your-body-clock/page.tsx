@@ -360,7 +360,7 @@ export default function WhenNMNWorksBestPage() {
         </p>
 
         <div className="art-products">
-          <Link href="/products/nmn-15000" className="art-product">
+          <Link href="/products/nad-booster-nmn-15000" className="art-product">
             <div className="art-product__name">NMN 15000</div>
             <div className="art-product__desc">
               Pure NMN for daily NAD⁺ support. Fast absorption makes it ideal for morning use,
@@ -375,7 +375,7 @@ export default function WhenNMNWorksBestPage() {
             <span className="art-product__cta">Shop NMN 15000 →</span>
           </Link>
 
-          <Link href="/products/nmn-24000" className="art-product">
+          <Link href="/products/nmn-trans-resveratrol-24000" className="art-product">
             <div className="art-product__badge">Best Seller</div>
             <div className="art-product__name">NMN + Trans-Resveratrol 24000</div>
             <div className="art-product__desc">
@@ -527,8 +527,8 @@ export default function WhenNMNWorksBestPage() {
             designed to boost daily energy, focus, and healthy aging.
           </p>
           <div className="art-cta-buttons">
-            <Link href="/products/nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
-            <Link href="/products/nmn-24000" className="art-cta-btn art-cta-btn--secondary">
+            <Link href="/products/nad-booster-nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
+            <Link href="/products/nmn-trans-resveratrol-24000" className="art-cta-btn art-cta-btn--secondary">
               Shop NMN + TR 24000
             </Link>
           </div>
