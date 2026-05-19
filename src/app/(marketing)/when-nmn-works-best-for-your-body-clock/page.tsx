@@ -160,7 +160,7 @@ export default function WhenNMNWorksBestPage() {
 
         <h3>Boosts Energy and Focus</h3>
         <p>
-          Morning NMN supplementation works in harmony with your body&apos;s natural cortisol and
+          Morning <a href="https://www.aneralife.com/products" style={{color:"#1a6fdb",textDecoration:"underline"}}>NMN supplementation</a> works in harmony with your body&apos;s natural cortisol and
           energy spikes. Benefits include:
         </p>
         <ul>
@@ -360,7 +360,7 @@ export default function WhenNMNWorksBestPage() {
         </p>
 
         <div className="art-products">
-          <Link href="/products/nmn-15000" className="art-product">
+          <Link href="/products/nad-booster-nmn-15000" className="art-product">
             <div className="art-product__name">NMN 15000</div>
             <div className="art-product__desc">
               Pure NMN for daily NAD⁺ support. Fast absorption makes it ideal for morning use,
@@ -375,7 +375,7 @@ export default function WhenNMNWorksBestPage() {
             <span className="art-product__cta">Shop NMN 15000 →</span>
           </Link>
 
-          <Link href="/products/nmn-24000" className="art-product">
+          <Link href="/products/nmn-trans-resveratrol-24000" className="art-product">
             <div className="art-product__badge">Best Seller</div>
             <div className="art-product__name">NMN + Trans-Resveratrol 24000</div>
             <div className="art-product__desc">
@@ -461,7 +461,7 @@ export default function WhenNMNWorksBestPage() {
           poor stability, or deliver weak results. When selecting a supplement, prioritize
           third-party testing, high purity (99%+), and transparent sourcing. Brands like{" "}
           <Link href="/">Anera Life</Link> emphasize pharmaceutical-grade NMN, clean formulations,
-          and rigorous testing — ensuring you get what your body actually needs.
+          and rigorous testing ensuring you get what your body actually needs.
         </p>
 
         {/* ── Section 8: Conclusion ── */}
@@ -523,12 +523,11 @@ export default function WhenNMNWorksBestPage() {
             className="art-img art-img--cta"
           />
           <p>
-            Support your body clock naturally with <Link href="/">Anera Life</Link> Premium NMN —
-            designed to boost daily energy, focus, and healthy aging.
+            Support your body clock naturally with <a href="https://www.aneralife.com/products" style={{color:"#1a6fdb",textDecoration:"underline"}}>Anera Life Premium NMN Supplement</a> designed to boost daily energy, focus, and healthy aging.
           </p>
           <div className="art-cta-buttons">
-            <Link href="/products/nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
-            <Link href="/products/nmn-24000" className="art-cta-btn art-cta-btn--secondary">
+            <Link href="/products/nad-booster-nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
+            <Link href="/products/nmn-trans-resveratrol-24000" className="art-cta-btn art-cta-btn--secondary">
               Shop NMN + TR 24000
             </Link>
           </div>

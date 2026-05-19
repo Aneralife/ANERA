@@ -173,8 +173,8 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
 
 /* ── Data ────────────────────────────────────────────────────── */
 const catItems = [
-  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "/products/nmn-24000" },
-  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "/products/nmn-15000" },
+  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "/products/nmn-trans-resveratrol-24000" },
+  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "/products/nad-booster-nmn-15000" },
   { label: "NMN 7500", img: "/assets/7500 NMN.png", available: false, href: "#" },
   { label: "NMN 100000", img: "/assets/NMN Powder.png", available: false, href: "#" },
   { label: "Trans-Resveratrol", img: "/assets/TR.png", available: false, href: "#" },
@@ -222,7 +222,7 @@ const productCards: PCard[] = [
     desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.",
     price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg",
     available: true, bestSeller: true,
-    handle: "nmn-24000",
+    handle: "nmn-trans-resveratrol-24000",
     variantId: "gid://shopify/ProductVariant/45075095519311",
     originalPrice: 120,
     highlights: ["Boosts NAD+ production & cellular energy", "Fights oxidative stress with Trans-Resveratrol", "Pharmaceutical-grade, third-party tested"],
@@ -233,7 +233,7 @@ const productCards: PCard[] = [
       { label: "12-month supply", months: 12, save: 30, pricePerMonth: 84, totalOriginal: 1440, totalDiscounted: 1008, variantId: "gid://shopify/ProductVariant/45075095617615", bestValue: true },
     ],
   },
-  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true, handle: "nmn-15000", variantId: "gid://shopify/ProductVariant/44918841737295" },
+  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true, handle: "nad-booster-nmn-15000", variantId: "gid://shopify/ProductVariant/44918841737295" },
   { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", imgHover: "/assets/second-all.jpeg", available: false },
   { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", imgHover: "/assets/second-all.jpeg", available: false },
   { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", imgHover: "/assets/second-all.jpeg", available: false },
