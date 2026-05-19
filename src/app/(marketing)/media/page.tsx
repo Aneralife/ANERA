@@ -52,10 +52,11 @@ const ARTICLES = [
   {
     id: 5, slug: "how-long-does-nmn-take-to-work",
     title: "How Long Does NMN Take to Work? Realistic Timeline From Day 1 to 6 Months",
-    date: "February 24, 2026", tag: "Timing & Dosage", filter: "timing", icon: "⏱️", bannerClass: "alt3", readTime: "7 min read",
-    lead: "A realistic timeline of what to expect from NMN supplementation.",
-    takeaways: ["Week 1-2: Initial NAD⁺ replenishment", "Month 1: Noticeable energy improvements", "Month 3: Measurable biomarker changes", "Month 6+: Cumulative longevity benefits"],
-    content: "<h2>Setting Realistic Expectations</h2><p>NMN is not a stimulant. It works at the cellular level to restore NAD⁺, and results build over time.</p>"
+    date: "May 19, 2026", tag: "Timing & Dosage", filter: "timing", icon: "⏱️", bannerClass: "alt3", readTime: "12 min read",
+    lead: "Most people notice subtle energy improvements within 1–2 weeks. Deeper benefits like better sleep, endurance, and metabolic improvements appear after 1–3 months.",
+    takeaways: ["Week 1–2: Steadier energy, fewer crashes", "Month 1–3: Better sleep, recovery, and focus", "Month 3–6: Sustained vitality and cellular resilience", "Consistency matters more than dosage"],
+    content: "",
+    externalHref: "/how-long-does-nmn-take-to-work-day-1-to-6-months",
   },
   {
     id: 6, slug: "best-nmn-supplement-canada-2026",
