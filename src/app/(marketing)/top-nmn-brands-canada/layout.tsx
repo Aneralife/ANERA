@@ -15,11 +15,11 @@ export const metadata: Metadata = {
     title: "Top 10 NMN Brands in Canada for 2026 | Anera Life",
     description:
       "Discover the Top 10 NMN Brands in Canada for 2026. Learn why Anera Life is ranked #1 for purity, safety, and long-term NAD⁺ support backed by real testing.",
-    url: "https://aneralife.com/top-10-nmn-brands-in-canada",
+    url: "https://aneralife.com/top-nmn-brands-canada",
     type: "article",
   },
   alternates: {
-    canonical: "https://aneralife.com/top-10-nmn-brands-in-canada",
+    canonical: "https://aneralife.com/top-nmn-brands-canada",
   },
 };
 

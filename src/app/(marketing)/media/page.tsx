@@ -17,13 +17,13 @@ const ARTICLES = [
     externalHref: "/when-nmn-works-best-for-your-body-clock",
   },
   {
-    id: 1, slug: "top-10-nmn-brands-in-canada",
+    id: 1, slug: "top-nmn-brands-canada",
     title: "Top 10 NMN Brands in Canada for 2026",
     date: "May 12, 2026", tag: "Canada", filter: "canada", icon: "🇨🇦", bannerClass: "", readTime: "10 min read",
     lead: "NMN has surged in popularity across Canada — but low-quality imports and vague purity claims make choosing the right brand harder than ever. Here's how to identify the best.",
     takeaways: ["Anera Life ranks #1 for purity and Canadian manufacturing", "GMP certification and third-party testing are non-negotiable", "Most brands lack endotoxin testing and dosage transparency"],
     content: "",
-    externalHref: "/top-10-nmn-brands-in-canada",
+    externalHref: "/top-nmn-brands-canada",
   },
   {
     id: 2, slug: "how-nmn-15000-supports-nad-levels",
