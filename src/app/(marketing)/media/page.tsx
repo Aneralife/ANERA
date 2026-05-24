@@ -225,7 +225,16 @@ const ARTICLES = [
     lead: "A practical guide to purchasing NMN supplements safely in Canada.",
     takeaways: ["Look for third-party testing certificates", "Verify endotoxin levels are disclosed", "Avoid products without clear manufacturing standards"],
     content: "<h2>Navigating the Online Market</h2><p>Buying NMN online in Canada can be overwhelming. Here's how to separate quality from noise.</p>"
-  }
+  },
+  {
+    id: 27, slug: "from-pain-to-purpose-anera-nmn-story",
+    title: "My Personal Journey with ANERA NMN: From Pain to Purpose",
+    date: "May 23, 2026", tag: "Anera Story", filter: "announcement", icon: "❤️", bannerClass: "", readTime: "8 min read",
+    lead: "After 20 years of fitness and a devastating onset of chronic foot pain, I tried everything — specialists, orthotics, painkillers. Nothing worked. Then a friend introduced me to NMN. Within three days, my life began to change.",
+    takeaways: ["NMN reduced chronic foot pain by 95% within one month", "Years of failed treatments ended with a single supplement", "This personal experience became the foundation of ANERA's mission: Help Heal Humanity"],
+    content: "",
+    externalHref: "/from-pain-to-purpose-anera-nmn-story",
+  },
 ];
 
 const FILTERS = [
@@ -573,7 +582,7 @@ export default function MediaPage() {
             </p>
             <div className="mh-hero__stats">
               <div className="mh-hero__stat">
-                <span className="mh-hero__stat-number">27</span>
+                <span className="mh-hero__stat-number">28</span>
                 <span className="mh-hero__stat-label">Articles</span>
               </div>
               <div className="mh-hero__stat">
