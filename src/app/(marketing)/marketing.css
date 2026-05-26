@@ -1282,6 +1282,19 @@ img, video { display: block; max-width: 100%; }
   .st-pcard__img-wrap { height: 260px; }
   .st-pcard__img { height: 220px; max-width: 260px; }
   .st-pcard__info { padding: 16px 20px 24px; }
+  .st-reviews-arrow { display: none; }
+  .st-btn-buy { width: 100%; text-align: center; display: block; box-sizing: border-box; }
+}
+
+/* Disable hover image overlays on touch devices — prevents flash on tap before navigation */
+@media (hover: none) {
+  .st-pcard .st-pcard__inner:hover .st-pcard__img-hover { opacity: 0; }
+  .st-pcard .st-pcard__inner:has(.st-pcard__img-hover):hover .st-pcard__img { opacity: 1; }
+  .st-review-card:hover .st-review-card__hover-img { opacity: 0; }
+  .st-review-card:hover .st-review-card__content { opacity: 1; }
+  .pdp-image-col__main:hover .pdp-image-col__img { transform: none; }
+  .st-pcard .st-pcard__inner:hover { transform: none; }
+  .st-review-card:hover { transform: none; box-shadow: none; }
 }
 
 /* Keep old shared classes for other pages */
@@ -2896,8 +2909,10 @@ img, video { display: block; max-width: 100%; }
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   filter: drop-shadow(0 16px 32px rgba(0,0,0,0.10));
 }
-.pdp-image-col__main:hover .pdp-image-col__img {
-  transform: scale(1.06);
+@media (hover: hover) {
+  .pdp-image-col__main:hover .pdp-image-col__img {
+    transform: scale(1.06);
+  }
 }
 .pdp-image-col__placeholder {
   width: 100%;
@@ -3331,7 +3346,6 @@ img, video { display: block; max-width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .pw-freq-buttons { flex-direction: column; }
   .pw-perks { flex-direction: column; align-items: flex-start; }
 }
 
@@ -3499,11 +3513,16 @@ a.pdp-trust-row__item--link:hover svg {
 /* Benefits */
 .pdp-benefits-list { list-style: none; }
 .pdp-benefit {
+  display: flex; align-items: flex-start; gap: 12px;
   padding: 18px 0; border-bottom: 1px solid var(--border); transition: border-color 0.25s;
 }
 .pdp-benefit:first-child { padding-top: 0; }
 .pdp-benefit:last-child { border-bottom: none; padding-bottom: 0; }
 .pdp-benefit:hover { border-color: rgba(29,29,31,0.22); }
+.pdp-benefit__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fg, #1d1d1f); flex-shrink: 0; margin-top: 8px;
+}
 .pdp-benefit__name { font-size: 17px; font-weight: 500; color: var(--fg); margin-bottom: 4px; }
 .pdp-benefit__desc { font-size: 16px; color: var(--fg-muted); line-height: 1.65; }
 
@@ -3542,6 +3561,9 @@ a.pdp-trust-row__item--link:hover svg {
   .pdp-details-card { padding: 36px 24px; }
   .pdp-details-card--sm { padding: 28px 24px; }
   .pdp-ribbon { grid-template-columns: repeat(2, 1fr); }
+  .pdp-details-header { flex-direction: column; gap: 10px; text-align: center; }
+  .pdp-details-header__line { display: none; }
+  .pdp-details-header__tag { white-space: normal; letter-spacing: 0.1em; }
 }
 
 /* Description body (used inside tabs) */
@@ -3669,7 +3691,7 @@ a.pdp-trust-row__item--link:hover svg {
 /* ── Responsive (max-width 900px) ── */
 @media (max-width: 900px) {
   .pdp-breadcrumb { padding-top: 100px; }
-  .pdp-hero { padding: 24px 20px 60px; }
+  .pdp-hero { padding: 80px 20px 60px; }
   .pdp-hero__inner {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -3684,6 +3706,14 @@ a.pdp-trust-row__item--link:hover svg {
   .pdp-tabs__btn { font-size: 14px; }
   .pdp-sticky-bar__info { gap: 10px; }
   .pdp-sticky-bar__title { font-size: 13px; }
+}
+
+@media (max-width: 640px) {
+  .pw-freq-buttons { flex-direction: column; }
+  .pw-freq-btn { padding: 12px 16px; }
+  .pdp-details-card__title { font-size: 28px; }
+  .pdp-ribbon__val { font-size: 32px; }
+  .pdp-gallery-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ─── Legal Pages (Privacy, Terms, Returns) ──────────────────── */
