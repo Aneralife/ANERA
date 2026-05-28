@@ -31,11 +31,39 @@ async function sendEmail(to: string, subject: string, html: string) {
   console.log(`[subscribe] Email sent OK:`, JSON.stringify(body));
 }
 
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
+const RECAPTCHA_THRESHOLD = 0.5;
+
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  if (!RECAPTCHA_SECRET) return true; // skip if not configured
+  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
+    // @ts-expect-error undici dispatcher not in standard RequestInit types
+    dispatcher: ipv4Agent,
+  });
+  const data = await res.json() as { success: boolean; score: number; action: string };
+  console.log("[subscribe] reCAPTCHA result:", JSON.stringify(data));
+  return data.success && data.score >= RECAPTCHA_THRESHOLD;
+}
+
 export async function POST(req: NextRequest) {
-  const { email } = await req.json();
+  const { email, recaptchaToken } = await req.json();
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+
+  if (RECAPTCHA_SECRET) {
+    if (!recaptchaToken) {
+      return NextResponse.json({ error: "Missing verification" }, { status: 400 });
+    }
+    const isHuman = await verifyRecaptcha(recaptchaToken);
+    if (!isHuman) {
+      console.warn("[subscribe] reCAPTCHA failed for:", email);
+      return NextResponse.json({ error: "Verification failed" }, { status: 400 });
+    }
   }
 
   // Save to subscribers file

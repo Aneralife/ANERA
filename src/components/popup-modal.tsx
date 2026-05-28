@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
 const STORAGE_KEY = "anera_popup_dismissed";
 
 export function PopupModal() {
@@ -28,10 +37,16 @@ export function PopupModal() {
     setLoading(true);
     setError("");
     try {
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      let recaptchaToken: string | undefined;
+      if (siteKey && window.grecaptcha) {
+        await new Promise<void>((resolve) => window.grecaptcha.ready(resolve));
+        recaptchaToken = await window.grecaptcha.execute(siteKey, { action: "subscribe" });
+      }
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, recaptchaToken }),
       });
       if (res.ok) {
         setSubmitted(true);
