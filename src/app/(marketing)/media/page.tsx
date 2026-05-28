@@ -235,6 +235,15 @@ const ARTICLES = [
     content: "",
     externalHref: "/from-pain-to-purpose-anera-nmn-story",
   },
+  {
+    id: 28, slug: "where-to-buy-nmn-canada",
+    title: "Where to Buy NMN Supplements in Canada (2026 Guide)",
+    date: "May 28, 2026", tag: "Canada", filter: "canada", icon: "🛍️", bannerClass: "", readTime: "10 min read",
+    lead: "Searching for the best place to buy NMN in Canada? This guide covers the top trusted brands, online vs retail options, and how to identify 99% pure, lab-tested supplements.",
+    takeaways: ["Online brands offer higher purity and COA transparency than retail", "Anera Life is the best overall NMN brand in Canada", "Always verify 99%+ purity and third-party testing before buying"],
+    content: "",
+    externalHref: "/where-to-buy-nmn-canada",
+  },
 ];
 
 const FILTERS = [
@@ -582,7 +591,7 @@ export default function MediaPage() {
             </p>
             <div className="mh-hero__stats">
               <div className="mh-hero__stat">
-                <span className="mh-hero__stat-number">28</span>
+                <span className="mh-hero__stat-number">29</span>
                 <span className="mh-hero__stat-label">Articles</span>
               </div>
               <div className="mh-hero__stat">
