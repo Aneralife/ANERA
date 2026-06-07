@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/products/nad-booster-nmn-15000`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/how-long-does-nmn-take-to-work-day-1-to-6-months`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/top-nmn-brands-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/from-pain-to-purpose-anera-nmn-story`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/where-to-buy-nmn-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/when-nmn-works-best-for-your-body-clock`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },

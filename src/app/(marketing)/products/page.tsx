@@ -173,19 +173,19 @@ function useCarousel(itemWidth: number, gap: number, perPage: number) {
 
 /* ── Data ────────────────────────────────────────────────────── */
 const catItems = [
-  { label: "NMN + TR 24000", img: "/assets/24000 NMN.png", available: true, href: "/products/nmn-trans-resveratrol-24000" },
-  { label: "NMN 15000", img: "/assets/15000 NMN.png", available: true, href: "/products/nad-booster-nmn-15000" },
-  { label: "NMN 7500", img: "/assets/7500 NMN.png", available: false, href: "#" },
-  { label: "NMN 100000", img: "/assets/NMN Powder.png", available: false, href: "#" },
-  { label: "Trans-Resveratrol", img: "/assets/TR.png", available: false, href: "#" },
-  { label: "Fisetin 6000", img: "/assets/Fisetin.png", available: false, href: "#" },
-  { label: "Quercetin 45000", img: "/assets/Quercentin.png", available: false, href: "#" },
-  { label: "Berberine 45000", img: "/assets/Berberin.png", available: false, href: "#" },
-  { label: "TMG 45000", img: "/assets/TMG.png", available: false, href: "#" },
-  { label: "Selenium 24000", img: "/assets/Selenium.png", available: false, href: "#" },
-  { label: "Magnesium L-Threonate", img: "/assets/Magnesium.png", available: false, href: "#" },
-  { label: "Creatine 300000", img: "/assets/Creatine.png", available: false, href: "#" },
-  { label: "Taurine 300000", img: "/assets/Taurine.png", available: false, href: "#" },
+  { label: "NMN + TR 24000", img: "/assets/24000 NMN.webp", available: true, href: "/products/nmn-trans-resveratrol-24000" },
+  { label: "NMN 15000", img: "/assets/15000 NMN.webp", available: true, href: "/products/nad-booster-nmn-15000" },
+  { label: "NMN 7500", img: "/assets/7500 NMN.webp", available: false, href: "#" },
+  { label: "NMN 100000", img: "/assets/NMN Powder.webp", available: false, href: "#" },
+  { label: "Trans-Resveratrol", img: "/assets/TR.webp", available: false, href: "#" },
+  { label: "Fisetin 6000", img: "/assets/Fisetin.webp", available: false, href: "#" },
+  { label: "Quercetin 45000", img: "/assets/Quercentin.webp", available: false, href: "#" },
+  { label: "Berberine 45000", img: "/assets/Berberin.webp", available: false, href: "#" },
+  { label: "TMG 45000", img: "/assets/TMG.webp", available: false, href: "#" },
+  { label: "Selenium 24000", img: "/assets/Selenium.webp", available: false, href: "#" },
+  { label: "Magnesium L-Threonate", img: "/assets/Magnesium.webp", available: false, href: "#" },
+  { label: "Creatine 300000", img: "/assets/Creatine.webp", available: false, href: "#" },
+  { label: "Taurine 300000", img: "/assets/Taurine.webp", available: false, href: "#" },
 ];
 
 type PlanOption = {
@@ -220,7 +220,7 @@ const productCards: PCard[] = [
   {
     name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster",
     desc: "250mg NMN + 150mg Trans-Resveratrol \u00b7 60 capsules. Boosts NAD+, fights oxidative stress, and supports cellular repair.",
-    price: "$120 CAD", img: "/assets/24000 NMN.png", imgHover: "/assets/NMN 24000-1.jpeg",
+    price: "$120 CAD", img: "/assets/24000 NMN.webp", imgHover: "/assets/NMN 24000-1.jpeg",
     available: true, bestSeller: true,
     handle: "nmn-trans-resveratrol-24000",
     variantId: "gid://shopify/ProductVariant/45075095519311",
@@ -233,18 +233,18 @@ const productCards: PCard[] = [
       { label: "12-month supply", months: 12, save: 30, pricePerMonth: 84, totalOriginal: 1440, totalDiscounted: 1008, variantId: "gid://shopify/ProductVariant/45075095617615", bestValue: true },
     ],
   },
-  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.png", imgHover: "/assets/NMN 15000-1.png", available: true, handle: "nad-booster-nmn-15000", variantId: "gid://shopify/ProductVariant/44918841737295" },
-  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Fisetin 6000", cat: "Longevity / Senolytic", desc: "100mg per capsule \u00b7 60 capsules. Supports cellular cleanup, brain health, and anti-inflammatory effects.", price: "Price TBD", img: "/assets/Fisetin.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercentin.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/Berberin.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "TMG 45000", cat: "Methylation Support", desc: "500mg per capsule \u00b7 90 capsules. Supports homocysteine balance, promotes heart health, and aids cellular methylation.", price: "Price TBD", img: "/assets/TMG.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Selenium 24000", cat: "Mineral", desc: "200mcg per capsule \u00b7 90 capsules. Supports immune system, promotes thyroid function, and provides antioxidant protection.", price: "Price TBD", img: "/assets/Selenium.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Magnesium L-Threonate 4500", cat: "Mineral / Brain Health", desc: "50mg per capsule \u00b7 90 capsules. Improves memory, enhances focus, and supports overall brain health.", price: "Price TBD", img: "/assets/Magnesium.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/Creatine.png", imgHover: "/assets/second-all.jpeg", available: false },
-  { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.png", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "NMN 15000", cat: "NAD+ Booster", desc: "250mg per capsule \u00b7 60 capsules. Higher-potency NAD+ support for stronger energy and cellular repair.", price: "$105 CAD", img: "/assets/15000 NMN.webp", imgHover: "/assets/NMN 15000-1.webp", available: true, handle: "nad-booster-nmn-15000", variantId: "gid://shopify/ProductVariant/44918841737295" },
+  { name: "NMN 7500", cat: "NAD+ Booster", desc: "125mg per capsule \u00b7 60 capsules. Supports NAD+, energy, and cellular health. Ideal entry-level daily dose.", price: "Price TBD", img: "/assets/7500 NMN.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "NMN 100000", cat: "NAD+ Booster", desc: "Pure NMN powder \u00b7 100g. Maximum NAD+ support with flexible dosing and rapid sublingual absorption.", price: "Price TBD", img: "/assets/NMN Powder.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Trans-Resveratrol 45000", cat: "Antioxidant", desc: "500mg per capsule \u00b7 90 capsules. Fights free radicals, supports heart health, and promotes healthy aging.", price: "Price TBD", img: "/assets/TR.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Fisetin 6000", cat: "Longevity / Senolytic", desc: "100mg per capsule \u00b7 60 capsules. Supports cellular cleanup, brain health, and anti-inflammatory effects.", price: "Price TBD", img: "/assets/Fisetin.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Quercetin 45000", cat: "Antioxidant / Immune", desc: "500mg per capsule \u00b7 90 capsules. Strong antioxidant that supports immunity and reduces inflammation.", price: "Price TBD", img: "/assets/Quercentin.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Berberine 45000", cat: "Metabolic", desc: "500mg per capsule \u00b7 90 capsules. Supports glucose balance, improves metabolism, and promotes heart health.", price: "Price TBD", img: "/assets/Berberin.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "TMG 45000", cat: "Methylation Support", desc: "500mg per capsule \u00b7 90 capsules. Supports homocysteine balance, promotes heart health, and aids cellular methylation.", price: "Price TBD", img: "/assets/TMG.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Selenium 24000", cat: "Mineral", desc: "200mcg per capsule \u00b7 90 capsules. Supports immune system, promotes thyroid function, and provides antioxidant protection.", price: "Price TBD", img: "/assets/Selenium.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Magnesium L-Threonate 4500", cat: "Mineral / Brain Health", desc: "50mg per capsule \u00b7 90 capsules. Improves memory, enhances focus, and supports overall brain health.", price: "Price TBD", img: "/assets/Magnesium.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Micronized Creatine 300000", cat: "Performance", desc: "Powder \u00b7 300g. Increases power output, supports muscle recovery, and enhances athletic performance.", price: "Price TBD", img: "/assets/Creatine.webp", imgHover: "/assets/second-all.jpeg", available: false },
+  { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.webp", imgHover: "/assets/second-all.jpeg", available: false },
 ];
 
 const compSupplements = [
@@ -274,14 +274,14 @@ const timelinePanels = [
 const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Anera+Life+Inc./@49.1834636,-123.1369498,17z/data=!4m8!3m7!1s0x54860b5d5666db17:0x34bb5aa7e0297d92!8m2!3d49.1834636!4d-123.1369498!9m1!1b1!16s%2Fg%2F11t_0t1n_y";
 
 const reviews = [
-  { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago", hoverImg: "/assets/11.png", url: GOOGLE_REVIEWS_URL },
-  { author: "Janet L", verified: true, stars: 5, title: "No more midday fatigue", text: "After consistent daily use for 6 months, I can say I am extremely pleased with the benefits of taking NMN. No more feeling fatigue mid day, my hair looks fuller and my skin feels more plump. Definitely recommend for those who need a boost in their daily lifestyle.", date: "1 year ago", hoverImg: "/assets/12.png", url: "https://share.google/WKD3rUsih7M8cSxqd" },
-  { author: "Abraham Aguirre Castro", verified: true, stars: 5, title: "Boosted my energy throughout the day", text: "It has boost my energy throughout the day.", date: "1 year ago", hoverImg: "/assets/13.png", url: "https://share.google/iiNzTBa9CvNexL0FG" },
-  { author: "Daniel De La Cruz", verified: true, stars: 5, title: "Replaced my daily vitamins with Anera", text: "Being a competitive bodybuilder, I tried NMN for 1 month and stopped taking preworkout. I was able to push through intense training, focus and clarity improved, and my wrist pain was gone after 3 weeks! My cardio performance was better than expected. I\u2019ve replaced my daily vitamins with ANERA 24000 NMN + TR. #HEALTHISWEALTH", date: "1 year ago", hoverImg: "/assets/14.png", url: "https://share.google/CMzYmvEzFnn8HDNpz" },
-  { author: "Tammy Watson", verified: true, stars: 5, title: "Better sleep, more energy, weight loss", text: "I started taking Anera NMN as I was transitioning off anxiety and depression medication. I found that I was able to sleep well and wake up feeling refreshed. My skin started to brighten up and my metabolism is kicking back in. Now I find I have energy to work out in the morning, and the scale is moving again.", date: "1 year ago", hoverImg: "/assets/15.png", url: "https://share.google/jUfPbnonmhtTPXerD" },
-  { author: "Qui Tran", verified: true, stars: 5, title: "Best product I have tried", text: "Hands down best product I have tried. Lots of energy when using compared to other brands.", date: "1 year ago", hoverImg: "/assets/16.png", url: "https://share.google/0z9Djsuz3tx1pixsW" },
-  { author: "Jose Ram\u00edrez", verified: true, stars: 5, title: "Energy, joint pain relief, mental clarity", text: "I\u2019ve been taking Anera for two weeks now, and from the very first days, I noticed an increase in my energy levels. I\u2019ve dealt with joint pain my entire life from playing football, but in just two weeks, that pain has almost completely disappeared. My mental clarity improved and I\u2019m getting much more done in a single day.", date: "1 year ago", hoverImg: "/assets/11.png", url: "https://share.google/xlv2PF3Je7U1WjedG" },
-  { author: "Damien Henderson", verified: true, stars: 5, title: "So much energy throughout the day", text: "Anera product is definitely a supplement you should purchase! I\u2019ve tried the NMN 60 capsule bottle first, and the product is legit \u2014 I have so much energy throughout the day! Now I just reloaded on 2 bottles of the NMN Trans. Highly recommend!", date: "1 year ago", hoverImg: "/assets/12.png", url: "https://share.google/hGxrp92DHzSanWwRV" },
+  { author: "Nofella Auliya", verified: true, stars: 5, title: "Game-changer for my skin", text: "I\u2019ve been using Anera for a few months now, and I can honestly say it\u2019s been a game-changer for my skin, especially when it comes to managing acne and eczema. This supplement works from the inside out, and I\u2019ve seen noticeable improvements since I started. If you\u2019re struggling with skin issues, I really recommend giving Anera a shot!", date: "1 year ago", hoverImg: "/assets/11.webp", url: GOOGLE_REVIEWS_URL },
+  { author: "Janet L", verified: true, stars: 5, title: "No more midday fatigue", text: "After consistent daily use for 6 months, I can say I am extremely pleased with the benefits of taking NMN. No more feeling fatigue mid day, my hair looks fuller and my skin feels more plump. Definitely recommend for those who need a boost in their daily lifestyle.", date: "1 year ago", hoverImg: "/assets/12.webp", url: "https://share.google/WKD3rUsih7M8cSxqd" },
+  { author: "Abraham Aguirre Castro", verified: true, stars: 5, title: "Boosted my energy throughout the day", text: "It has boost my energy throughout the day.", date: "1 year ago", hoverImg: "/assets/13.webp", url: "https://share.google/iiNzTBa9CvNexL0FG" },
+  { author: "Daniel De La Cruz", verified: true, stars: 5, title: "Replaced my daily vitamins with Anera", text: "Being a competitive bodybuilder, I tried NMN for 1 month and stopped taking preworkout. I was able to push through intense training, focus and clarity improved, and my wrist pain was gone after 3 weeks! My cardio performance was better than expected. I\u2019ve replaced my daily vitamins with ANERA 24000 NMN + TR. #HEALTHISWEALTH", date: "1 year ago", hoverImg: "/assets/14.webp", url: "https://share.google/CMzYmvEzFnn8HDNpz" },
+  { author: "Tammy Watson", verified: true, stars: 5, title: "Better sleep, more energy, weight loss", text: "I started taking Anera NMN as I was transitioning off anxiety and depression medication. I found that I was able to sleep well and wake up feeling refreshed. My skin started to brighten up and my metabolism is kicking back in. Now I find I have energy to work out in the morning, and the scale is moving again.", date: "1 year ago", hoverImg: "/assets/15.webp", url: "https://share.google/jUfPbnonmhtTPXerD" },
+  { author: "Qui Tran", verified: true, stars: 5, title: "Best product I have tried", text: "Hands down best product I have tried. Lots of energy when using compared to other brands.", date: "1 year ago", hoverImg: "/assets/16.webp", url: "https://share.google/0z9Djsuz3tx1pixsW" },
+  { author: "Jose Ram\u00edrez", verified: true, stars: 5, title: "Energy, joint pain relief, mental clarity", text: "I\u2019ve been taking Anera for two weeks now, and from the very first days, I noticed an increase in my energy levels. I\u2019ve dealt with joint pain my entire life from playing football, but in just two weeks, that pain has almost completely disappeared. My mental clarity improved and I\u2019m getting much more done in a single day.", date: "1 year ago", hoverImg: "/assets/11.webp", url: "https://share.google/xlv2PF3Je7U1WjedG" },
+  { author: "Damien Henderson", verified: true, stars: 5, title: "So much energy throughout the day", text: "Anera product is definitely a supplement you should purchase! I\u2019ve tried the NMN 60 capsule bottle first, and the product is legit \u2014 I have so much energy throughout the day! Now I just reloaded on 2 bottles of the NMN Trans. Highly recommend!", date: "1 year ago", hoverImg: "/assets/12.webp", url: "https://share.google/hGxrp92DHzSanWwRV" },
 ];
 
 const faqs = [
@@ -535,13 +535,13 @@ export default function StorePage() {
                       </div>
                     </th>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/2.png" alt="CoQ10" className="st-product-col-avatar" /></div><div className="st-product-col-name">CoQ10</div></div></th>
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/2.webp" alt="CoQ10" className="st-product-col-avatar" /></div><div className="st-product-col-name">CoQ10</div></div></th>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/3.png" alt="Creatine" className="st-product-col-avatar" /></div><div className="st-product-col-name">Creatine</div></div></th>
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/3.webp" alt="Creatine" className="st-product-col-avatar" /></div><div className="st-product-col-name">Creatine</div></div></th>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/4.png" alt="Resveratrol" className="st-product-col-avatar" /></div><div className="st-product-col-name">Resveratrol</div></div></th>
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/4.webp" alt="Resveratrol" className="st-product-col-avatar" /></div><div className="st-product-col-name">Resveratrol</div></div></th>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/5.png" alt="Generic NMN" className="st-product-col-avatar" /></div><div className="st-product-col-name">Generic NMN</div></div></th>
+                    <th><div className="st-product-col-header"><div className="st-product-col-img"><img src="/assets/5.webp" alt="Generic NMN" className="st-product-col-avatar" /></div><div className="st-product-col-name">Generic NMN</div></div></th>
                   </tr>
                 </thead>
                 <tbody>

@@ -45,7 +45,7 @@ export default function HowLongNMNWorksPage() {
         {/* ── Image 1 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/1.png"
+          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/1.webp"
           alt="How Long Does NMN Take to Work"
           title="How Long Does NMN Take to Work"
           className="art-img"
@@ -118,7 +118,7 @@ export default function HowLongNMNWorksPage() {
         {/* ── Image 2 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/2.png"
+          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/2.webp"
           alt="NMN Results Timeline"
           className="art-img"
         />
@@ -239,7 +239,7 @@ export default function HowLongNMNWorksPage() {
         {/* ── Image 3 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/3.png"
+          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/3.webp"
           alt="Anera Life NMN"
           className="art-img"
         />
@@ -328,7 +328,7 @@ export default function HowLongNMNWorksPage() {
         {/* ── Image 4 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/4.png"
+          src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/4.webp"
           alt="Best Way to Take NMN for Faster Results"
           className="art-img"
         />
@@ -482,7 +482,7 @@ export default function HowLongNMNWorksPage() {
           {/* ── Image 5 ── */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/5.png"
+            src="/articles/how-long-does-nmn-take-to-work-day-1-to-6-months/5.webp"
             alt="Anera Life Premium NMN Supplements"
             className="art-img art-img--cta"
           />

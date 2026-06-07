@@ -170,7 +170,7 @@ export default function AboutPage() {
             {[1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6].map((n, i) => (
               <Image
                 key={i}
-                src={`/assets/ceo${n}.png`}
+                src={`/assets/ceo${n}.webp`}
                 alt=""
                 className="ab-hero__slider-img"
                 width={600}

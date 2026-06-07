@@ -103,7 +103,7 @@ export default function FromPainToPurposePage() {
         {/* ── Image 2 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/from-pain-to-purpose-anera-nmn-story/2.png"
+          src="/articles/from-pain-to-purpose-anera-nmn-story/2.webp"
           alt="From Pain to Purpose"
           className="art-img"
         />
@@ -111,7 +111,7 @@ export default function FromPainToPurposePage() {
         {/* ── Image 3 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/from-pain-to-purpose-anera-nmn-story/3.png"
+          src="/articles/from-pain-to-purpose-anera-nmn-story/3.webp"
           alt="From Pain to Purpose"
           className="art-img"
         />
@@ -138,7 +138,7 @@ export default function FromPainToPurposePage() {
         {/* ── Image 4 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/from-pain-to-purpose-anera-nmn-story/4.png"
+          src="/articles/from-pain-to-purpose-anera-nmn-story/4.webp"
           alt="From Pain to Purpose"
           className="art-img"
         />

@@ -41,7 +41,7 @@ export default function TopNMNBrandsCanadaPage() {
         {/* ── Image 1 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/top-nmn-brands-canada/1.png"
+          src="/articles/top-nmn-brands-canada/1.webp"
           alt="Top 10 NMN Brands in Canada"
           title="Top 10 NMN Brands in Canada"
           className="art-img"
@@ -84,7 +84,7 @@ export default function TopNMNBrandsCanadaPage() {
         {/* ── Image 2 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/top-nmn-brands-canada/2.png"
+          src="/articles/top-nmn-brands-canada/2.webp"
           alt="Anera Life — The #1 NMN Brand in Canada"
           className="art-img"
         />
@@ -231,7 +231,7 @@ export default function TopNMNBrandsCanadaPage() {
         {/* ── Image 3 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/top-nmn-brands-canada/3.png"
+          src="/articles/top-nmn-brands-canada/3.webp"
           alt="Premium NMN Supplements by Anera Life"
           className="art-img"
         />
@@ -349,7 +349,7 @@ export default function TopNMNBrandsCanadaPage() {
           {/* ── Image 4 ── */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/articles/top-nmn-brands-canada/4.png"
+            src="/articles/top-nmn-brands-canada/4.webp"
             alt="Anera Life Premium NMN Supplement"
             className="art-img art-img--cta"
           />
