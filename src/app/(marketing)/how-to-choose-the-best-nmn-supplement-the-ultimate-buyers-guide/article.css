@@ -84,6 +84,10 @@
   margin: 0 0 14px;
 }
 
+.art-page__inner h3.art-subheading--strong {
+  color: var(--fg);
+}
+
 .art-page__inner p {
   font-size: 16px;
   line-height: 1.75;
@@ -95,6 +99,14 @@
 .art-page__inner ol {
   padding-left: 22px;
   margin-bottom: 24px;
+}
+
+.art-page__inner ul { list-style: disc outside; }
+.art-page__inner ol { list-style: decimal outside; }
+
+.art-page__inner .art-check-list {
+  list-style: none;
+  padding-left: 0;
 }
 
 .art-page__inner li {
@@ -149,7 +161,8 @@
 .art-table th {
   background: var(--card-bg);
   padding: 14px 18px;
-  text-align: left;
+  text-align: center;
+  vertical-align: middle;
   font-weight: 700;
   font-size: 11px;
   letter-spacing: .08em;
@@ -158,13 +171,16 @@
   border-bottom: 1px solid var(--border);
 }
 
-.art-table th:first-child { width: 22%; }
+.art-table th:first-child { width: 34%; }
+.art-table--cols-2 th:first-child { width: 38%; }
+.art-table--cols-4 th:first-child { width: 30%; }
 
 .art-table td {
   padding: 14px 18px;
   border-bottom: 1px solid var(--border);
   color: var(--fg-secondary);
-  vertical-align: top;
+  text-align: center;
+  vertical-align: middle;
   line-height: 1.55;
 }
 
