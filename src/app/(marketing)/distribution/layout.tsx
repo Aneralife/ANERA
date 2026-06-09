@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "Anera Global Distribution Partners | Buy Authentic Supplements" },
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
       "Buy 100% genuine, science-backed Anera supplements from verified global partners. Scan QR codes, avoid counterfeits, and shop with confidence. Find an official partner today.",
     url: "/distribution",
     type: "website",
+    images: [defaultSocialImage],
   },
   alternates: { canonical: "/distribution" },
 };

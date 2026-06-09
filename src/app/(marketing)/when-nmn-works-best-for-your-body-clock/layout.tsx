@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Morning vs Night: When NMN Works Best for Your Body Clock?",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
       "Discover whether morning or night is the best time to take NMN for energy, metabolism, and longevity. Learn how timing impacts sleep, focus, and NAD+ levels.",
     url: "https://aneralife.com/when-nmn-works-best-for-your-body-clock",
     type: "article",
+    images: [defaultSocialImage],
   },
   alternates: {
     canonical: "https://aneralife.com/when-nmn-works-best-for-your-body-clock",

@@ -143,6 +143,64 @@ const LinkedInIcon = () => (
   </svg>
 );
 
+function initialsFromName(name: string) {
+  return name
+    .replace(/^Dr\.\s+/i, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function PersonImage({
+  src,
+  alt,
+  className,
+  width,
+  height,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  width: number;
+  height: number;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className={`ab-person-fallback${className ? ` ${className}` : ""}`} role="img" aria-label={alt}>
+        <span>{initialsFromName(alt)}</span>
+      </div>
+    );
+  }
+
+  return (
+    src.startsWith("http") ? (
+      <Image
+        src={src}
+        alt={alt}
+        className={className}
+        width={width}
+        height={height}
+        unoptimized
+        onError={() => setFailed(true)}
+      />
+    ) : (
+      <Image
+        src={src}
+        alt={alt}
+        className={className}
+        width={width}
+        height={height}
+        onError={() => setFailed(true)}
+      />
+    )
+  );
+}
+
 export default function AboutPage() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
@@ -327,7 +385,7 @@ export default function AboutPage() {
             </video>
             <div className="ab-leader__overlay" />
             <div className="ab-leader__left">
-              <Image
+              <PersonImage
                 src="https://aneralife.com/wp-content/uploads/2026/03/212.jpeg"
                 alt="Dr. Andrew Willoughby"
                 className="ab-leader__photo"
@@ -402,7 +460,7 @@ export default function AboutPage() {
             {ADVISORS.map((a) => (
               <div key={a.name} className="ab-advisor">
                 <div className="ab-advisor__photo">
-                  <Image src={a.photo} alt={a.name} width={400} height={480} />
+                  <PersonImage src={a.photo} alt={a.name} width={400} height={480} />
                 </div>
                 <div className="ab-advisor__info">
                   <h4>{a.name}</h4>

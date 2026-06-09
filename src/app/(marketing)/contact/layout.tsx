@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
       "Get in touch with the Anera Life team. Reach us by email at Info@aneralife.com or visit our Richmond, BC office.",
     url: "/contact",
     type: "website",
+    images: [defaultSocialImage],
   },
   alternates: { canonical: "/contact" },
 };

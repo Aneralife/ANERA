@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Top 10 NMN Brands in Canada for 2026",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
       "Discover the Top 10 NMN Brands in Canada for 2026. Learn why Anera Life is ranked #1 for purity, safety, and long-term NAD⁺ support backed by real testing.",
     url: "https://aneralife.com/top-nmn-brands-canada",
     type: "article",
+    images: [defaultSocialImage],
   },
   alternates: {
     canonical: "https://aneralife.com/top-nmn-brands-canada",

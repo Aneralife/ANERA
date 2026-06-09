@@ -381,7 +381,23 @@
 .about-page .ab-leader__photo {
   width: 100%;
   height: 100% !important;
+  aspect-ratio: 4/5;
   object-fit: cover;
+}
+.about-page .ab-person-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgba(201,169,110,.2), transparent 45%),
+    var(--bg-elevated);
+  color: var(--fg);
+  border: 1px solid var(--border);
+}
+.about-page .ab-person-fallback span {
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 500;
+  letter-spacing: .08em;
 }
 .about-page .ab-leader__linkedin {
   display: inline-flex;
@@ -465,6 +481,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.about-page .ab-advisor__photo .ab-person-fallback {
+  width: 100%;
+  height: 100%;
 }
 .about-page .ab-advisor__info { padding: 24px 24px 32px; }
 .about-page .ab-advisor__info h4 {

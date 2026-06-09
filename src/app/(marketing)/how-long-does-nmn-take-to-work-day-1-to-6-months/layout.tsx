@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "How Long Does NMN Take to Work? Day 1 to 6 Month Timeline",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
       "Wondering when NMN starts working? See the real timeline, from subtle energy boosts in 1–2 weeks to deeper cellular benefits by 3–6 months.",
     url: "https://aneralife.com/how-long-does-nmn-take-to-work-day-1-to-6-months",
     type: "article",
+    images: [defaultSocialImage],
   },
   alternates: {
     canonical: "https://aneralife.com/how-long-does-nmn-take-to-work-day-1-to-6-months",
