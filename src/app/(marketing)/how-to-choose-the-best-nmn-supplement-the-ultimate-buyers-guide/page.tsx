@@ -720,6 +720,13 @@ const MAJOR_HEADINGS = new Set([
   "Ready to Choose a High-Quality NMN Supplement?"
 ]);
 
+const STRONG_SUBHEADINGS = new Set([
+  "What Is NMN?",
+  "How NMN Supports NAD+ Production",
+  "What Does 99%+ Pure NMN Mean?",
+  "How NMN Purity Is Tested",
+]);
+
 const SECTION_IMAGES = new Map([
   [
     "Why NMN Supplement Quality Matters More Than Most People Realize",
@@ -780,6 +787,12 @@ type TableDefinition = {
 
 const INTERNAL_LINK_STYLE = { color: "#1a6fd4", textDecoration: "underline" };
 
+const ANERA_LIFE_LINKED_LINES = new Set([
+  "Anera Life follows a quality-first approach with pharmaceutical-grade NMN, third-party testing, GMP manufacturing standards, clean formulations, and transparent quality documentation designed to help consumers make informed decisions.",
+  "Brands such as Anera Life emphasize transparency, quality verification, and responsible consumer education so customers can make informed decisions based on evidence rather than hype.",
+  "Anera Life was built around a simple philosophy: consumers deserve clear information about the supplements they purchase.",
+]);
+
 const TABLE_DEFINITIONS = [
   { headers: ["Factor", "Importance"], rows: 10 },
   { headers: ["Manufacturer Testing", "Third-Party Testing"], rows: 4 },
@@ -787,9 +800,25 @@ const TABLE_DEFINITIONS = [
   { headers: ["Product", "Price", "Total NMN", "Cost Per Gram"], rows: 3 },
 ] satisfies readonly TableDefinition[];
 
+const BULLET_LISTS = [
+  [
+    "Cellular energy production",
+    "Metabolic function",
+    "DNA repair mechanisms",
+    "Mitochondrial health",
+    "Cellular maintenance",
+  ],
+] satisfies readonly (readonly string[])[];
+
 function getTableDefinition(lines: readonly string[], index: number) {
   return TABLE_DEFINITIONS.find((table) =>
     table.headers.every((header, offset) => lines[index + offset] === header)
+  );
+}
+
+function getBulletList(lines: readonly string[], index: number) {
+  return BULLET_LISTS.find((items) =>
+    items.every((item, offset) => lines[index + offset] === item)
   );
 }
 
@@ -844,7 +873,7 @@ function renderTable(
 
   return (
     <div className="art-table-wrap" key={key}>
-      <table className="art-table">
+      <table className={`art-table art-table--cols-${columnCount}`}>
         <thead>
           <tr>
             {definition.headers.map((header) => (
@@ -874,7 +903,23 @@ function renderParagraph(line: string, key: string, isLead = false) {
   );
 }
 
+function renderList(items: readonly string[], key: string) {
+  const hasCheckmarks = items.some((item) => item.startsWith("✔"));
+
+  return (
+    <ul key={key} className={hasCheckmarks ? "art-check-list" : undefined}>
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
 function renderLinkedAneraLife(text: string) {
+  if (!ANERA_LIFE_LINKED_LINES.has(text)) {
+    return text;
+  }
+
   const parts = text.split("Anera Life");
 
   if (parts.length === 1) {
@@ -901,6 +946,7 @@ function renderArticleContent() {
   while (index < ARTICLE_LINES.length) {
     const line = ARTICLE_LINES[index];
     const table = getTableDefinition(ARTICLE_LINES, index);
+    const bulletList = getBulletList(ARTICLE_LINES, index);
 
     if (line === "Ready to Choose a High-Quality NMN Supplement?") {
       nodes.push(
@@ -935,6 +981,12 @@ function renderArticleContent() {
       continue;
     }
 
+    if (bulletList) {
+      nodes.push(renderList(bulletList, "ul-" + index));
+      index += bulletList.length;
+      continue;
+    }
+
     if (isMajorHeading(line)) {
       nodes.push(<h2 key={"h2-" + index}>{line}</h2>);
       const image = SECTION_IMAGES.get(line);
@@ -957,13 +1009,7 @@ function renderArticleContent() {
 
     if (line.startsWith("✔")) {
       const { items, nextIndex } = collectList(ARTICLE_LINES, index);
-      nodes.push(
-        <ul key={"ul-" + index}>
-          {items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      );
+      nodes.push(renderList(items, "ul-" + index));
       index = nextIndex;
       continue;
     }
@@ -974,13 +1020,7 @@ function renderArticleContent() {
 
       const { items, nextIndex } = collectList(ARTICLE_LINES, index + 1);
       if (items.length >= 2) {
-        nodes.push(
-          <ul key={"ul-" + (index + 1)}>
-            {items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        );
+        nodes.push(renderList(items, "ul-" + (index + 1)));
         index = nextIndex;
       } else {
         index += 1;
@@ -989,7 +1029,14 @@ function renderArticleContent() {
     }
 
     if (isSubheading(line, ARTICLE_LINES[index + 1], index)) {
-      nodes.push(<h3 key={"h3-" + index}>{line}</h3>);
+      nodes.push(
+        <h3
+          key={"h3-" + index}
+          className={STRONG_SUBHEADINGS.has(line) ? "art-subheading--strong" : undefined}
+        >
+          {line}
+        </h3>
+      );
       index += 1;
       continue;
     }

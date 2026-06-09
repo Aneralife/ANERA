@@ -106,6 +106,19 @@ export function PopupModal() {
                   {loading ? "Sending…" : "Send My Code"}
                 </button>
               </form>
+              {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+                <p className="popup__recaptcha">
+                  This site is protected by reCAPTCHA and the Google{" "}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                    Privacy Policy
+                  </a>{" "}
+                  and{" "}
+                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
+                    Terms of Service
+                  </a>{" "}
+                  apply.
+                </p>
+              )}
               {error && <p style={{ color: "#c0392b", fontSize: 13, margin: 0 }}>{error}</p>}
               <button className="popup__skip" onClick={handleDoNotShow}>No thanks</button>
             </div>
