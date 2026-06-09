@@ -41,7 +41,7 @@ export default function WhereToBuyNMNCanadaPage() {
         {/* ── Image 1 — after title ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/where-to-buy-nmn-canada/1.png"
+          src="/articles/where-to-buy-nmn-canada/1.webp"
           alt="Where to Buy NMN Supplements in Canada"
           title="Where to Buy NMN Supplements in Canada"
           className="art-img"
@@ -196,7 +196,7 @@ export default function WhereToBuyNMNCanadaPage() {
         {/* ── Image 2 — after Anera Life title ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/where-to-buy-nmn-canada/2.png"
+          src="/articles/where-to-buy-nmn-canada/2.webp"
           alt="Anera Life — Best Overall NMN in Canada"
           title="Anera Life — Best Overall NMN in Canada"
           className="art-img"
@@ -382,7 +382,7 @@ export default function WhereToBuyNMNCanadaPage() {
           {/* ── Image 3 — before CTA text ── */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/articles/where-to-buy-nmn-canada/3.png"
+            src="/articles/where-to-buy-nmn-canada/3.webp"
             alt="Buy Premium NMN Supplements from Anera Life"
             title="Buy Premium NMN Supplements from Anera Life"
             className="art-img art-img--cta"

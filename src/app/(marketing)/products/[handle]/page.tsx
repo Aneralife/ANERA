@@ -113,10 +113,10 @@ export default async function ProductPage({ params }: Props) {
 
             {/* Product gallery */}
             {params.handle === "nmn-trans-resveratrol-24000" && (
-              <PdpGallery images={["24-1.png","24-2.png","24-3.png","24-4.png","24-5.png","24-6.png"]} alt="NMN 24000" />
+              <PdpGallery images={["24-1.webp","24-2.webp","24-3.webp","24-4.webp","24-5.webp","24-6.webp"]} alt="NMN 24000" />
             )}
             {params.handle === "nad-booster-nmn-15000" && (
-              <PdpGallery images={["15-1.png","15-2.png","15-3.png","15-4.png","15-5.png","15-6.png"]} alt="NMN 15000" />
+              <PdpGallery images={["15-1.webp","15-2.webp","15-3.webp","15-4.webp","15-5.webp","15-6.webp"]} alt="NMN 15000" />
             )}
           </div>
 

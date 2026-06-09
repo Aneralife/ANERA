@@ -3,6 +3,10 @@ import "./globals.css";
 import { CartProvider } from "@/components/cart/cart-context";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-provider";
+import { defaultSocialImage, defaultTwitterImage } from "@/lib/seo";
+
+const siteDescription =
+  "True strength isn't about shortcuts — it's about building a foundation for a thriving, vibrant future. Daily NMN fuels your body and mind, giving you the energy, clarity, and resilience to stay ahead.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aneralife.com"),
@@ -10,12 +14,21 @@ export const metadata: Metadata = {
     default: "High-Quality NMN Supplements in Canada and USA | Anera Life",
     template: "%s | Anera Life",
   },
-  description:
-    "True strength isn't about shortcuts — it's about building a foundation for a thriving, vibrant future. Daily NMN fuels your body and mind, giving you the energy, clarity, and resilience to stay ahead.",
+  description: siteDescription,
   openGraph: {
+    title: "High-Quality NMN Supplements in Canada and USA | Anera Life",
+    description: siteDescription,
+    url: "/",
     siteName: "Anera Life",
     type: "website",
     locale: "en_CA",
+    images: [defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "High-Quality NMN Supplements in Canada and USA | Anera Life",
+    description: siteDescription,
+    images: [defaultTwitterImage],
   },
   verification: {
     google: "1ndCDq1arUeMLi26MjUrXYu-nZ-80RDS8b9dTpmmnzk",

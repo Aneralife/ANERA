@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Where to Buy NMN Supplements in Canada? | Top 5 Brands",
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
       "Looking to buy NMN in Canada? Discover the safest places to buy NMN, the top trusted brands, Canada's legal status, and how to choose 99% pure, lab-tested supplements.",
     url: "https://aneralife.com/where-to-buy-nmn-canada",
     type: "article",
+    images: [defaultSocialImage],
   },
   alternates: {
     canonical: "https://aneralife.com/where-to-buy-nmn-canada",

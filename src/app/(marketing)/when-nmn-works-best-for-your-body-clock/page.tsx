@@ -346,7 +346,7 @@ export default function WhenNMNWorksBestPage() {
         {/* ── Image 4: Premium Products ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/when-nmn-works-best/4.png"
+          src="/articles/when-nmn-works-best/4.webp"
           alt="Premium NMN Supplements by Anera Life"
           className="art-img"
         />
@@ -470,7 +470,7 @@ export default function WhenNMNWorksBestPage() {
         {/* ── Image 5 ── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/articles/when-nmn-works-best/5.png"
+          src="/articles/when-nmn-works-best/5.webp"
           alt="When Should You Take NMN?"
           className="art-img"
         />
@@ -518,7 +518,7 @@ export default function WhenNMNWorksBestPage() {
           {/* ── Image 6 ── */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/articles/when-nmn-works-best/6.png"
+            src="/articles/when-nmn-works-best/6.webp"
             alt="Anera Life Premium NMN Supplement"
             className="art-img art-img--cta"
           />
