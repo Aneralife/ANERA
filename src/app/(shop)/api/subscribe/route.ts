@@ -33,6 +33,13 @@ async function sendEmail(to: string, subject: string, html: string) {
 
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
 const RECAPTCHA_THRESHOLD = 0.5;
+const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
+
+function isLocalHost(host: string | null) {
+  if (!host) return false;
+  const hostname = host.startsWith("[") ? host.slice(1, host.indexOf("]")) : host.split(":")[0];
+  return LOCAL_HOSTS.has(hostname);
+}
 
 async function verifyRecaptcha(token: string): Promise<boolean> {
   if (!RECAPTCHA_SECRET) return true; // skip if not configured
@@ -55,7 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
 
-  if (RECAPTCHA_SECRET) {
+  if (RECAPTCHA_SECRET && !isLocalHost(req.headers.get("host"))) {
     if (!recaptchaToken) {
       return NextResponse.json({ error: "Missing verification" }, { status: 400 });
     }

@@ -3919,6 +3919,19 @@ a.pdp-trust-row__item--link:hover svg {
 }
 .popup__submit:hover { opacity: 0.8; }
 
+.popup__recaptcha {
+  font-size: 9px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 2px 0 0;
+}
+.popup__recaptcha a {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.popup__recaptcha a:hover { color: #fff; }
+
 .popup__skip {
   font-family: inherit;
   font-size: 10px;

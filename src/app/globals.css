@@ -11,17 +11,7 @@ html {
 }
 
 .grecaptcha-badge {
-  left: 18px !important;
-  right: auto !important;
-  bottom: 18px !important;
-  z-index: 850 !important;
-}
-
-@media (max-width: 640px) {
-  .grecaptcha-badge {
-    left: 12px !important;
-    bottom: 84px !important;
-  }
+  visibility: hidden !important;
 }
 
 /* ─── Auth Pages ─────────────────────────────────────────── */

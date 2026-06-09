@@ -4,6 +4,7 @@ import { CartProvider } from "@/components/cart/cart-context";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-provider";
 import { defaultSocialImage, defaultTwitterImage } from "@/lib/seo";
+import { RecaptchaScript } from "@/components/recaptcha-script";
 
 const siteDescription =
   "True strength isn't about shortcuts — it's about building a foundation for a thriving, vibrant future. Daily NMN fuels your body and mind, giving you the energy, clarity, and resilience to stay ahead.";
@@ -53,12 +54,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
-          <script
-            src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-            async
-          />
-        )}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('anera-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}})()`,
@@ -66,6 +61,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <RecaptchaScript />
         <ThemeProvider>
           <AuthProvider>
             <CartProvider initialCart={null}>{children}</CartProvider>
