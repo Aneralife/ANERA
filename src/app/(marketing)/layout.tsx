@@ -15,7 +15,6 @@ export default function MarketingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const { user, loading: authLoading, signOut } = useAuth();
@@ -29,42 +28,6 @@ export default function MarketingLayout({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
-  // Hide nav on scroll down, show on scroll up
-  useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const nav = navRef.current;
-        if (!nav) { ticking = false; return; }
-        const y = window.scrollY;
-
-        // Toggle scrolled background
-        if (y > 10) nav.classList.add("scrolled");
-        else nav.classList.remove("scrolled");
-
-        // Hide/show based on direction (only after scrolling past nav height)
-        // Don't hide when mobile menu is open
-        const isProductPage = window.location.pathname.startsWith("/products/");
-        const isMediaPage = window.location.pathname === "/media";
-        if (!isProductPage && !isMediaPage && !mobileMenuOpen && y > 64 && y > lastY) {
-          nav.classList.add("nav--hidden");
-        } else {
-          nav.classList.remove("nav--hidden");
-        }
-
-        lastY = y;
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [mobileMenuOpen]);
 
   // Observe reveal elements — uses MutationObserver so new DOM nodes are caught instantly
   const observeReveals = useCallback(() => {
@@ -109,7 +72,7 @@ export default function MarketingLayout({
   return (
     <>
       {/* Nav */}
-      <nav className={`nav${pathname === "/about" || pathname === "/contact" || pathname.startsWith("/products/") || pathname === "/media" ? " nav--light-hero" : pathname === "/distribution" ? " nav--distribution" : ""}`} ref={navRef}>
+      <nav className="nav">
         <Link href="/" className="nav__logo">
           ANERA
         </Link>
@@ -137,10 +100,10 @@ export default function MarketingLayout({
           <ThemeToggle className="theme-toggle" />
           {!authLoading && user?.role === "admin" && (
             <>
-              <Link href="/admin" className="nav__links" style={{ fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "var(--fg-secondary)" }}>
+              <Link href="/admin" className="nav__admin-link">
                 Admin
               </Link>
-              <button onClick={signOut} className="nav__cta" style={{ background: "none", cursor: "pointer", border: "1px solid var(--cta-border)", fontFamily: "inherit" }}>
+              <button onClick={signOut} className="nav__cta">
                 Sign Out
               </button>
             </>

@@ -15,7 +15,6 @@
   --fg-muted:      #86868b;
   --border:        rgba(0,0,0,.08);
   --border-subtle: rgba(0,0,0,.05);
-  --nav-scroll-bg: rgba(255,255,255,.88);
   --card-bg:       #ffffff;
   --loader-bg:     #ffffff;
   --loader-bar-bg: rgba(0,0,0,.1);
@@ -36,7 +35,6 @@
   --fg-muted:      #86868b;
   --border:        rgba(255,255,255,.06);
   --border-subtle: rgba(255,255,255,.03);
-  --nav-scroll-bg: rgba(10,10,10,.85);
   --card-bg:       #111111;
   --loader-bg:     #0a0a0a;
   --loader-bar-bg: rgba(255,255,255,.15);
@@ -91,16 +89,12 @@ img, video { display: block; max-width: 100%; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 800;
   padding: 0 48px; height: 64px;
   display: flex; align-items: center; justify-content: space-between;
-  transition: background .4s, backdrop-filter .4s, transform .35s cubic-bezier(.4,0,.2,1);
-}
-.nav.nav--hidden {
-  transform: translateY(-100%);
-}
-.nav.scrolled {
   background: rgba(0,0,0,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  transition: background .4s, backdrop-filter .4s;
 }
 .nav__logo {
   font-size: 18px; font-weight: 700;
@@ -120,15 +114,26 @@ img, video { display: block; max-width: 100%; }
 .nav__cta {
   font-size: 12px; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
+  font-family: inherit;
   padding: 10px 24px;
+  background: none;
   border: 1px solid rgba(255,255,255,0.35);
   border-radius: 2px; color: #fff;
+  cursor: pointer;
   transition: background .2s, border-color .2s;
 }
 .nav__cta:hover {
   background: #fff; color: #1d1d1f;
   border-color: #fff;
 }
+.nav__admin-link {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  transition: color .2s;
+}
+.nav__admin-link:hover { color: #fff; }
 .theme-toggle {
   background: none; border: none; cursor: pointer;
   color: rgba(255,255,255,0.7);
@@ -137,10 +142,9 @@ img, video { display: block; max-width: 100%; }
   border-radius: 4px;
   transition: color .2s, background .2s;
 }
-.theme-toggle:hover { color: #fff; }
 .theme-toggle:hover {
-  color: var(--fg);
-  background: var(--border);
+  color: #fff;
+  background: rgba(255,255,255,0.12);
 }
 /* ─── Hamburger Button (mobile only) ───────────────────────── */
 .nav__hamburger {
@@ -243,7 +247,7 @@ img, video { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .nav { padding: 0 24px; }
   .nav__links { display: none; }
-  .nav__cta { display: none; }
+  .nav__right > .nav__cta { display: none; }
   .nav__hamburger { display: flex; }
   .nav-mobile { display: block; }
 }
@@ -556,31 +560,6 @@ img, video { display: block; max-width: 100%; }
 .st-hero__cta:hover { text-decoration: underline; }
 
 
-
-/* Nav override for light-background pages (product page) */
-.nav.nav--light-hero .nav__logo { color: var(--fg); }
-.nav.nav--light-hero .nav__links a { color: var(--fg-secondary); }
-.nav.nav--light-hero .nav__links a:hover { color: var(--fg); }
-.nav.nav--light-hero .nav__cta { color: var(--fg); border-color: var(--fg-muted); }
-.nav.nav--light-hero .nav__cta:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.nav.nav--light-hero .theme-toggle { color: var(--fg-secondary); }
-.nav.nav--light-hero .theme-toggle:hover { color: var(--fg); }
-.nav.nav--light-hero { background: rgba(255,255,255,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-[data-theme="dark"] .nav.nav--light-hero { background: rgba(0,0,0,0.85); }
-.nav.nav--light-hero.scrolled { background: rgba(255,255,255,0.88); }
-[data-theme="dark"] .nav.nav--light-hero.scrolled { background: rgba(0,0,0,0.85); }
-.nav.nav--light-hero.scrolled .nav__logo { color: var(--fg); }
-
-/* Nav override for distribution page (always black) */
-.nav.nav--distribution .nav__logo { color: #1d1d1f; }
-.nav.nav--distribution .nav__links a { color: rgba(0,0,0,.56); }
-.nav.nav--distribution .nav__links a:hover { color: #1d1d1f; }
-.nav.nav--distribution .nav__cta { color: #1d1d1f; border-color: #86868b; }
-.nav.nav--distribution .nav__cta:hover { background: #1d1d1f; color: #fbfbfd; border-color: #1d1d1f; }
-.nav.nav--distribution .theme-toggle { color: rgba(0,0,0,.56); }
-.nav.nav--distribution .theme-toggle:hover { color: #1d1d1f; }
-.nav.nav--distribution.scrolled { background: rgba(255,255,255,0.88); }
-.nav.nav--distribution.scrolled .nav__logo { color: #1d1d1f; }
 
 /* Carousel video background */
 .st-carousel-video {
