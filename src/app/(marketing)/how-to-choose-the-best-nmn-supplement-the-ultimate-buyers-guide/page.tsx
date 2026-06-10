@@ -720,13 +720,6 @@ const MAJOR_HEADINGS = new Set([
   "Ready to Choose a High-Quality NMN Supplement?"
 ]);
 
-const STRONG_SUBHEADINGS = new Set([
-  "What Is NMN?",
-  "How NMN Supports NAD+ Production",
-  "What Does 99%+ Pure NMN Mean?",
-  "How NMN Purity Is Tested",
-]);
-
 const SECTION_IMAGES = new Map([
   [
     "Why NMN Supplement Quality Matters More Than Most People Realize",
@@ -1029,14 +1022,7 @@ function renderArticleContent() {
     }
 
     if (isSubheading(line, ARTICLE_LINES[index + 1], index)) {
-      nodes.push(
-        <h3
-          key={"h3-" + index}
-          className={STRONG_SUBHEADINGS.has(line) ? "art-subheading--strong" : undefined}
-        >
-          {line}
-        </h3>
-      );
+      nodes.push(<h3 key={"h3-" + index}>{line}</h3>);
       index += 1;
       continue;
     }
