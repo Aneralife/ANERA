@@ -30,6 +30,19 @@ const SHOPIFY_HANDLE: Record<string, string> = {
   "nmn-trans-resveratrol-24000": "nmn-trans-resveratrol-24000-dual-cellular-support",
 };
 
+const PRODUCT_SEO: Record<string, { title: string; description: string }> = {
+  "nmn-trans-resveratrol-24000": {
+    title: "NMN + Trans-Resveratrol 24000 | 400mg (60 Caps) – 10% Off | Anera Life",
+    description:
+      "Buy NMN + Trans-Resveratrol 24000 today! 250mg NMN + 150mg TR, third-party tested. Get 10% off + free shipping in Canada/USA on orders $120+",
+  },
+  "nad-booster-nmn-15000": {
+    title: "NMN 15000 (250mg – 60 Capsules) – 10% Off | Anera Life",
+    description:
+      "Buy NMN 15000 today! High-quality 250 mg capsules, lab-tested, GMP-certified, with free shipping in Canada & USA over $120 CAD. Support your health daily.",
+  },
+};
+
 type Props = {
   params: { handle: string };
 };
@@ -38,6 +51,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const shopifyHandle = SHOPIFY_HANDLE[params.handle] ?? params.handle;
   const product = await getProductByHandle(shopifyHandle);
   if (!product) return { title: "Product Not Found" };
+
+  const seo = PRODUCT_SEO[params.handle];
+  if (seo) {
+    const canonical = `https://www.aneralife.com/products/${params.handle}`;
+
+    return {
+      title: { absolute: seo.title },
+      description: seo.description,
+      openGraph: {
+        title: seo.title,
+        description: seo.description,
+        url: canonical,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: seo.title,
+        description: seo.description,
+      },
+      alternates: {
+        canonical,
+      },
+    };
+  }
 
   return {
     title: product.seo.title || product.title,
