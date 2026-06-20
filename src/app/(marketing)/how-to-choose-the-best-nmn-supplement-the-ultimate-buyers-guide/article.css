@@ -91,6 +91,16 @@
   margin-bottom: 16px;
 }
 
+.art-page__inner .art-internal-link {
+  color: #1a6fd4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.art-page__inner .art-internal-link strong {
+  color: inherit;
+}
+
 .art-page__inner ul,
 .art-page__inner ol {
   padding-left: 22px;
@@ -159,12 +169,17 @@
   padding: 14px 18px;
   text-align: center;
   vertical-align: middle;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 11px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--fg-muted);
+  color: var(--fg);
   border-bottom: 1px solid var(--border);
+}
+
+.art-table th strong {
+  font-weight: 800;
+  color: inherit;
 }
 
 .art-table th:first-child { width: 34%; }
