@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "How to Choose the Best NMN Supplement: The Ultimate Buyer's Guide (2026) | Anera Life",
     description: "Discover how to choose the best NMN supplement. Learn about purity, third-party testing, COAs, and GMP standards with Anera Life's complete NMN buyer's guide.",
-    url: "https://aneralife.com/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide",
+    url: "https://www.aneralife.com/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide",
     type: "article",
     images: [defaultSocialImage],
   },
   alternates: {
-    canonical: "https://aneralife.com/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide",
+    canonical: "https://www.aneralife.com/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide",
   },
 };
 
