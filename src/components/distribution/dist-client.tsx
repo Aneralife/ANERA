@@ -70,8 +70,6 @@ function DistMapSection({ partners }: { partners: GlobePartner[] }) {
     const DPR    = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width  = SIZE * DPR;
     canvas.height = SIZE * DPR;
-    canvas.style.width  = SIZE + "px";
-    canvas.style.height = SIZE + "px";
     ctx.scale(DPR, DPR);
 
     const cx = SIZE / 2, cy = SIZE / 2;
