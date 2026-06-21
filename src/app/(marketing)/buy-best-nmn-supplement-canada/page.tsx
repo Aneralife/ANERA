@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "../how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide/article.css";
 
 const ARTICLE_HTML = [
@@ -225,6 +226,16 @@ export default function BuyBestNMNSupplementCanadaPage() {
         </header>
 
         <div dangerouslySetInnerHTML={{ __html: ARTICLE_HTML }} />
+
+        <div className="art-cta-section">
+          <div className="art-cta-buttons">
+            <Link href="/products" className="art-cta-btn">Shop All Products</Link>
+            <Link href="/products/nmn-trans-resveratrol-24000" className="art-cta-btn art-cta-btn--secondary">
+              Shop NMN + TR 24000
+            </Link>
+          </div>
+          <Link href="/" className="art-cta-link">← Back to Anera Life</Link>
+        </div>
       </div>
     </article>
   );
