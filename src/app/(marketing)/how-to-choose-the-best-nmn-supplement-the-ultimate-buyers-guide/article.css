@@ -84,6 +84,14 @@
   margin: 0 0 14px;
 }
 
+.art-page__inner h4 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--fg);
+  margin: 24px 0 8px;
+}
+
 .art-page__inner p {
   font-size: 16px;
   line-height: 1.75;
@@ -112,6 +120,10 @@
 
 .art-page__inner .art-check-list {
   list-style: none;
+  padding-left: 0;
+}
+
+.art-page__inner .art-check-list li {
   padding-left: 0;
 }
 
@@ -184,6 +196,9 @@
 
 .art-table th:first-child { width: 34%; }
 .art-table--cols-2 th:first-child { width: 38%; }
+.art-table--cols-3 th:first-child { width: 25%; }
+.art-table--cols-3 th:nth-child(2) { width: 45%; }
+.art-table--cols-3 th:nth-child(3) { width: 30%; }
 .art-table--cols-4 th:first-child { width: 30%; }
 
 .art-table td {
@@ -201,6 +216,33 @@
   font-weight: 600;
   color: var(--fg);
   white-space: nowrap;
+}
+
+/* ── Process flow ─────────────────────────────────────────── */
+.art-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin: 24px 0 32px;
+  padding: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.art-flow__step {
+  color: var(--fg);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.art-flow__arrow {
+  color: var(--fg-muted);
+  font-size: 18px;
+  line-height: 1;
 }
 
 .art-table__anera {
