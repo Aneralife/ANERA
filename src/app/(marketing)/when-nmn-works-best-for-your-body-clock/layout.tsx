@@ -16,12 +16,12 @@ export const metadata: Metadata = {
     title: "Morning vs Night: When NMN Works Best for Your Body Clock? | Anera Life",
     description:
       "Discover whether morning or night is the best time to take NMN for energy, metabolism, and longevity. Learn how timing impacts sleep, focus, and NAD+ levels.",
-    url: "https://aneralife.com/when-nmn-works-best-for-your-body-clock",
+    url: "https://www.aneralife.com/when-nmn-works-best-for-your-body-clock",
     type: "article",
     images: [defaultSocialImage],
   },
   alternates: {
-    canonical: "https://aneralife.com/when-nmn-works-best-for-your-body-clock",
+    canonical: "https://www.aneralife.com/when-nmn-works-best-for-your-body-clock",
   },
 };
 
