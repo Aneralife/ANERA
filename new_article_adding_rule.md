@@ -16,6 +16,7 @@ When the user asks to add a downloaded article, use the newest relevant `.docx` 
 
 - Use the SEO suggested URL as `<slug>`.
 - Create `src/app/(marketing)/<slug>/page.tsx` and `layout.tsx`.
+- Set article canonical URLs without `www`: `https://aneralife.com/<slug>`.
 - Extract article images in document order into `public/articles/<slug>/`.
 - Convert PNG/JPG images to numbered WebP files (`1.webp`, `2.webp`, etc.) at quality 88, preserving dimensions, aspect ratio, and visual quality.
 - Use the first image for Open Graph metadata with its real dimensions.
