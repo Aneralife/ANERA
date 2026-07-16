@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://aneralife.com/food-vs-supplement-can-you-get-enough-nmn-naturally",
+    canonical: "www.aneralife.com/food-vs-supplement-can-you-get-enough-nmn-naturally"
   },
 };
 
