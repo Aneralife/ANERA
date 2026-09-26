@@ -54,7 +54,15 @@ const PRODUCT_NPN: Record<string, { number: string; href: string }> = {
   },
 };
 
-const PRODUCT_SEO: Record<string, { title: string; description: string; canonical: string }> = {
+type ProductSeo = {
+  title: string;
+  description: string;
+  canonical: string;
+  npn?: string;
+  reading: string[];
+};
+
+const PRODUCT_SEO: Record<string, ProductSeo> = {
   "nmn-trans-resveratrol-24000": {
     title: "NMN + Trans-Resveratrol 24000 (60 Capsules) | Anera Life",
     description: `NMN + Trans-Resveratrol 24000 from Anera Life: 250 mg NMN and 150 mg Trans-Resveratrol per capsule, third-party tested. Health Canada NPN 80129476. Free shipping in Canada and the USA over $${FREE_SHIPPING_THRESHOLD_CAD} CAD.`,
