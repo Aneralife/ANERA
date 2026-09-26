@@ -9,9 +9,6 @@ import { PdpFaq, PdpGallery } from "@/components/product/pdp-client";
 import { jsonLdScript, readingGuides, siteUrl } from "@/lib/seo";
 import { FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shipping";
 
-const HEALTH_CANADA_NPN_SEARCH =
-  "https://health-products.canada.ca/lnhpd-bdpsnh/search-recherche";
-
 function stripPromo(title: string) {
   return title
     .replace(/\s*[|–—-]\s*10%\s*off\b/gi, "")

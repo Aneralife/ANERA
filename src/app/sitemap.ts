@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/seo";
 
 const BASE = "https://www.aneralife.com";
 
