@@ -5,7 +5,7 @@ const footerLinks = [
   { name: "Collections", href: "/collections" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
-  { name: "Shipping & Returns", href: "/shipping" },
+  { name: "Shipping & Returns", href: "/returns" },
 ];
 
 export function Footer() {
