@@ -9,11 +9,11 @@ export const metadata: Metadata = {
     title: "Best NMN Supplement in Canada (2026) | Buy High-Purity NMN",
     description:
       "Looking for the best NMN supplement in Canada? Learn how to compare purity, testing, dosage, and value before you buy. Discover why Canadians trust Anera Life NMN.",
-    url: "https://www.aneralife.com/buy-best-nmn-supplement-canada",
+    url: "https://www.aneralife.com/best-nmn-supplement-canada",
     type: "article",
     images: [
       {
-        url: "/articles/buy-best-nmn-supplement-canada/1.webp",
+        url: "/articles/best-nmn-supplement-canada/1.webp",
         width: 2048,
         height: 1260,
         alt: "NMN Supplement in Canada",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.aneralife.com/buy-best-nmn-supplement-canada",
+    canonical: "https://www.aneralife.com/best-nmn-supplement-canada",
   },
 };
 

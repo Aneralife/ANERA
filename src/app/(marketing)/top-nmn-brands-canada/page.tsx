@@ -1,371 +1,210 @@
-"use client";
-
 import Link from "next/link";
-import "./article.css";
+import "../how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide/article.css";
 
-const FAQS = [
-  {
-    q: "Who is the best NMN brand in Canada?",
-    a: "Anera Life is the #1 NMN brand in Canada for 2026, trusted for pharmaceutical-grade NMN, GMP Canadian manufacturing, and third-party testing for clean, reliable NAD⁺ support.",
-  },
-  {
-    q: "Why is Anera Life considered the best NMN brand?",
-    a: "Anera Life stands out because it focuses on science-backed longevity, not marketing hype. The brand uses 99%+ pure NMN, provides batch-level testing transparency, avoids fillers or additives, and manufactures in Canada under strict GMP standards, which many NMN brands do not meet.",
-  },
-  {
-    q: "Is Anera Life NMN manufactured in Canada?",
-    a: "Yes. Anera Life NMN is manufactured in Canada in GMP-certified facilities. This ensures compliance with strict quality controls, traceability, and production standards designed for long-term supplement safety rather than short-term commercial scaling.",
-  },
-  {
-    q: "How does Anera Life ensure NMN purity and quality?",
-    a: "Anera Life ensures NMN quality through independent third-party lab testing of every batch. Testing includes purity verification, heavy metal screening, microbial safety, and endotoxin checks. Certificates of Analysis (COAs) are available for full transparency.",
-  },
-  {
-    q: "Does Anera Life NMN contain fillers or additives?",
-    a: "No. Anera Life NMN contains no fillers, binders, artificial additives, or hidden ingredients. What appears on the label reflects the full formulation, supporting clean supplementation and predictable dosing for daily use.",
-  },
-];
+const ARTICLE_HTML = [
+  "<img src=\"/articles/top-nmn-brands-canada/1.webp\" alt=\"Top 10 NMN Brands in Canada\" title=\"Top 10 NMN Brands in Canada\" class=\"art-img\" />",
+  "<p class=\"art-lead\">Choosing an NMN supplement in Canada is not simply about finding the highest number of milligrams on a label. Purity, ingredient transparency, testing, manufacturing standards, formulation, regulatory information, price and overall brand transparency can all affect how confidently you can evaluate a product.</p>",
+  "<p>This guide compares 10 NMN brands available to Canadian consumers in 2026 using those criteria. The list is an editorial comparison, not a clinical ranking. A higher position does not mean a product has been proven more effective than every product below it.</p>",
+  "<h2><strong>How We Selected These NMN Brands</strong></h2>",
+  "<p>We evaluated brands using criteria that are practical for Canadian consumers:</p>",
+  "<ul>",
+  "<li>NMN dosage and ingredient transparency</li>",
+  "<li>Product formulation</li>",
+  "<li>Purity information</li>",
+  "<li>Third-party testing</li>",
+  "<li>Certificate of Analysis availability</li>",
+  "<li>Manufacturing information</li>",
+  "<li>Canadian availability</li>",
+  "<li>Health Canada licensing information where applicable</li>",
+  "<li>Price and value</li>",
+  "<li>Overall brand transparency</li>",
+  "</ul>",
+  "<p>We also considered whether a brand gives consumers enough information to make an informed comparison.</p>",
+  "<p>Importantly, higher NMN dosage does not automatically mean higher quality, and a higher price does not automatically mean a better product.</p>",
+  "<h2><strong>Quick Comparison of the Top 10 NMN Brands in Canada</strong></h2>",
+  "<div class=\"art-table-wrap\">",
+  "<table class=\"art-table art-table--cols-5\">",
+  "<thead><tr><th><strong>Brand No.</strong></th><th><strong>Brand</strong></th><th><strong>Product Focus</strong></th><th><strong>Notable Consideration</strong></th><th><strong>Best For</strong></th></tr></thead>",
+  "<tbody>",
+  "<tr><td><strong>1</strong></td><td><strong>Anera Life</strong></td><td>Pure NMN and NMN + Trans-Resveratrol</td><td>Canadian manufacturing, testing and transparency</td><td>Consumers prioritizing purity and transparency</td></tr>",
+  "<tr><td>2</td><td>Organika</td><td>NMN + PQQ</td><td>Established Canadian wellness brand</td><td>Combination NMN formula</td></tr>",
+  "<tr><td>3</td><td>AOR</td><td>NMN + Wheat Germ</td><td>NMN combined with spermidine</td><td>Consumers interested in combination formulas</td></tr>",
+  "<tr><td>4</td><td>Nutravonic Nutrition</td><td>NMN</td><td>High-dose NMN options</td><td>Consumers comparing dose and value</td></tr>",
+  "<tr><td>5</td><td>PUREFULLY</td><td>NMN</td><td>Minimal-ingredient positioning</td><td>Consumers seeking a simple formula</td></tr>",
+  "<tr><td>6</td><td>Nutratology</td><td>NMN</td><td>High-dose/value positioning</td><td>Consumers comparing cost and dose</td></tr>",
+  "<tr><td>7</td><td>Evernate</td><td>NMN</td><td>High-purity positioning</td><td>Consumers focused on purity</td></tr>",
+  "<tr><td>8</td><td>Herba</td><td>NMN + Resveratrol</td><td>Canadian-made combination formulas</td><td>NMN plus resveratrol</td></tr>",
+  "<tr><td>9</td><td>miNATURALS</td><td>NMN with Uthever®</td><td>Branded NMN ingredient</td><td>Consumers comparing branded ingredients</td></tr>",
+  "<tr><td>10</td><td>Trends Shop</td><td>NMN products</td><td>E-commerce availability</td><td>Consumers comparing online options</td></tr>",
+  "</tbody>",
+  "</table>",
+  "</div>",
+  "<p>Product formulations, prices and availability can change, so check the current product label before purchasing.</p>",
+  "<h2><strong>1. Anera Life – #1 NMN Brands in Canada</strong></h2>",
+  "<img src=\"/articles/top-nmn-brands-canada/2.webp\" alt=\"Anera Life – #1 NMN Brand in Canada\" title=\"Anera Life – #1 NMN Brand in Canada\" class=\"art-img\" />",
+  "<p>Anera Life is a Canadian longevity and NMN brand focused specifically on pharmaceutical-grade NMN products and transparent supplementation.</p>",
+  "<p>Its current portfolio includes two relevant formulas: NMN 15000 and NMN + Trans-Resveratrol 24000.</p>",
+  "<h3><strong>Anera Life NMN 15000</strong></h3>",
+  "<p><a href=\"/products/nad-booster-nmn-15000\" class=\"art-internal-link\"><strong>NMN 15000</strong></a> provides 250 mg of NMN per capsule in a 60-capsule bottle. It is positioned as a simple, single-ingredient NMN formula without unnecessary added compounds.</p>",
+  "<p>This makes it a practical option for consumers who want to evaluate NMN on its own rather than combine several active ingredients in one capsule.</p>",
+  "<h3><strong>Anera Life NMN + Trans-Resveratrol 24000</strong></h3>",
+  "<p>The <a href=\"/products/nmn-trans-resveratrol-24000\" class=\"art-internal-link\"><strong>NMN + Trans-Resveratrol 24000</strong></a> formula combines NMN with trans-resveratrol.</p>",
+  "<p>It may be more suitable for consumers who specifically want a combination formula rather than pure NMN alone.</p>",
+  "<h3><strong>Why consider Anera Life?</strong></h3>",
+  "<p>Anera's main differentiators are its Canadian manufacturing focus, pharmaceutical-grade purity positioning, testing transparency and emphasis on product documentation.</p>",
+  "<p><strong>Best for:</strong> Canadians who prioritize ingredient transparency, Canadian manufacturing and a science-first approach to NMN supplementation.</p>",
+  "<h2><strong>2. Organika</strong></h2>",
+  "<p>Organika is a long-established Canadian wellness company with a broad supplement portfolio.</p>",
+  "<p>Its NMN + PQQ product combines 200 mg of NMN with 20 mg of PQQ per capsule.</p>",
+  "<p>This is different from a pure NMN product because consumers are purchasing a combination formula rather than NMN alone.</p>",
+  "<p><strong>Best for:</strong> Consumers who prefer an established Canadian wellness brand and want NMN combined with PQQ.</p>",
+  "<h2><strong>3. AOR</strong></h2>",
+  "<p>AOR is another established Canadian supplement company with a research-oriented positioning.</p>",
+  "<p>Its NMN + Wheat Germ product combines 100 mg of NMN with wheat germ-derived spermidine.</p>",
+  "<p>This formula is particularly relevant for consumers who want to combine NMN with another longevity-related ingredient rather than use NMN by itself.</p>",
+  "<p><strong>Best for:</strong> Consumers interested in NMN combined with spermidine.</p>",
+  "<h2><strong>4. Nutravonic Nutrition</strong></h2>",
+  "<p>Nutravonic Nutrition offers NMN products in Canada, including 600 mg-per-capsule options.</p>",
+  "<p>The brand is particularly relevant when comparing dosage, bottle size and price.</p>",
+  "<p>However, consumers should not assume that a 600 mg serving is automatically better than a lower-dose product. Dose should be evaluated alongside the product's intended use, formulation, testing and overall transparency.</p>",
+  "<p><strong>Best for:</strong> Consumers comparing higher-dose NMN products and overall value.</p>",
+  "<h2><strong>5. PUREFULLY</strong></h2>",
+  "<p>PUREFULLY is another brand appearing in the Canadian NMN market.</p>",
+  "<p>Its positioning emphasizes a relatively straightforward NMN product rather than a large combination formula.</p>",
+  "<p>When evaluating PUREFULLY or any similar brand, consumers should check the current label, dosage, NPN information where applicable, manufacturing details and available testing documentation.</p>",
+  "<p><strong>Best for:</strong> Consumers looking for a simple NMN-focused product.</p>",
+  "<h2><strong>6. Nutratology</strong></h2>",
+  "<p>Nutratology offers an NMN NAD+ Booster with a high-dose positioning.</p>",
+  "<p>Its current product listing describes 1,200 mg of NMN per serving and positions the product around NAD+ production, cellular energy and healthy aging.</p>",
+  "<p>The important comparison point is not simply the 1,200 mg number. Consumers should look at how the serving is calculated, the number of capsules required, price per serving and testing information.</p>",
+  "<p><strong>Best for:</strong> Consumers who are specifically comparing higher-dose products and cost per serving.</p>",
+  "<h2><strong>7. Evernate</strong></h2>",
+  "<p>Evernate offers an NMN product positioned around high purity, with its current product page listing 600 mg of NMN and 99.6% purity.</p>",
+  "<p>Purity percentage can be useful when comparing NMN products, but it should not be viewed in isolation.</p>",
+  "<p>A useful evaluation also includes the source of the purity claim, whether independent testing is available and whether the actual certificate or testing documentation can be reviewed.</p>",
+  "<p><strong>Best for:</strong> Consumers who place strong emphasis on stated NMN purity.</p>",
+  "<h2><strong>8. Herba</strong></h2>",
+  "<p>Herba offers NMN formulas made in Canada, including NMN combined with trans-resveratrol.</p>",
+  "<p>Its current NMN + Resveratrol formula provides 500 mg of NMN and 100 mg of trans-resveratrol per capsule.</p>",
+  "<p>Herba also provides information about Canadian manufacturing, testing and its Health Canada product licensing.</p>",
+  "<p><strong>Best for:</strong> Consumers looking for a Canadian-made NMN and trans-resveratrol combination.</p>",
+  "<h2><strong>9. miNATURALS</strong></h2>",
+  "<p>miNATURALS offers an Ultra Premium NMN product using Uthever® NMN.</p>",
+  "<p>The product is positioned within the company's premium supplement range and is sold in Canada.</p>",
+  "<p>When considering a branded NMN ingredient, consumers should look beyond the ingredient trademark and evaluate the complete finished product, including dosage, formulation, testing and manufacturing.</p>",
+  "<p><strong>Best for:</strong> Consumers interested in branded NMN ingredients and Canadian supplement brands.</p>",
+  "<h2><strong>10. Trends Shop</strong></h2>",
+  "<p>Trends Shop is another online option appearing in the Canadian NMN market.</p>",
+  "<p>For an e-commerce-led seller, the most important comparison points are product documentation, ingredient transparency, testing, Canadian availability and current regulatory information.</p>",
+  "<p>Consumers should always review the current product label rather than relying solely on marketplace descriptions.</p>",
+  "<p><strong>Best for:</strong> Consumers comparing online NMN purchasing options.</p>",
+  "<h2><strong>How to Choose the Best NMN Brand in Canada</strong></h2>",
+  "<p>Use the following checklist to compare products more objectively before purchasing.</p>",
+  "<h3><strong>1. Check the Exact NMN Amount</strong></h3>",
+  "<p>Look at the actual amount of NMN per capsule and per serving.</p>",
+  "<p>Do not judge a product by its name or bottle size alone.</p>",
+  "<h3><strong>2. Check Purity Documentation</strong></h3>",
+  "<p>Look for specific information about how the manufacturer verifies NMN purity and product quality rather than relying only on general marketing claims.</p>",
+  "<h3><strong>3. Look for Third-Party Testing</strong></h3>",
+  "<p>Independent laboratory testing can provide additional transparency.</p>",
+  "<p>Look for information about purity, potency, heavy metals, microbial safety, and other relevant quality tests.</p>",
+  "<h3><strong>4. Review the Certificate of Analysis</strong></h3>",
+  "<p>A Certificate of Analysis, or COA, can provide batch-specific information about what was tested and the reported results.</p>",
+  "<p>When available, check whether the COA clearly identifies the product, batch and testing information.</p>",
+  "<h3><strong>5. Check Manufacturing Standards</strong></h3>",
+  "<p>Look for credible information about manufacturing practices, such as GMP or cGMP standards.</p>",
+  "<p>However, manufacturing standards should be considered one part of an overall quality assessment, not proof of effectiveness.</p>",
+  "<h3><strong>6. Verify Canadian Regulatory Information</strong></h3>",
+  "<p>Natural health products sold in Canada may have a Natural Product Number, or NPN.</p>",
+  "<p>If an NPN is provided, verify that it corresponds to the exact product using Health Canada's database.</p>",
+  "<p>An NPN should not be interpreted as proof that every health claim made in marketing material is clinically proven.</p>",
+  "<h3><strong>7. Compare the Complete Formula</strong></h3>",
+  "<p>Check the full ingredient list, including:</p>",
+  "<ul>",
+  "<li>NMN form and amount</li>",
+  "<li>Other active ingredients</li>",
+  "<li>Capsule ingredients</li>",
+  "<li>Fillers or additives</li>",
+  "<li>Allergens</li>",
+  "</ul>",
+  "<p>Pure NMN and combination formulas are not necessarily better or worse. They are simply different formulations designed for different product purposes.</p>",
+  "<h3><strong>8. Calculate Cost Per Serving</strong></h3>",
+  "<p>Do not compare bottle prices alone.</p>",
+  "<p><strong>Cost per serving = Product price ÷ Number of servings</strong></p>",
+  "<p>A 60-capsule bottle is not necessarily a 60-day supply if the recommended serving requires two capsules.</p>",
+  "<h3><strong>9. Consider Manufacturer Transparency</strong></h3>",
+  "<p>A transparent manufacturer should be able to explain its ingredients, testing, manufacturing practices and product documentation.</p>",
+  "<p>The more clearly a company communicates these details, the easier it is for consumers to make an informed comparison.</p>",
+  "<h3><strong>10. Be Cautious With Exaggerated Health Claims</strong></h3>",
+  "<p>Be cautious of NMN products marketed with guaranteed, dramatic or overly broad health outcomes.</p>",
+  "<p>A quality comparison should focus on product composition, testing, manufacturing, documentation and evidence rather than promises that sound too good to be true.</p>",
+  "<h2><strong>Anera Life's NMN Options</strong></h2>",
+  "<img src=\"/articles/top-nmn-brands-canada/3.webp\" alt=\"Anera Life&#x27;s NMN Options\" title=\"Anera Life&#x27;s NMN Options\" class=\"art-img\" />",
+  "<p>Anera Life currently offers two primary NMN formulas that may suit different purchasing preferences.</p>",
+  "<h3><strong>NMN 15000</strong></h3>",
+  "<p>A single-ingredient NMN formula providing 250 mg of NMN per capsule.</p>",
+  "<p>It may suit consumers who want a straightforward <a href=\"/products\" class=\"art-internal-link\"><strong>NMN product</strong></a> without additional active ingredients.</p>",
+  "<h3><strong>NMN + Trans-Resveratrol 24000</strong></h3>",
+  "<p>A combination formula providing NMN and trans-resveratrol.</p>",
+  "<p>It may suit consumers who specifically want a multi-ingredient longevity-oriented formula.</p>",
+  "<p>The important distinction is that the two products serve different formulation preferences. One is focused on NMN alone, while the other combines NMN with another active ingredient.</p>",
+  "<h2><strong>Which NMN Brand Is Best in Canada?</strong></h2>",
+  "<p>There is no scientifically established universal \"best NMN brand\" for every Canadian consumer.</p>",
+  "<p>The better approach is to identify which product best matches your own evaluation criteria.</p>",
+  "<p>If your priority is:</p>",
+  "<ul>",
+  "<li><strong>Pure NMN:</strong> compare single-ingredient products.</li>",
+  "<li><strong>Combination formulas:</strong> consider products containing NMN plus ingredients such as resveratrol, PQQ or spermidine.</li>",
+  "<li><strong>Canadian manufacturing:</strong> prioritize brands that clearly document where their products are manufactured.</li>",
+  "<li><strong>Testing transparency:</strong> look for clear third-party testing and COA information.</li>",
+  "<li><strong>Value:</strong> compare cost per serving and cost per 100 mg rather than bottle price alone.</li>",
+  "<li><strong>Regulatory transparency:</strong> check the product's current Canadian licensing information where applicable.</li>",
+  "</ul>",
+  "<p><strong>Anera Life</strong> is one option for Canadians who prioritize a science-first approach, Canadian manufacturing, product transparency and pharmaceutical-grade NMN positioning.</p>",
+  "<p>The strongest purchasing decision is not necessarily the product with the biggest dose or the most aggressive marketing. It is the product for which you can clearly understand what you are buying, how it is made, how it is tested and how its price compares with alternatives.</p>",
+  "<h2><strong>Final Takeaway</strong></h2>",
+  "<p>The Canadian NMN market has expanded, giving consumers more choices but also making comparison more important.</p>",
+  "<p>Before buying an <a href=\"/products\" class=\"art-internal-link\"><strong>NMN supplement</strong></a>, look beyond the front label. Check the actual NMN dose, ingredient list, manufacturing information, testing, COA availability, Canadian regulatory information and cost per serving.</p>",
+  "<p>Most importantly, keep product claims separate from scientific evidence. NMN research is promising in several areas, but the human evidence is still developing and does not justify treating NMN as a guaranteed anti-aging or disease-prevention solution.</p>",
+  "<p>A transparent comparison process makes it easier to identify a product that fits your priorities without relying on hype.</p>",
+  "<h2><strong>Frequently Asked Questions</strong></h2>",
+  "<h3><strong>What is the best NMN brand in Canada?</strong></h3>",
+  "<p>Anera Life is a leading Canadian NMN brand, offering high-purity NMN with third-party testing, GMP manufacturing, transparent formulations, and quality-focused products. </p>",
+  "<h3><strong>What should I look for when buying NMN in Canada?</strong></h3>",
+  "<p>Look for clear dosage information, ingredient transparency, manufacturing information, testing documentation, COAs where available, Canadian regulatory information and reasonable cost per serving.</p>",
+  "<h3><strong>Where can I buy NMN in Canada?</strong></h3>",
+  "<p>You can buy NMN in Canada from reputable supplement brands, online retailers, and health-product stores. Look for transparent labeling, third-party testing, GMP manufacturing, and an NPN where applicable. </p>",
+  "<h3><strong>Does a higher NMN dose mean better quality?</strong></h3>",
+  "<p>No. A higher dose does not automatically mean better quality or better results. Compare dosage alongside testing, formulation, manufacturing and evidence.</p>",
+  "<h3><strong>Is NMN regulated in Canada?</strong></h3>",
+  "<p>NMN products can be regulated as natural health products in Canada. Consumers should check the specific product and its current Health Canada licensing information rather than assuming all NMN products have the same status.</p>",
+  "<h3><strong>Should I choose pure NMN or NMN with other ingredients?</strong></h3>",
+  "<p>That depends on your preference. Pure NMN provides a simpler formulation, while combination products may include additional ingredients such as resveratrol, PQQ or spermidine.</p>",
+  "<h3><strong>How should I compare NMN prices?</strong></h3>",
+  "<p>Compare cost per serving and, where useful, cost per 100 mg of NMN. Bottle price alone can be misleading.</p>",
+].join("\n");
 
 export default function TopNMNBrandsCanadaPage() {
   return (
     <article className="art-page">
       <div className="art-page__inner">
-
-        {/* ── Header ── */}
         <header className="art-header">
           <span className="art-tag">Canada · NMN Supplement</span>
           <h1>Top 10 NMN Brands in Canada for 2026</h1>
           <div className="art-meta">May 12, 2026 · 10 min read</div>
         </header>
 
-        {/* ── Image 1 ── */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/articles/top-nmn-brands-canada/1.webp"
-          alt="Top 10 NMN Brands in Canada"
-          title="Top 10 NMN Brands in Canada"
-          className="art-img"
-        />
+        <div dangerouslySetInnerHTML={{ __html: ARTICLE_HTML }} />
 
-        {/* ── Intro ── */}
-        <p className="art-lead">
-          NMN supplements have surged in popularity across Canada as more people focus on longevity,
-          energy, and cellular health. NMN supports NAD⁺ levels, which naturally decline with age
-          and are essential for energy production, DNA repair, and metabolic health.
-        </p>
-
-        <p>
-          However, the rapid growth of NMN has created a serious problem: low-quality imports,
-          inaccurate dosages, and products with no real testing or transparency. Many brands rely
-          on overseas manufacturing, vague purity claims, or marketing hype instead of science.
-        </p>
-
-        <p>
-          This article helps Canadians identify safe, pure, and science-backed NMN brands by
-          evaluating products based on manufacturing standards, purity, third-party testing,
-          formulation quality, and long-term safety.
-        </p>
-
-        {/* ── Section 1: Anera Life #1 ── */}
-        <h2>Anera Life — The #1 NMN Brand in Canada for 2026</h2>
-
-        <p>
-          <Link href="/">Anera Life</Link> ranks as the #1 NMN brand in Canada for 2026 due to its
-          pharmaceutical-grade NMN, GMP manufacturing in Canada, third-party testing with published
-          COAs, and science-first longevity focus designed for long-term NAD⁺ support.
-        </p>
-
-        <p>
-          Anera Life was built to raise the standard of NMN supplementation in Canada. Instead of
-          chasing trends or marketing hype, the brand focuses on what actually matters for results
-          and safety.
-        </p>
-
-        {/* ── Image 2 ── */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/articles/top-nmn-brands-canada/2.webp"
-          alt="Anera Life — The #1 NMN Brand in Canada"
-          className="art-img"
-        />
-
-        <div className="art-highlight">
-          <h3>What sets Anera Life apart</h3>
-          <ul>
-            <li>99%+ pharmaceutical-grade NMN</li>
-            <li>GMP-made in Canada</li>
-            <li>Independent third-party lab testing (COAs available)</li>
-            <li>Zero fillers, binders, or hidden additives</li>
-            <li>Designed for long-term, daily longevity support</li>
-          </ul>
-        </div>
-
-        <p>
-          This approach aligns with how NMN is used in real-world wellness routines — consistently,
-          safely, and responsibly.
-        </p>
-
-        <h3>Key Benefits of Anera Life NMN</h3>
-        <ul>
-          <li>Supports healthy NAD⁺ levels</li>
-          <li>Enhances cellular energy production</li>
-          <li>Supports metabolic and mitochondrial health</li>
-          <li>Promotes healthy aging and recovery</li>
-          <li>Built for long-term supplementation, not short-term hype</li>
-        </ul>
-
-        <p>
-          <strong>Best for:</strong> Canadians who want pure, transparent, Canada-made NMN backed
-          by real testing and longevity science.
-        </p>
-
-        {/* ── Section 2: Why Anera Leads ── */}
-        <h2>Why Anera Life Leads the NMN Market in Canada for 2026</h2>
-
-        <p>
-          Anera Life leads Canada&apos;s NMN market with GMP-certified manufacturing, 99%+ pure NMN,
-          third-party testing, and full transparency, prioritizing longevity science over hype.
-        </p>
-
-        <div className="art-highlight">
-          <h3>Key leadership factors</h3>
-          <ul>
-            <li>Canada-based manufacturing aligned with Canadian health standards</li>
-            <li>Full transparency around sourcing, purity, and testing</li>
-            <li>Clean formulations designed for daily, long-term use</li>
-            <li>Trusted by health-conscious consumers seeking reliable NMN</li>
-          </ul>
-        </div>
-
-        {/* ── Section 3: Benchmark table ── */}
-        <h2>What Makes Anera Life the Benchmark for NMN Supplements</h2>
-
-        <div className="art-table-wrap">
-          <table className="art-table">
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>Anera Life</th>
-                <th>Average NMN Brand</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Made in Canada</td>
-                <td className="art-table__anera">Fully manufactured in GMP-certified Canadian facilities</td>
-                <td>Often imported with inconsistent standards</td>
-              </tr>
-              <tr>
-                <td>GMP &amp; Quality Control</td>
-                <td className="art-table__anera">Full GMP certification and standardized batch testing</td>
-                <td>Many brands lack full GMP oversight</td>
-              </tr>
-              <tr>
-                <td>Third-Party Testing</td>
-                <td className="art-table__anera">Every batch independently tested; COAs available</td>
-                <td>Testing limited or inconsistent</td>
-              </tr>
-              <tr>
-                <td>Dosage Transparency</td>
-                <td className="art-table__anera">Clinically referenced NMN doses, no hidden ingredients</td>
-                <td>Dosage unclear or blended with fillers</td>
-              </tr>
-              <tr>
-                <td>Longevity-Focused Formulation</td>
-                <td className="art-table__anera">Clean, science-backed formulas for daily, long-term use</td>
-                <td>Short-term focus; marketing-driven rather than evidence-based</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* ── Section 4: Proven Results ── */}
-        <h2>Proven Results &amp; Customer Experiences</h2>
-
-        <p>
-          When evaluating NMN brands in Canada, real-world consistency matters just as much as
-          laboratory testing. While individual results vary, users of high-purity, accurately dosed
-          NMN often report gradual and sustainable improvements with consistent use over time.
-        </p>
-
-        <div className="art-highlight">
-          <h3>Commonly reported experiences</h3>
-          <ul>
-            <li>More stable, sustained energy throughout the day</li>
-            <li>Improved focus and cognitive clarity</li>
-            <li>Better workout recovery and physical stamina</li>
-            <li>Support for metabolic balance</li>
-            <li>A greater sense of overall vitality</li>
-          </ul>
-        </div>
-
-        <p>
-          Customer trust is built on transparency, quality control, and predictable long-term
-          support — not exaggerated promises. Consistency and credibility are what separate
-          leading brands from average competitors.
-        </p>
-
-        {/* ── Section 5: Other brands ── */}
-        <h2>Other Leading NMN Brands in Canada for 2026</h2>
-
-        <p>
-          While Anera Life holds the #1 position in Canada, several other brands are also
-          contributing remarkably to the longevity market.
-        </p>
-
-        <ol>
-          <li>Organika (Established Canadian wellness brand)</li>
-          <li>AOR (Clinically focused supplement company)</li>
-          <li>Nutravonic Nutrition (Science-driven formulations)</li>
-          <li>PUREFULLY (Minimal-ingredient supplement line)</li>
-          <li>Nutratology (Longevity-focused positioning)</li>
-          <li>Evernate (Premium NMN category presence)</li>
-          <li>Herba (General wellness supplements)</li>
-          <li>Trends Shop (E-commerce-led supplement seller)</li>
-          <li>miNATURALS (Broad natural health product range)</li>
-        </ol>
-
-        {/* ── Section 6: Premium Products ── */}
-        <h2>Premium NMN Supplements by Anera Life</h2>
-
-        {/* ── Image 3 ── */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/articles/top-nmn-brands-canada/3.webp"
-          alt="Premium NMN Supplements by Anera Life"
-          className="art-img"
-        />
-
-        <p>
-          Anera Life offers two pharmaceutical-grade NMN options, both made in Canada in
-          GMP-certified facilities and third-party tested for purity.
-        </p>
-
-        <div className="art-products">
-          <Link href="/products/nad-booster-nmn-15000" className="art-product">
-            <div className="art-product__name">NMN 15000</div>
-            <div className="art-product__desc">
-              A clean, single-ingredient NMN formula designed for daily NAD⁺ support, cellular
-              energy, and long-term vitality.
-            </div>
-            <ul className="art-product__feats">
-              <li>250 mg pure NMN per capsule</li>
-              <li>No fillers or additives</li>
-              <li>Vegan, Non-GMO, gluten-free</li>
-              <li>Ideal for consistent daily use</li>
-            </ul>
-            <p className="art-product__best-choice">
-              Best choice if you want simple, pure NAD⁺ support without stacking ingredients.
-            </p>
-            <span className="art-product__cta">Shop NMN 15000 →</span>
-          </Link>
-
-          <Link href="/products/nmn-trans-resveratrol-24000" className="art-product">
-            <div className="art-product__badge">Best Seller</div>
-            <div className="art-product__name">NMN + Trans-Resveratrol 24000</div>
-            <div className="art-product__desc">
-              An advanced dual-action formula combining NAD⁺ support with sirtuin activation
-              for enhanced cellular protection.
-            </div>
-            <ul className="art-product__feats">
-              <li>Synergistic longevity support</li>
-              <li>Supports energy + oxidative stress defense</li>
-              <li>No fillers, pharmaceutical-grade ingredients</li>
-              <li>Designed for structured longevity routines</li>
-            </ul>
-            <p className="art-product__best-choice">
-              Best choice if you want enhanced cellular protection and a more advanced longevity
-              approach.
-            </p>
-            <span className="art-product__cta">Shop NMN + TR 24000 →</span>
-          </Link>
-        </div>
-
-        <div className="art-decision">
-          <p><strong>Quick Decision Guide</strong></p>
-          <p>
-            Want pure, foundational NAD⁺ support?{" "}
-            → <Link href="/products/nad-booster-nmn-15000">Choose NMN 15000</Link>
-          </p>
-          <p>
-            Want upgraded longevity support with added cellular protection?{" "}
-            → <Link href="/products/nmn-trans-resveratrol-24000">Choose NMN + TR 24000</Link>
-          </p>
-        </div>
-
-        <p>
-          Both formulas are built for long-term use, not short-term hype — and backed by
-          Canadian GMP manufacturing and third-party testing.
-        </p>
-
-        {/* ── Section 7: How to Choose ── */}
-        <h2>How to Choose the Right NMN Brand for You</h2>
-
-        <p>
-          Choosing the right NMN supplement depends on age, health goals, and experience level —
-          not just brand popularity.
-        </p>
-
-        <div className="art-guide-grid">
-          <div className="art-guide-card">
-            <h3>Age-Based Guidance</h3>
-            <ul>
-              <li>20s–30s: Lower-dose, clean NMN for foundational NAD⁺ support</li>
-              <li>40s–50s: Moderate doses with strict purity and testing</li>
-              <li>60+: Higher emphasis on quality, stability, and long-term safety</li>
-            </ul>
-          </div>
-          <div className="art-guide-card">
-            <h3>Goal-Based Selection</h3>
-            <ul>
-              <li>Energy & performance: Focus on dosage accuracy and bioavailability</li>
-              <li>Healthy aging: Choose longevity-focused, science-first brands</li>
-              <li>Metabolic support: Prioritize purity and daily-use safety</li>
-            </ul>
-          </div>
-          <div className="art-guide-card">
-            <h3>Beginner vs Advanced</h3>
-            <ul>
-              <li>Beginners: Start with simple, filler-free NMN capsules</li>
-              <li>Advanced users: Consider targeted-release or structured longevity routines</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* ── Section 8: FAQ ── */}
-        <h2>Frequently Asked Questions About NMN Brands</h2>
-
-        <div className="art-faq">
-          {FAQS.map((item, i) => (
-            <div key={i} className="art-faq-item">
-              <div className="art-faq-q">{item.q}</div>
-              <p className="art-faq-a">{item.a}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* ── CTA ── */}
         <div className="art-cta-section">
-          {/* ── Image 4 ── */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/articles/top-nmn-brands-canada/4.webp"
-            alt="Anera Life Premium NMN Supplement"
-            className="art-img art-img--cta"
-          />
-          <p>
-            If you&apos;re building a responsible longevity routine and want trusted, transparent NMN
-            made to Canadian standards, explore Anera Life&apos;s pharmaceutical-grade NMN supplements.
-          </p>
           <div className="art-cta-buttons">
-            <Link href="/products/nad-booster-nmn-15000" className="art-cta-btn">Shop NMN 15000</Link>
+            <Link href="/products" className="art-cta-btn">Shop All Products</Link>
             <Link href="/products/nmn-trans-resveratrol-24000" className="art-cta-btn art-cta-btn--secondary">
               Shop NMN + TR 24000
             </Link>
           </div>
           <Link href="/" className="art-cta-link">← Back to Anera Life</Link>
         </div>
-
       </div>
     </article>
   );

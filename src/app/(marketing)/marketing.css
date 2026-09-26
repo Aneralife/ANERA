@@ -3405,6 +3405,23 @@ a.pdp-trust-row__item--link:hover {
 a.pdp-trust-row__item--link:hover svg {
   color: var(--fg, #1d1d1f);
 }
+.pdp-trust-row__item--npn {
+  grid-column: 1 / -1;
+  padding-top: 10px;
+  margin-top: 2px;
+  border-top: 1px solid var(--border, rgba(0,0,0,.08));
+  color: var(--fg, #1d1d1f);
+  font-weight: 650;
+}
+.pdp-trust-row__item--npn svg {
+  color: #2f8f46;
+}
+.pdp-trust-row__external {
+  margin-left: auto;
+  color: var(--fg-muted, #86868b);
+  font-size: 12px;
+  line-height: 1;
+}
 
 /* Highlights */
 .pdp-highlights {

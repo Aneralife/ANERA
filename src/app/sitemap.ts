@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/seo";
 
-const BASE = siteUrl;
+const BASE = "https://www.aneralife.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -9,11 +9,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/products`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/products/nmn-trans-resveratrol-24000`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/products/nad-booster-nmn-15000`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/250-mg-vs-500-mg-nmn`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/anera-life-partners-with-fullscript`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/cheap-nmn-vs-quality-nmn`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/nmn-supplement-cost`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/best-time-to-take-nmn`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/can-you-take-nmn-at-night-best-timing-for-energy-and-sleep`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/the-complete-guide-to-nmn-supplements-in-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/what-should-you-look-for-in-a-high-quality-nmn-supplement`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/is-nmn-good-for-beginners-complete-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/nmn-vs-nad-whats-the-difference-and-which-is-better`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/food-vs-supplement-can-you-get-enough-nmn-naturally`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/nmn-supplement-benefits-side-effects-dosage-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/why-i-stopped-taking-nmn`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/buy-best-nmn-supplement-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/best-nmn-supplement-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/how-long-does-nmn-take-to-work-day-1-to-6-months`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/top-nmn-brands-canada`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },

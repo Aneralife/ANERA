@@ -44,10 +44,20 @@ const SHOPIFY_HANDLE: Record<string, string> = {
   "nmn-trans-resveratrol-24000": "nmn-trans-resveratrol-24000-dual-cellular-support",
 };
 
-const PRODUCT_SEO: Record<
-  string,
-  { title: string; description: string; canonical: string; npn: string; reading: string[] }
-> = {
+const NPN_LOOKUP_URL = "https://health-products.canada.ca/lnhpd-bdpsnh/search-recherche";
+
+const PRODUCT_NPN: Record<string, { number: string; href: string }> = {
+  "nmn-trans-resveratrol-24000": {
+    number: "80129476",
+    href: NPN_LOOKUP_URL,
+  },
+  "nad-booster-nmn-15000": {
+    number: "80135670",
+    href: NPN_LOOKUP_URL,
+  },
+};
+
+const PRODUCT_SEO: Record<string, { title: string; description: string; canonical: string }> = {
   "nmn-trans-resveratrol-24000": {
     title: "NMN + Trans-Resveratrol 24000 (60 Capsules) | Anera Life",
     description: `NMN + Trans-Resveratrol 24000 from Anera Life: 250 mg NMN and 150 mg Trans-Resveratrol per capsule, third-party tested. Health Canada NPN 80129476. Free shipping in Canada and the USA over $${FREE_SHIPPING_THRESHOLD_CAD} CAD.`,
@@ -128,6 +138,7 @@ export default async function ProductPage({ params }: Props) {
   const basePrice = basePriceMap[params.handle] || parseFloat(product.priceRange.minVariantPrice.amount);
   const price = `CA$${basePrice}`;
   const perCapsule = (basePrice / 60).toFixed(2);
+  const npn = PRODUCT_NPN[params.handle];
 
   const seo = PRODUCT_SEO[params.handle];
   const heading = stripPromo(product.title);
@@ -223,7 +234,6 @@ export default async function ProductPage({ params }: Props) {
               {product.productType || "Advanced Cellular Support"}
             </p>
 
-
             {/* Price row */}
             <div className="pdp-price-row">
               <span className="pdp-price-row__amount">{price}</span>
@@ -277,20 +287,21 @@ export default async function ProductPage({ params }: Props) {
                 </svg>
                 <span>Made in Canada</span>
               </div>
-              {seo?.npn && (
+              {npn && (
                 <a
-                  className="pdp-trust-row__item pdp-trust-row__item--link"
-                  href={HEALTH_CANADA_NPN_SEARCH}
+                  className="pdp-trust-row__item pdp-trust-row__item--link pdp-trust-row__item--npn"
+                  href={npn.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Verify Health Canada NPN ${seo.npn}`}
+                  aria-label={`Verify Health Canada NPN ${npn.number}`}
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M7 3.5h7l3 3V20.5H7z" strokeLinejoin="round" />
                     <path d="M14 3.5v3h3" strokeLinejoin="round" />
                     <path d="M9.5 12.25h5M9.5 15.5h5M9.5 9h2.5" strokeLinecap="round" />
                   </svg>
-                  <span>Health Canada NPN {seo.npn}</span>
+                  <span>Health Canada NPN {npn.number}</span>
+                  <span className="pdp-trust-row__external" aria-hidden="true">↗</span>
                 </a>
               )}
             </div>
