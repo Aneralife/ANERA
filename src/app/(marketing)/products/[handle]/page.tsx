@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 import { getProductByHandle } from "@/lib/shopify";
 import { PurchaseWidget } from "@/components/product/purchase-widget";
 import { PdpFaq, PdpGallery } from "@/components/product/pdp-client";
+import { jsonLdScript, readingGuides, siteUrl } from "@/lib/seo";
+import { FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shipping";
+
+const HEALTH_CANADA_NPN_SEARCH =
+  "https://health-products.canada.ca/lnhpd-bdpsnh/search-recherche";
+
+function stripPromo(title: string) {
+  return title
+    .replace(/\s*[|–—-]\s*10%\s*off\b/gi, "")
+    .replace(/\b10%\s*off\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
 
 const NMN24000_FAQS = [
   { q: "What is NMN + Trans-Resveratrol 24000?", a: "NMN + Trans-Resveratrol 24000 combines 250mg of pharmaceutical-grade NMN with 150mg of Trans-Resveratrol per capsule. NMN directly boosts NAD+ levels for cellular energy, while Trans-Resveratrol provides potent antioxidant protection — together delivering dual-action support for healthy aging." },
@@ -45,16 +59,27 @@ const PRODUCT_NPN: Record<string, { number: string; href: string }> = {
 
 const PRODUCT_SEO: Record<string, { title: string; description: string; canonical: string }> = {
   "nmn-trans-resveratrol-24000": {
-    title: "NMN + Trans-Resveratrol 24000 | 400mg (60 Caps) – 10% Off | Anera Life",
-    description:
-      "Buy NMN + Trans-Resveratrol 24000 today! 250mg NMN + 150mg TR, third-party tested. Get 10% off + free shipping in Canada/USA on orders $120+",
-    canonical: "https://www.aneralife.com/products/nmn-trans-resveratrol-24000",
+    title: "NMN + Trans-Resveratrol 24000 (60 Capsules) | Anera Life",
+    description: `NMN + Trans-Resveratrol 24000 from Anera Life: 250 mg NMN and 150 mg Trans-Resveratrol per capsule, third-party tested. Health Canada NPN 80129476. Free shipping in Canada and the USA over $${FREE_SHIPPING_THRESHOLD_CAD} CAD.`,
+    canonical: `${siteUrl}/products/nmn-trans-resveratrol-24000`,
+    // Licence number already published on the live PDP trust row.
+    npn: "80129476",
+    reading: [
+      "/how-to-choose-the-best-nmn-supplement-the-ultimate-buyers-guide",
+      "/food-vs-supplement-can-you-get-enough-nmn-naturally",
+      "/when-nmn-works-best-for-your-body-clock",
+    ],
   },
   "nad-booster-nmn-15000": {
-    title: "NMN 15000 (250mg – 60 Capsules) – 10% Off | Anera Life",
-    description:
-      "Buy NMN 15000 today! High-quality 250 mg capsules, lab-tested, GMP-certified, with free shipping in Canada & USA over $120 CAD. Support your health daily.",
-    canonical: "https://www.aneralife.com/products/nad-booster-nmn-15000",
+    title: "NMN 15000 (250mg, 60 Capsules) | Anera Life",
+    description: `NMN 15000 from Anera Life: 250 mg capsules, lab-tested and GMP-certified. Health Canada NPN 80135670. Free shipping in Canada and the USA over $${FREE_SHIPPING_THRESHOLD_CAD} CAD.`,
+    canonical: `${siteUrl}/products/nad-booster-nmn-15000`,
+    npn: "80135670",
+    reading: [
+      "/nmn-supplement-benefits-side-effects-dosage-guide",
+      "/how-long-does-nmn-take-to-work-day-1-to-6-months",
+      "/nmn-vs-nad-whats-the-difference-and-which-is-better",
+    ],
   },
 };
 
@@ -115,9 +140,39 @@ export default async function ProductPage({ params }: Props) {
   const perCapsule = (basePrice / 60).toFixed(2);
   const npn = PRODUCT_NPN[params.handle];
 
+  const seo = PRODUCT_SEO[params.handle];
+  const heading = stripPromo(product.title);
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: heading,
+    description: seo?.description || product.description,
+    ...(seo?.npn ? { sku: seo.npn } : {}),
+    brand: { "@type": "Brand", name: "Anera Life" },
+    ...(product.images.length > 0
+      ? { image: product.images.map((img) => img.url) }
+      : {}),
+    offers: {
+      "@type": "Offer",
+      url: seo?.canonical || `${siteUrl}/products/${params.handle}`,
+      priceCurrency: "CAD",
+      price: String(basePrice),
+      availability: product.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
+  const related = seo
+    ? readingGuides.filter((guide) => seo.reading.includes(guide.href))
+    : [];
+
   return (
     <>
-      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(productJsonLd) }}
+      />
 
       {/* ── Two-Column Hero ── */}
       <section className="pdp-hero" id="pdp-cta">
@@ -174,7 +229,7 @@ export default async function ProductPage({ params }: Props) {
           {/* Right: Info Column */}
           <div className="pdp-info-col">
             <p className="pdp-info-col__eyebrow">ANERA LIFE</p>
-            <h1 className="pdp-info-col__title">{product.title}</h1>
+            <h1 className="pdp-info-col__title">{heading}</h1>
             <p className="pdp-info-col__subtitle">
               {product.productType || "Advanced Cellular Support"}
             </p>
@@ -462,6 +517,20 @@ export default async function ProductPage({ params }: Props) {
       <PdpFaq
         faqs={params.handle === "nmn-trans-resveratrol-24000" ? NMN24000_FAQS : NMN15000_FAQS}
       />
+
+      {related.length > 0 && (
+        <section className="section guide-links-section" aria-label="Related reading">
+          <p className="label">Related reading</p>
+          <h2 className="h3">Guides from Anera Life</h2>
+          <ul className="guide-links">
+            {related.map((guide) => (
+              <li key={guide.href}>
+                <Link href={guide.href}>{guide.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
     </>
   );

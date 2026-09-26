@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { readingGuides } from "@/lib/seo";
 
 /* ── Animated counter that counts up to a target number ─────── */
 function useCountUp(target: number, duration = 1500) {
@@ -196,15 +197,15 @@ export default function SciencePage() {
             </div>
             <div className="science-text reveal-right">
               <p className="label">The Science</p>
-              <h2 className="h2" style={{ marginBottom: 24 }}>
-                Endotoxin Free.
+              <h1 className="h2" style={{ marginTop: 0, marginBottom: 24 }}>
+                The Science Behind NMN
                 <br />
-                By Design.
-              </h2>
+                &amp; Longevity
+              </h1>
               <p className="body-lg" style={{ marginBottom: 32 }}>
-                In 2022, Dr. David Sinclair revealed that most NMN supplements
-                were contaminated with endotoxin. Anera was built to be different
-                from day one.
+                <strong>Endotoxin free, by design.</strong> In 2022, Dr. David
+                Sinclair revealed that most NMN supplements were contaminated
+                with endotoxin. Anera was built to be different from day one.
               </p>
               <div className="science-callout">
                 <p>
@@ -419,6 +420,18 @@ export default function SciencePage() {
           <p className="fp-mission__emphasis">This is more than a supplement.</p>
           <p className="fp-mission__emphasis">This is our commitment to building a healthier future &mdash; one life at a time.</p>
         </div>
+      </section>
+
+      <section className="section guide-links-section" aria-label="NMN articles">
+        <p className="label">Keep reading</p>
+        <h2 className="h2">NMN articles</h2>
+        <ul className="guide-links">
+          {readingGuides.map((guide) => (
+            <li key={guide.href}>
+              <Link href={guide.href}>{guide.title}</Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );

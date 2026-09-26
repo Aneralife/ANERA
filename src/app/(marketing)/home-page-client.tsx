@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { readingGuides } from "@/lib/seo";
+import { FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shipping";
 
 export default function HomePage() {
   const loaderBarRef = useRef<HTMLDivElement>(null);
@@ -115,13 +117,13 @@ export default function HomePage() {
         <div className="marquee-track" aria-hidden="true">
           <span>Pharmaceutical Grade</span>
           <span>Human Clinically Tested</span>
-          <span>Free Shipping Over $150 CAD</span>
+          <span>Free Shipping Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
           <span>Endotoxin &lt;20 Eu/g</span>
           <span>Canada &amp; USA</span>
           <span>Pure. Proven. Powerful.</span>
           <span>Pharmaceutical Grade</span>
           <span>Human Clinically Tested</span>
-          <span>Free Shipping Over $150 CAD</span>
+          <span>Free Shipping Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
           <span>Endotoxin &lt;20 Eu/g</span>
           <span>Canada &amp; USA</span>
           <span>Pure. Proven. Powerful.</span>
@@ -246,6 +248,18 @@ export default function HomePage() {
             Our Story →
           </Link>
         </div>
+      </section>
+
+      <section className="section guide-links-section" aria-label="NMN guides">
+        <p className="label">From the science desk</p>
+        <h2 className="h2">Read the NMN guides</h2>
+        <ul className="guide-links">
+          {readingGuides.slice(0, 6).map((guide) => (
+            <li key={guide.href}>
+              <Link href={guide.href}>{guide.title}</Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );

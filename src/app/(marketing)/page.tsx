@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
 
 import HomePageClient from "./home-page-client";
+import { jsonLdScript, organizationJsonLd, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: new URL("https://www.aneralife.com/"),
+    canonical: `${siteUrl}/`,
   },
 };
 
 export default function HomePage() {
-  return <HomePageClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd) }}
+      />
+      <HomePageClient />
+    </>
+  );
 }

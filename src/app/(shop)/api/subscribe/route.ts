@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       </div>
       <p style="color:#888;font-size:13px;">
         This code gives you 10% off your first order.
-        <a href="https://aneralife.com/products" style="color:#0a0a0a;">Shop now →</a>
+        <a href="https://www.aneralife.com/products" style="color:#0a0a0a;">Shop now →</a>
       </p>
     </div>
     `

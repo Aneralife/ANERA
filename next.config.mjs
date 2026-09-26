@@ -1,3 +1,6 @@
+/** Keep in sync with `siteUrl` in src/lib/seo.ts */
+const SITE_URL = "https://www.aneralife.com";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -9,6 +12,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "aneralife.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.aneralife.com",
       },
     ],
   },
