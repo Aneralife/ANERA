@@ -166,10 +166,10 @@ export default function MarketingLayout({
               <p className="footer-col__title">Products</p>
               <ul>
                 <li>
-                  <Link href="/products">NMN 15000</Link>
+                  <Link href="/products/nad-booster-nmn-15000">NMN 15000</Link>
                 </li>
                 <li>
-                  <Link href="/products">NMN 24000</Link>
+                  <Link href="/products/nmn-trans-resveratrol-24000">NMN + TR 24000</Link>
                 </li>
                 <li>
                   <Link href="/products">All Products</Link>
@@ -188,9 +188,6 @@ export default function MarketingLayout({
                 <li>
                   <Link href="/science">Scientific Board</Link>
                 </li>
-                <li>
-                  <a href="#">Affiliate Program</a>
-                </li>
               </ul>
             </div>
             <div className="footer-col">
@@ -205,25 +202,22 @@ export default function MarketingLayout({
                 <li>
                   <Link href="/media">Press</Link>
                 </li>
-                <li>
-                  <a href="#">Careers</a>
-                </li>
               </ul>
             </div>
             <div className="footer-col">
               <p className="footer-col__title">Contact</p>
               <ul>
                 <li>
-                  <a href="mailto:Info@aneralife.com">Info@aneralife.com</a>
+                  <a href="mailto:info@aneralife.com">info@aneralife.com</a>
                 </li>
                 <li>
-                  <a href="#">2220 – 8788 McKim Way</a>
+                  <span>2220, 8788 McKim Way</span>
                 </li>
                 <li>
-                  <a href="#">Richmond, BC V6X 4E2</a>
+                  <span>Richmond, BC V6X 4E2</span>
                 </li>
                 <li>
-                  <a href="#">Canada</a>
+                  <span>Canada</span>
                 </li>
               </ul>
             </div>
@@ -260,6 +254,9 @@ export default function MarketingLayout({
               </li>
               <li>
                 <Link href="/terms">Terms</Link>
+              </li>
+              <li>
+                <Link href="/shipping">Shipping</Link>
               </li>
               <li>
                 <Link href="/returns">Returns</Link>
