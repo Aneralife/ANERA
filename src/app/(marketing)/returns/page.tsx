@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FREE_SHIPPING_SUMMARY, FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shipping";
 
 export const metadata: Metadata = {
   title: { absolute: "Return and Refund Policy | Anera Life" },
@@ -95,8 +96,8 @@ export default function ReturnsPage() {
         <section>
           <h2>Shipping</h2>
           <p>
-            Free shipping to Canada and the USA on orders of CA$120 or more.
-            Orders under CA$120 show a shipping rate at checkout. Read the{" "}
+            {FREE_SHIPPING_SUMMARY} Orders under CA${FREE_SHIPPING_THRESHOLD_CAD} show
+            a shipping rate at checkout. Read the{" "}
             <a href="/shipping">shipping policy</a>.
           </p>
         </section>

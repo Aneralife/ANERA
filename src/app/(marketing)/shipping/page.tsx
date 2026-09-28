@@ -4,8 +4,7 @@ import { FREE_SHIPPING_SUMMARY, FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shippi
 
 export const metadata: Metadata = {
   title: { absolute: "Shipping Policy | Anera Life" },
-  description:
-    "Free shipping to Canada and the USA on Anera Life orders of CA$120 or more. Orders under that amount show a shipping rate at checkout.",
+  description: `Free shipping to Canada and the USA on Anera Life orders of CA$${FREE_SHIPPING_THRESHOLD_CAD} or more. Orders under that amount show a shipping rate at checkout.`,
   alternates: { canonical: "/shipping" },
 };
 
@@ -26,10 +25,10 @@ export default function ShippingPage() {
             Save when that order reaches CA${FREE_SHIPPING_THRESHOLD_CAD}.
           </p>
           <p>
-            A single bottle of NMN 15000 is CA$105, so it ships free when the
-            rest of the order brings the total to CA${FREE_SHIPPING_THRESHOLD_CAD}{" "}
-            or more. NMN + TR 24000 is CA$120, so one bottle meets the threshold
-            on its own.
+            NMN 15000 is CA$105 a bottle. NMN + TR 24000 is CA$120 a bottle.
+            One bottle is under CA${FREE_SHIPPING_THRESHOLD_CAD}, so shipping is
+            calculated at checkout. Free shipping applies when the order total
+            reaches CA${FREE_SHIPPING_THRESHOLD_CAD} or more.
           </p>
         </section>
 
