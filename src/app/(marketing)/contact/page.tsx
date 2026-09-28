@@ -70,14 +70,14 @@ export default function ContactPage() {
               Email
             </p>
             <a
-              href="mailto:Info@aneralife.com"
+              href="mailto:info@aneralife.com"
               style={{
                 fontSize: 16,
                 color: "#fff",
                 transition: "color .2s",
               }}
             >
-              Info@aneralife.com
+              info@aneralife.com
             </a>
           </div>
           <div className="reveal" style={{ transitionDelay: ".1s" }}>

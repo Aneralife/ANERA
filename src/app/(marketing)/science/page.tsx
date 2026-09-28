@@ -265,9 +265,9 @@ export default function SciencePage() {
           <div className="stat reveal" style={{ transitionDelay: ".2s" }}>
             <div className="stat__num">2</div>
             <div className="stat__label">
-              Clinically tested
+              Health Canada
               <br />
-              human trial formulas
+              NPN formulas
             </div>
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".3s" }}>

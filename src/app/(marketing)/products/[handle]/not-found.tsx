@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section, Button } from "@/components/ui";
+
+export const metadata: Metadata = {
+  title: "Product Not Found",
+  robots: { index: false, follow: false },
+};
 
 export default function ProductNotFound() {
   return (

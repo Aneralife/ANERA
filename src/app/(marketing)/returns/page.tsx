@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: { absolute: "Return & Refund Policy – Anera Life" },
+  title: { absolute: "Return and Refund Policy | Anera Life" },
   description:
     "At Anera Life Inc., we are committed to the highest quality longevity health supplements. Read our global return policy to understand eligibility, the return process, and refunds.",
   alternates: { canonical: "/returns" },
@@ -93,6 +93,15 @@ export default function ReturnsPage() {
         </section>
 
         <section>
+          <h2>Shipping</h2>
+          <p>
+            Free shipping to Canada and the USA on orders of CA$120 or more.
+            Orders under CA$120 show a shipping rate at checkout. Read the{" "}
+            <a href="/shipping">shipping policy</a>.
+          </p>
+        </section>
+
+        <section>
           <h2>Contact Information</h2>
           <p>
             If you have any questions about our return policy or need further assistance, please
@@ -109,7 +118,7 @@ export default function ReturnsPage() {
             2220 – 8788 McKim Way<br />
             Richmond, BC V6X 4E2<br />
             Canada<br />
-            <a href="mailto:Info@aneralife.com">Info@aneralife.com</a>
+            <a href="mailto:info@aneralife.com">info@aneralife.com</a>
           </address>
         </section>
       </div>

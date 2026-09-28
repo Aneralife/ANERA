@@ -81,17 +81,17 @@ export default function HomePage() {
             Pharmaceutical-Grade NMN &middot; Canada &amp; USA
           </p>
           <h1 className="hero__title">
-            Longevity Is
+            Help Heal
             <br />
-            The New Flex.
+            Humanity.
           </h1>
           <p className="hero__sub">
-            Daily NMN fuels your body and mind — giving you the energy, clarity,
-            and resilience to stay ahead. Your evolution has begun.
+            Pharmaceutical-grade NMN for cellular energy, made in Canada.
+            Your evolution has begun.
           </p>
           <div className="hero__ctas">
-            <Link href="/products" className="btn-primary">
-              Shop Now →
+            <Link href="/products/nmn-trans-resveratrol-24000" className="btn-primary">
+              Shop Best Seller →
             </Link>
             <Link href="/science" className="btn-ghost">
               Discover the Science
@@ -116,14 +116,14 @@ export default function HomePage() {
       <div className="marquee-strip">
         <div className="marquee-track" aria-hidden="true">
           <span>Pharmaceutical Grade</span>
-          <span>Human Clinically Tested</span>
-          <span>Free Shipping Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
+          <span>Studied in Human Research</span>
+          <span>Free Shipping to Canada and USA Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
           <span>Endotoxin &lt;20 Eu/g</span>
           <span>Canada &amp; USA</span>
           <span>Pure. Proven. Powerful.</span>
           <span>Pharmaceutical Grade</span>
-          <span>Human Clinically Tested</span>
-          <span>Free Shipping Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
+          <span>Studied in Human Research</span>
+          <span>Free Shipping to Canada and USA Over ${FREE_SHIPPING_THRESHOLD_CAD} CAD</span>
           <span>Endotoxin &lt;20 Eu/g</span>
           <span>Canada &amp; USA</span>
           <span>Pure. Proven. Powerful.</span>
@@ -174,9 +174,9 @@ export default function HomePage() {
           <div className="stat reveal" style={{ transitionDelay: ".2s" }}>
             <div className="stat__num">2</div>
             <div className="stat__label">
-              Clinically tested
+              Health Canada
               <br />
-              human trial formulas
+              NPN formulas
             </div>
           </div>
           <div className="stat reveal" style={{ transitionDelay: ".3s" }}>

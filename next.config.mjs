@@ -26,6 +26,21 @@ const nextConfig = {
         destination: "/best-nmn-supplement-canada",
         permanent: true,
       },
+      {
+        source: "/products/nmn-15000",
+        destination: "/products/nad-booster-nmn-15000",
+        permanent: true,
+      },
+      {
+        source: "/product/nmn-15000",
+        destination: "/products/nad-booster-nmn-15000",
+        permanent: true,
+      },
+      {
+        source: "/collections/all",
+        destination: "/products",
+        permanent: true,
+      },
     ];
   },
 };

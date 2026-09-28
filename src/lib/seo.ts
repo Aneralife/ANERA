@@ -22,7 +22,7 @@ export const organizationJsonLd = {
       name: "Anera Life Inc.",
       url: siteUrl,
       logo: `${siteUrl}/og-image.jpg`,
-      email: "Info@aneralife.com",
+      email: "info@aneralife.com",
       address: {
         "@type": "PostalAddress",
         streetAddress: "2220 – 8788 McKim Way",

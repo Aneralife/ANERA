@@ -1,9 +1,10 @@
 /**
- * Free-shipping threshold used in marketing copy.
+ * Public free-shipping rule used in marketing copy.
  *
- * Checkout rules live in Shopify and are not configured in this repo.
- * The homepage marquee and cart metadata already say $150 CAD.
- * PDP meta descriptions said $120, which is the NMN + TR shelf price, not a
- * separate shipping rule. Copy uses $150 so those surfaces match.
+ * Free shipping to Canada and the USA on orders of CA$120 or more.
+ * Checkout rates live in Shopify Admin and are not set in this repo.
+ * If Admin still uses another threshold, update Admin so checkout matches this copy.
  */
-export const FREE_SHIPPING_THRESHOLD_CAD = 150;
+export const FREE_SHIPPING_THRESHOLD_CAD = 120;
+
+export const FREE_SHIPPING_SUMMARY = `Free shipping to Canada and the USA on orders of CA$${FREE_SHIPPING_THRESHOLD_CAD} or more.`;

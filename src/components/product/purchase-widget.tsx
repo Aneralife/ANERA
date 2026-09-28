@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useCart } from "@/components/cart/cart-context";
+import { FREE_SHIPPING_THRESHOLD_CAD } from "@/lib/shipping";
 
 type VariantOption = {
   id: string;
@@ -156,7 +157,7 @@ export function PurchaseWidget({ availableForSale, defaultVariantId, variants, o
           </div>
           <div className="pw-perk">
             <span className="pw-perk-icon">&#128230;</span>
-            <span>Free shipping every time</span>
+            <span>Free shipping on orders of CA${FREE_SHIPPING_THRESHOLD_CAD} or more</span>
           </div>
           <div className="pw-perk">
             <span className="pw-perk-icon">&#9208;</span>

@@ -226,7 +226,7 @@ const ARTICLES = [
     title: "Best NMN Supplement in Canada 2026 — Quality, Purity & Trust",
     date: "February 15, 2026", tag: "Canada", filter: "canada", icon: "🇨🇦", bannerClass: "alt4", readTime: "9 min read",
     lead: "How to identify the best NMN supplement in Canada — and why purity matters more than you think.",
-    takeaways: ["Canada's NMN market lacks consistent regulation", "Endotoxin testing separates pharmaceutical-grade from generic", "Anera is the only NMN clinically tested in human trials"],
+    takeaways: ["Canada's NMN market lacks consistent regulation", "Endotoxin testing separates pharmaceutical-grade from generic", "Pharmaceutical-grade NMN has been studied in human clinical research"],
     content: "<h2>The Canadian NMN Landscape</h2><p>As NMN gains popularity in Canada, the market has been flooded with products of varying quality.</p>"
   },
   {
@@ -670,7 +670,7 @@ export default function MediaPage() {
                 <p className="mh-product-cta__label">Explore Anera</p>
                 <h4 className="mh-product-cta__title">NMN 15000</h4>
                 <p className="mh-product-cta__text">
-                  Pharmaceutical-grade NMN, clinically tested in human trials.
+                  Pharmaceutical-grade NMN studied in human clinical research.
                 </p>
                 <a href="/products" className="mh-product-cta__btn">
                   View Products

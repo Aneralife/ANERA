@@ -41,7 +41,7 @@ const products: LocalProduct[] = [
     handle: "nmn-trans-resveratrol-24000",
     title: "NMN 24000",
     description:
-      "400 mg · 60 capsules. Maximum-strength formula for peak longevity. The only NMN in the world clinically tested in human trials.",
+      "400 mg · 60 capsules. Pharmaceutical-grade NMN studied in human clinical research, including the published Uthever multicentre trial. Anera batches are third-party tested.",
     price: "120",
     currency: "CAD",
     tag: "Advanced",

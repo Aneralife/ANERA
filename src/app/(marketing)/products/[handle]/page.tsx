@@ -19,7 +19,7 @@ function stripPromo(title: string) {
 
 const NMN24000_FAQS = [
   { q: "What is NMN + Trans-Resveratrol 24000?", a: "NMN + Trans-Resveratrol 24000 combines 250mg of pharmaceutical-grade NMN with 150mg of Trans-Resveratrol per capsule. NMN directly boosts NAD+ levels for cellular energy, while Trans-Resveratrol provides potent antioxidant protection — together delivering dual-action support for healthy aging." },
-  { q: "What makes Anera different from other NMN supplements?", a: "Anera is the only NMN supplement in the world clinically tested in human trials. Our endotoxin levels are consistently below 20 Eu/g — far below the industry average of 50–1000 Eu/g. We manufacture to pharmaceutical-grade standards, include Trans-Resveratrol for dual-action benefits, and provide full transparency with third-party testing documentation." },
+  { q: "What makes Anera different from other NMN supplements?", a: "Anera uses pharmaceutical-grade NMN studied in human clinical research, including the published Uthever multicentre trial. Anera batches are third-party tested, and endotoxin is typically below 20 Eu/g. We manufacture to pharmaceutical-grade standards and share third-party testing documentation. NMN + TR 24000 also includes Trans-Resveratrol." },
   { q: "When will I start seeing results?", a: "Most users report initial improvements in energy and mental clarity within 1-2 weeks. More significant benefits like improved sleep quality, better exercise recovery, and enhanced biomarkers typically develop over 1-3 months of consistent use. Long-term benefits continue to compound over 6+ months." },
   { q: "How should I take NMN + Trans-Resveratrol 24000?", a: "Take 1 capsule daily with a meal, preferably in the morning. The Trans-Resveratrol component is fat-soluble, so taking it with food enhances absorption. Consistency is key — daily supplementation maintains optimal NAD+ levels for maximum benefit." },
   { q: "Is NMN safe? Are there any side effects?", a: "NMN has been extensively studied in both animal and human clinical trials with an excellent safety profile. Our pharmaceutical-grade NMN is manufactured under strict GMP conditions and undergoes rigorous third-party testing. No significant adverse effects have been reported in clinical studies at recommended dosages." },
@@ -95,7 +95,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const shopifyHandle = SHOPIFY_HANDLE[params.handle] ?? params.handle;
   const product = await getProductByHandle(shopifyHandle);
-  if (!product) return { title: "Product Not Found" };
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      robots: { index: false, follow: false },
+    };
+  }
 
   const seo = PRODUCT_SEO[params.handle];
   if (seo) {
@@ -329,13 +334,13 @@ export default async function ProductPage({ params }: Props) {
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="4 10 8 14 16 6" />
                 </svg>
-                Free shipping across Canada
+                Free shipping to Canada and the USA on orders of CA${FREE_SHIPPING_THRESHOLD_CAD} or more
               </li>
               <li className="pdp-highlights__item">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="4 10 8 14 16 6" />
                 </svg>
-                30-day satisfaction guarantee
+                30-day returns on unopened products only
               </li>
             </ul>
           </div>

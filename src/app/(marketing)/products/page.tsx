@@ -216,6 +216,12 @@ type PCard = {
   highlights?: string[];
 };
 
+const LIVE_HANDLES = ["nad-booster-nmn-15000", "nmn-trans-resveratrol-24000"] as const;
+
+const liveCatItems = LIVE_HANDLES.map((handle) =>
+  catItems.find((item) => item.href === `/products/${handle}`),
+).filter((item): item is (typeof catItems)[number] => Boolean(item));
+
 const productCards: PCard[] = [
   {
     name: "NMN + Trans-Resveratrol 24000", cat: "NAD+ Booster",
@@ -247,11 +253,17 @@ const productCards: PCard[] = [
   { name: "Taurine 300000", cat: "Mineral / Performance", desc: "Powder \u00b7 300g. Improves endurance, supports cardiovascular health, and aids post-exercise recovery.", price: "Price TBD", img: "/assets/Taurine.webp", imgHover: "/assets/second-all.jpeg", available: false },
 ];
 
+const liveProductCards = LIVE_HANDLES.map((handle) =>
+  productCards.find((card) => card.handle === handle),
+).filter((card): card is PCard => Boolean(card));
+
+const pipelineCards = productCards.filter((card) => !card.available);
+
 const compSupplements = [
   { feature: "Directly boosts NAD+ levels", info: "Measured by blood NAD+ levels", anera: "check", coq10: "check", creatine: "x", resveratrol: "Partial", generic: "Partial" },
   { feature: "Targets root cause of age-related energy decline", info: "Addresses mitochondrial dysfunction", anera: "check", coq10: "Partial", creatine: "x", resveratrol: "Partial", generic: "Partial" },
   { feature: "Pharmaceutical-grade purity", info: "", anera: "check", coq10: "x", creatine: "x", resveratrol: "x", generic: "x" },
-  { feature: "Human clinically tested", info: "", anera: "check", coq10: "Limited", creatine: "check", resveratrol: "Limited", generic: "x" },
+  { feature: "NMN studied in human research", info: "Published human research on pharmaceutical-grade NMN, including the Uthever multicentre trial. Other NMN products may also cite human research.", anera: "check", coq10: "n/a", creatine: "n/a", resveratrol: "Varies", generic: "Varies" },
   { feature: "Endotoxin <20 Eu/g", info: "", anera: "check", coq10: "x", creatine: "x", resveratrol: "x", generic: "x" },
   { feature: "Dual-action (NAD+ + antioxidant)", info: "", anera: "check", coq10: "x", creatine: "x", resveratrol: "Partial", generic: "x" },
 ];
@@ -286,7 +298,7 @@ const reviews = [
 
 const faqs = [
   { q: "What is NMN and how does it work?", a: "NMN (Nicotinamide Mononucleotide) is a naturally occurring molecule that your body converts directly into NAD+, a critical coenzyme involved in over 500 enzymatic reactions. As we age, NAD+ levels decline by up to 50% every 20 years. NMN supplementation directly replenishes NAD+, supporting energy metabolism, DNA repair, and cellular health." },
-  { q: "What makes Anera different from other NMN supplements?", a: "Anera is the only NMN supplement in the world clinically tested in human trials. Our endotoxin levels are consistently below 20 Eu/g — far below the industry average of 50–1000 Eu/g. We manufacture to pharmaceutical-grade standards, include Trans-Resveratrol for dual-action benefits, and provide full transparency with third-party testing documentation." },
+  { q: "What makes Anera different from other NMN supplements?", a: "Anera uses pharmaceutical-grade NMN studied in human clinical research, including the published Uthever multicentre trial. Anera batches are third-party tested, and endotoxin is typically below 20 Eu/g. We manufacture to pharmaceutical-grade standards and share third-party testing documentation. NMN + TR 24000 also includes Trans-Resveratrol." },
   { q: "When will I start seeing results?", a: "Most users report initial improvements in energy and mental clarity within 1-2 weeks. More significant benefits like improved sleep quality, better exercise recovery, and enhanced biomarkers typically develop over 1-3 months of consistent use. Long-term benefits continue to compound over 6+ months." },
   { q: "Is NMN safe? Are there any side effects?", a: "NMN has been extensively studied in both animal and human clinical trials with an excellent safety profile. Our pharmaceutical-grade NMN is manufactured under strict GMP conditions and undergoes rigorous third-party testing. No significant adverse effects have been reported in clinical studies at recommended dosages." },
   { q: "How should I take NMN + Trans-Resveratrol 24000?", a: "Take 1 capsule daily with a meal, preferably in the morning. The Trans-Resveratrol component is fat-soluble, so taking it with food enhances absorption. Consistency is key — daily supplementation maintains optimal NAD+ levels for maximum benefit." },
@@ -374,7 +386,7 @@ export default function StorePage() {
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
-          <h1 className="st-hero__title">Longevity Is The New Flex</h1>
+          <h1 className="st-hero__title">Help Heal Humanity</h1>
           <div className="st-hero__right">
             <p className="st-hero__tagline">Welcome to your new you. For Life.</p>
             <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
@@ -396,7 +408,7 @@ export default function StorePage() {
         <div className="st-shelf__inner" ref={topCarousel.innerRef}>
           <div className="st-shelf__track" onPointerDown={topCarousel.onPointerDown} onPointerMove={topCarousel.onPointerMove} onPointerUp={topCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
             <div className="st-shelf__slide" ref={topCarousel.slideRef}>
-              {catItems.map((item, i) => (
+              {liveCatItems.map((item, i) => (
                 <a
                   key={i}
                   href={item.available ? item.href : "#"}
@@ -429,7 +441,7 @@ export default function StorePage() {
       {/* ── Bottom Carousel — product cards ───────────────────── */}
       <div>
         <div className="st-latest-header st-reveal">
-          <h2 className="st-latest-header__title">The latest.&nbsp;<span className="st-latest-header__sub">Take a look at what&#39;s new, right now.</span></h2>
+          <h2 className="st-latest-header__title">Available now.&nbsp;<span className="st-latest-header__sub">NMN 15000 and NMN + TR 24000.</span></h2>
         </div>
         <div className="st-shelf st-shelf--transparent st-latest-pad" style={{ borderBottom: "1px solid var(--border, #e8e8ed)" }}>
           <button className={`st-arrow st-arrow--prev${botCarousel.page <= 0 ? " hidden" : ""}`} onClick={() => botCarousel.go(botCarousel.page - 1)} aria-label="Previous"><ArrowSvg dir="prev" /></button>
@@ -437,7 +449,7 @@ export default function StorePage() {
           <div className="st-shelf__inner" ref={botCarousel.innerRef}>
             <div className="st-shelf__track" onPointerDown={botCarousel.onPointerDown} onPointerMove={botCarousel.onPointerMove} onPointerUp={botCarousel.onPointerUp} style={{ touchAction: "pan-y" }}>
               <div className="st-shelf__slide" ref={botCarousel.slideRef}>
-                {productCards.map((card, i) => (
+                {liveProductCards.map((card, i) => (
                   <a
                     key={i}
                     href={card.handle ? `/products/${card.handle}` : "#"}
@@ -493,15 +505,34 @@ export default function StorePage() {
       </div>
       </div>{/* end st-carousel-video */}
 
+      <section className="st-pipeline" aria-label="Coming soon">
+        <div className="st-pipeline__inner">
+          <p className="st-pipeline__eyebrow">Pipeline</p>
+          <h2 className="st-pipeline__title">Coming soon</h2>
+          <p className="st-pipeline__lead">
+            These formulas are not for sale yet. NMN 15000 and NMN + TR 24000 are the products you can order now.
+            To ask about a future formula, email <a href="mailto:info@aneralife.com">info@aneralife.com</a>.
+          </p>
+          <ul className="st-pipeline__list">
+            {pipelineCards.map((card) => (
+              <li key={card.name} className="st-pipeline__item">
+                <span className="st-pipeline__name">{card.name}</span>
+                <span className="st-pipeline__status">Coming soon</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ── NMN 24000 Product Section Intro ───────────────────── */}
       <div className="st-product-intro" id="nmn24000">
         <div className="st-product-intro__left st-reveal">
           <h2>NMN + Trans-Resveratrol 24000<br />The Ultimate Longevity Powerhouse.</h2>
-          <p>250mg NMN + 150mg Trans-Resveratrol per capsule. Clinically studied, pharmaceutical-grade NMN with ultra-low endotoxin levels (&lt;20 Eu/g) for superior quality, safety, and consistency.</p>
+          <p>250mg NMN + 150mg Trans-Resveratrol per capsule. Pharmaceutical-grade NMN studied in human clinical research, with endotoxin typically below 20 Eu/g.</p>
           <div className="st-product-intro__badge-row">
             <span className="st-pill st-pill--gold">&#9733; Best Seller</span>
             <span className="st-pill st-pill--white">Pharmaceutical Grade</span>
-            <span className="st-pill st-pill--white">Human Clinically Tested</span>
+            <span className="st-pill st-pill--white">Studied in Human Research</span>
             <span className="st-pill st-pill--white">&lt;20 Eu/g Endotoxin</span>
           </div>
         </div>
@@ -565,7 +596,7 @@ export default function StorePage() {
       <section className="st-benefits" id="science">
         <div className="st-benefits__inner">
           <div className="st-benefits-header st-reveal">
-            <h2>Clinically Proven Benefits</h2>
+            <h2>Published NMN Research</h2>
           </div>
           <nav className="st-benefits-nav">
             {benefitTabs.map((tab) => (
