@@ -386,7 +386,7 @@ export default function StorePage() {
       {/* ── Store Hero ────────────────────────────────────────── */}
       <div className="st-hero">
         <div className="st-hero__inner st-reveal">
-          <h1 className="st-hero__title">Help Heal Humanity</h1>
+          <h1 className="st-hero__title">Longevity Is The New Flex</h1>
           <div className="st-hero__right">
             <p className="st-hero__tagline">Welcome to your new you. For Life.</p>
             <audio ref={audioRef} src="/assets/Deep.mp3" loop preload="none" />
