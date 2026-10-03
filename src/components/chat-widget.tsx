@@ -18,16 +18,31 @@ function PrismOrb({ avatar = false }: { avatar?: boolean }) {
 }
 
 function AssistantText({ content }: { content: string }) {
-  const parts = parseAssistantMessage(content);
-  return parts.map((part, index) =>
-    part.type === "link" ? (
-      <a key={index} href={part.href} target="_blank" rel="noopener noreferrer">
-        {part.label}
-      </a>
-    ) : (
-      <span key={index}>{part.value}</span>
-    ),
-  );
+  return renderChatParts(parseAssistantMessage(content), "msg");
+}
+
+function renderChatParts(parts: ReturnType<typeof parseAssistantMessage>, keyPrefix: string) {
+  return parts.map((part, index) => {
+    const key = `${keyPrefix}-${index}`;
+    if (part.type === "bold") {
+      return <strong key={key}>{renderChatParts(part.parts, key)}</strong>;
+    }
+    if (part.type === "link") {
+      if (part.href.startsWith("mailto:")) {
+        return (
+          <a key={key} href={part.href}>
+            {part.label}
+          </a>
+        );
+      }
+      return (
+        <a key={key} href={part.href} target="_blank" rel="noopener noreferrer">
+          {part.label}
+        </a>
+      );
+    }
+    return <span key={key}>{part.value}</span>;
+  });
 }
 
 function TypingDots() {

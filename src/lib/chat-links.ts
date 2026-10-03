@@ -1,5 +1,6 @@
 export type ChatPart =
   | { type: "text"; value: string }
+  | { type: "bold"; parts: ChatPart[] }
   | { type: "link"; label: string; href: string };
 
 const SITE_ORIGIN = "https://www.aneralife.com";
@@ -32,6 +33,10 @@ const PAGE_LABELS: Record<string, string> = {
 const MARKDOWN_LINK =
   /\[([^\[\]]{1,300})\][ \t]*\([ \t]*([^)\s]+)[ \t]*\)/g;
 
+const BOLD = /\*\*([^*\n]{1,300})\*\*/g;
+
+const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+
 const BARE_URL = /https?:\/\/[^\s<>\]]+/g;
 
 const BARE_PATH =
@@ -55,9 +60,22 @@ function pathnameOf(href: string): string {
   }
 }
 
+function isEmailAddress(value: string): boolean {
+  return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+}
+
+function mailtoHref(address: string): string {
+  return `mailto:${address}`;
+}
+
 export function normalizeChatHref(raw: string): string | null {
   const value = raw.trim();
   if (!value || value.startsWith("//")) return null;
+
+  if (/^mailto:/i.test(value)) {
+    const address = value.slice(7).split("?")[0];
+    return isEmailAddress(address) ? mailtoHref(address) : null;
+  }
 
   if (value.startsWith("/")) {
     if (!/^\/[A-Za-z0-9/_~.-]*$/.test(value)) return null;
@@ -105,7 +123,11 @@ function looksLikeUrlOrPath(label: string, pathname: string): boolean {
 }
 
 function labelFor(label: string, href: string): string {
-  const clean = label.trim().replace(/\s+/g, " ");
+  const clean = label.trim().replace(/\*\*/g, "").replace(/\s+/g, " ");
+  if (href.startsWith("mailto:")) {
+    const address = href.slice(7);
+    return isEmailAddress(clean) ? clean : address;
+  }
   const pathname = pathnameOf(href);
   const known = PAGE_LABELS[pathname];
   if (looksLikeUrlOrPath(clean, pathname)) {
@@ -168,6 +190,22 @@ function linkifyPlain(text: string, seen: Set<string>): ChatPart[] {
   return parts;
 }
 
+function linkifyEmails(text: string): ChatPart[] {
+  const parts: ChatPart[] = [];
+  let last = 0;
+  for (const match of text.matchAll(EMAIL)) {
+    const index = match.index ?? 0;
+    const trimmed = trimTrailingPunctuation(match[0]);
+    if (!isEmailAddress(trimmed.url)) continue;
+    if (index > last) parts.push({ type: "text", value: text.slice(last, index) });
+    parts.push({ type: "link", label: trimmed.url, href: mailtoHref(trimmed.url) });
+    if (trimmed.rest) parts.push({ type: "text", value: trimmed.rest });
+    last = index + match[0].length;
+  }
+  if (last < text.length) parts.push({ type: "text", value: text.slice(last) });
+  return parts;
+}
+
 function linkifyPaths(text: string, seen: Set<string>): ChatPart[] {
   const parts: ChatPart[] = [];
   let last = 0;
@@ -177,7 +215,7 @@ function linkifyPaths(text: string, seen: Set<string>): ChatPart[] {
     const path = match[2] ?? "";
     const href = normalizeChatHref(path);
     const start = index + prefix.length;
-    if (start > last) parts.push({ type: "text", value: text.slice(last, start) });
+    if (start > last) parts.push(...linkifyEmails(text.slice(last, start)));
     if (!href || seen.has(href)) {
       parts.push({ type: "text", value: path });
     } else {
@@ -186,8 +224,34 @@ function linkifyPaths(text: string, seen: Set<string>): ChatPart[] {
     }
     last = index + match[0].length;
   }
-  if (last < text.length) parts.push({ type: "text", value: text.slice(last) });
+  if (last < text.length) parts.push(...linkifyEmails(text.slice(last)));
   return parts;
+}
+
+function linkifyInline(text: string, seen: Set<string>): ChatPart[] {
+  const parts: ChatPart[] = [];
+  let last = 0;
+  for (const match of text.matchAll(BOLD)) {
+    const index = match.index ?? 0;
+    const inner = match[1].trim();
+    if (index > last) parts.push(...linkifyPlain(text.slice(last, index), seen));
+    if (isEmailAddress(inner)) {
+      parts.push({ type: "link", label: inner, href: mailtoHref(inner) });
+    } else {
+      const innerParts = linkifyPlain(inner, seen);
+      if (innerParts.length) parts.push({ type: "bold", parts: innerParts });
+    }
+    last = index + match[0].length;
+  }
+  if (last < text.length) parts.push(...linkifyPlain(text.slice(last), seen));
+  return parts;
+}
+
+function stripIncompleteBold(text: string): string {
+  const marks = [...text.matchAll(/\*\*/g)];
+  if (marks.length % 2 === 0) return text;
+  const last = marks[marks.length - 1];
+  return text.slice(0, last.index ?? text.length);
 }
 
 function mergeText(parts: ChatPart[]): ChatPart[] {
@@ -205,7 +269,7 @@ function mergeText(parts: ChatPart[]): ChatPart[] {
 }
 
 export function parseAssistantMessage(raw: string): ChatPart[] {
-  const text = stripIncompleteLink(softenDashes(raw));
+  const text = stripIncompleteBold(stripIncompleteLink(softenDashes(raw)));
   const parts: ChatPart[] = [];
   const seen = new Set<string>();
   let last = 0;
@@ -213,9 +277,9 @@ export function parseAssistantMessage(raw: string): ChatPart[] {
   for (const match of text.matchAll(MARKDOWN_LINK)) {
     const index = match.index ?? 0;
     const href = normalizeChatHref(match[2]);
-    if (index > last) parts.push(...linkifyPlain(text.slice(last, index), seen));
+    if (index > last) parts.push(...linkifyInline(text.slice(last, index), seen));
     if (!href) {
-      parts.push({ type: "text", value: match[1] });
+      parts.push(...linkifyInline(match[1], seen));
     } else if (!seen.has(href)) {
       seen.add(href);
       parts.push({ type: "link", label: labelFor(match[1], href), href });
@@ -223,6 +287,6 @@ export function parseAssistantMessage(raw: string): ChatPart[] {
     last = index + match[0].length;
   }
 
-  if (last < text.length) parts.push(...linkifyPlain(text.slice(last), seen));
+  if (last < text.length) parts.push(...linkifyInline(text.slice(last), seen));
   return mergeText(parts);
 }
