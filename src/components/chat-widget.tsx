@@ -709,7 +709,7 @@ export function ChatWidget() {
         className="any-chat-launcher"
         onClick={() => setOpen((current) => !current)}
         aria-label={open ? "Close ANY, A New You" : "Open ANY, A New You"}
-        title="ANY — A New You"
+        title="ANY, A New You"
         aria-expanded={open}
       >
         <span className="any-chat-orb" aria-hidden="true">
@@ -783,7 +783,7 @@ export function ChatWidget() {
             <div className="any-chat-message">
               <AneraMark decorative />
               <div className="any-chat-bubble any-chat-bubble--assistant">
-                Hi, I’m ANY — Anera’s product and article assistant. Ask me about NMN, product quality, the science, or our latest articles.
+                Hi, I’m ANY. I’m Anera’s product and article assistant. Ask me about NMN, product quality, the science, or our latest articles.
               </div>
             </div>
 
