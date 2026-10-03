@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { parseAssistantMessage } from "@/lib/chat-links";
 
 type Message = {
   role: "user" | "assistant";
@@ -13,6 +14,19 @@ function PrismOrb({ avatar = false }: { avatar?: boolean }) {
       <span className="any-chat-orb__blades" />
       <span className="any-chat-orb__glow" />
     </span>
+  );
+}
+
+function AssistantText({ content }: { content: string }) {
+  const parts = parseAssistantMessage(content);
+  return parts.map((part, index) =>
+    part.type === "link" ? (
+      <a key={index} href={part.href} target="_blank" rel="noopener noreferrer">
+        {part.label}
+      </a>
+    ) : (
+      <span key={index}>{part.value}</span>
+    ),
   );
 }
 
@@ -278,6 +292,16 @@ export function ChatWidget() {
           white-space: pre-wrap;
           overflow-wrap: anywhere;
         }
+        .any-chat-text a {
+          color: inherit;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+        .any-chat-text a:hover { text-decoration-thickness: 2px; }
+        .any-chat-text a:focus-visible {
+          outline: 2px solid #0071e3;
+          outline-offset: 2px;
+        }
         .any-chat-pill {
           max-width: 80%;
           margin: 0;
@@ -414,7 +438,7 @@ export function ChatWidget() {
                   <p className="any-chat-pill">{message.content}</p>
                 ) : (
                   <p className="any-chat-text">
-                    {message.content ? message.content : <TypingDots />}
+                    {message.content ? <AssistantText content={message.content} /> : <TypingDots />}
                   </p>
                 )}
               </div>
