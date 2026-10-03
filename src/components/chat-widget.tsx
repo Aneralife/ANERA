@@ -149,21 +149,17 @@ export function ChatWidget() {
           right: 24px;
           bottom: 24px;
           z-index: 950;
-          height: 40px;
-          padding: 0 14px 0 16px;
-          display: inline-flex;
-          align-items: center;
-          gap: 12px;
-          border: 1px solid var(--any-line);
-          border-radius: 2px;
-          background: var(--any-canvas);
+          width: 56px;
+          height: 56px;
+          padding: 0;
+          display: grid;
+          place-items: center;
+          border: 0;
+          border-radius: 50%;
+          background: transparent;
           color: var(--any-ink);
-          box-shadow: 0 8px 24px var(--any-shadow);
+          box-shadow: none;
           cursor: pointer;
-          transition: border-color .18s ease;
-        }
-        .any-chat-launcher:hover {
-          border-color: var(--any-ink);
         }
         .any-chat-launcher:focus-visible,
         .any-chat-header__close:focus-visible,
@@ -173,28 +169,100 @@ export function ChatWidget() {
         .any-chat-send:focus-visible,
         .any-chat-email-privacy a:focus-visible {
           outline: 2px solid #0071e3;
-          outline-offset: 2px;
+          outline-offset: 3px;
         }
-        .any-chat-launcher .any-chat-mark {
-          font-size: 12px;
+        .any-chat-orb {
+          width: 56px;
+          height: 56px;
+          position: relative;
+          display: block;
+          overflow: hidden;
+          border-radius: 50%;
+          background: #161210;
+          box-shadow:
+            inset 0 0 0 1px rgba(255, 244, 226, .22),
+            inset 0 -14px 18px rgba(16, 10, 8, .42),
+            0 10px 24px rgba(0, 0, 0, .22);
+          animation: any-orb-breathe 8.5s ease-in-out infinite;
+          contain: paint;
         }
-        .any-chat-launcher__rule {
+        .any-chat-orb__wash,
+        .any-chat-orb__mist,
+        .any-chat-orb__grain,
+        .any-chat-orb__shade {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          pointer-events: none;
+        }
+        .any-chat-orb__wash,
+        .any-chat-orb__mist {
+          inset: -46%;
+          border-radius: 50%;
+          will-change: transform;
+        }
+        .any-chat-orb__wash {
+          background:
+            radial-gradient(circle at 36% 34%, rgba(236, 214, 164, .96) 0 16%, transparent 42%),
+            radial-gradient(circle at 68% 46%, rgba(214, 156, 146, .78) 0 18%, transparent 46%),
+            radial-gradient(circle at 42% 74%, rgba(90, 74, 104, .62) 0 20%, transparent 48%),
+            radial-gradient(circle at 24% 64%, rgba(36, 28, 24, .92) 0 22%, transparent 50%);
+          animation: any-orb-drift 22s ease-in-out infinite alternate;
+        }
+        .any-chat-orb__mist {
+          background:
+            radial-gradient(circle at 58% 32%, rgba(201, 169, 110, .55) 0 14%, transparent 40%),
+            radial-gradient(circle at 30% 58%, rgba(176, 122, 124, .5) 0 18%, transparent 44%),
+            radial-gradient(circle at 62% 70%, rgba(48, 36, 52, .55) 0 16%, transparent 42%);
+          mix-blend-mode: soft-light;
+          animation: any-orb-drift 31s ease-in-out infinite alternate-reverse;
+        }
+        .any-chat-orb__grain {
+          opacity: .34;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+          background-size: 80px 80px;
+        }
+        .any-chat-orb__shade {
+          background:
+            radial-gradient(circle at 34% 28%, rgba(255, 248, 236, .78) 0%, rgba(255, 248, 236, 0) 24%),
+            radial-gradient(circle at 50% 54%, transparent 46%, rgba(14, 9, 8, .5) 100%);
+          animation: any-orb-sheen 13s ease-in-out infinite alternate;
+        }
+        .any-chat-launcher:hover .any-chat-orb {
+          box-shadow:
+            inset 0 0 0 1px rgba(255, 244, 226, .34),
+            inset 0 -14px 18px rgba(16, 10, 8, .42),
+            0 14px 28px rgba(0, 0, 0, .28);
+        }
+        @keyframes any-orb-drift {
+          0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+          100% { transform: translate3d(-10%, -8%, 0) rotate(36deg) scale(1.14); }
+        }
+        @keyframes any-orb-sheen {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(5%, 3%, 0); }
+        }
+        @keyframes any-orb-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.045); }
+        }
+        .any-chat-sr {
+          position: absolute;
           width: 1px;
-          height: 14px;
-          background: currentColor;
-          opacity: .22;
-        }
-        .any-chat-launcher__label {
-          color: var(--any-ink);
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: -.01em;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
         }
 
         .any-chat-window {
           position: fixed;
           right: 24px;
-          bottom: 80px;
+          bottom: 96px;
           z-index: 950;
           width: 400px;
           height: min(640px, calc(100vh - 112px));
@@ -604,32 +672,22 @@ export function ChatWidget() {
         }
 
         @media (max-width: 640px) {
+          .any-chat-launcher,
+          .any-chat-orb {
+            width: 52px;
+            height: 52px;
+          }
           .any-chat-launcher {
             right: 16px;
             bottom: max(16px, env(safe-area-inset-bottom));
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            padding: 0;
-            border-radius: 50%;
-            justify-content: center;
-            gap: 0;
-          }
-          .any-chat-launcher__label,
-          .any-chat-launcher__rule {
-            display: none;
-          }
-          .any-chat-launcher .any-chat-mark {
-            font-size: 8px;
-            letter-spacing: .16em;
           }
         }
         @media (max-width: 480px) {
           .any-chat-window {
             right: 10px;
-            bottom: 76px;
+            bottom: 84px;
             width: calc(100vw - 20px);
-            height: min(620px, calc(100dvh - 100px));
+            height: min(620px, calc(100dvh - 108px));
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -638,7 +696,11 @@ export function ChatWidget() {
           .any-chat-channel,
           .any-chat-send,
           .any-chat-email-submit { transition: none; }
-          .any-chat-typing span { animation: none; }
+          .any-chat-typing span,
+          .any-chat-orb,
+          .any-chat-orb__wash,
+          .any-chat-orb__mist,
+          .any-chat-orb__shade { animation: none; }
         }
       ` }} />
 
@@ -646,19 +708,23 @@ export function ChatWidget() {
         type="button"
         className="any-chat-launcher"
         onClick={() => setOpen((current) => !current)}
-        aria-label={open ? "Close chat" : "Open chat"}
+        aria-label={open ? "Close ANY, A New You" : "Open ANY, A New You"}
+        title="ANY — A New You"
         aria-expanded={open}
       >
-        <AneraMark decorative />
-        <span className="any-chat-launcher__rule" aria-hidden="true" />
-        <span className="any-chat-launcher__label">Ask ANY</span>
+        <span className="any-chat-orb" aria-hidden="true">
+          <span className="any-chat-orb__wash" />
+          <span className="any-chat-orb__mist" />
+          <span className="any-chat-orb__grain" />
+          <span className="any-chat-orb__shade" />
+        </span>
       </button>
 
       {open && (
         <section
           className="any-chat-window"
           role="dialog"
-          aria-label="Chat with ANY, Anera Life AI assistant"
+          aria-label="Chat with ANY, A New You"
           aria-modal="false"
         >
           <header className="any-chat-header">
@@ -667,7 +733,10 @@ export function ChatWidget() {
                 <AneraMark />
                 <span>Concierge</span>
               </p>
-              <p className="any-chat-header__title">Ask ANY</p>
+              <p className="any-chat-header__title">
+                ANY
+                <span className="any-chat-sr">, A New You</span>
+              </p>
               <p className="any-chat-header__subtitle">Product guidance, science notes, and article support.</p>
             </div>
             <button
