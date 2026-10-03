@@ -114,7 +114,7 @@ export function ChatWidget() {
 
   return (
     <>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .any-chat-window,
         .any-chat-launcher {
           --any-ink: #1d1d1f;
@@ -640,7 +640,7 @@ export function ChatWidget() {
           .any-chat-email-submit { transition: none; }
           .any-chat-typing span { animation: none; }
         }
-      `}</style>
+      ` }} />
 
       <button
         type="button"
