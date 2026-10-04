@@ -37,6 +37,20 @@ const BOLD = /\*\*([^*\n]{1,300})\*\*/g;
 
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 
+/** Array of matches. for-of on matchAll() fails this repo's TypeScript target. */
+function collectMatches(text: string, pattern: RegExp): RegExpExecArray[] {
+  const flags = pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`;
+  const regex = new RegExp(pattern.source, flags);
+  const found: RegExpExecArray[] = [];
+  let match = regex.exec(text);
+  while (match) {
+    found.push(match);
+    if (match[0].length === 0) regex.lastIndex += 1;
+    match = regex.exec(text);
+  }
+  return found;
+}
+
 const BARE_URL = /https?:\/\/[^\s<>\]]+/g;
 
 const BARE_PATH =
@@ -172,7 +186,7 @@ function linkifyPlain(text: string, seen: Set<string>): ChatPart[] {
 
   const parts: ChatPart[] = [];
   let last = 0;
-  for (const match of withoutDupes.matchAll(BARE_URL)) {
+  for (const match of collectMatches(withoutDupes, BARE_URL)) {
     const index = match.index ?? 0;
     const trimmed = trimTrailingPunctuation(match[0]);
     const href = normalizeChatHref(trimmed.url);
@@ -193,7 +207,7 @@ function linkifyPlain(text: string, seen: Set<string>): ChatPart[] {
 function linkifyEmails(text: string): ChatPart[] {
   const parts: ChatPart[] = [];
   let last = 0;
-  for (const match of text.matchAll(EMAIL)) {
+  for (const match of collectMatches(text, EMAIL)) {
     const index = match.index ?? 0;
     const trimmed = trimTrailingPunctuation(match[0]);
     if (!isEmailAddress(trimmed.url)) continue;
@@ -209,7 +223,7 @@ function linkifyEmails(text: string): ChatPart[] {
 function linkifyPaths(text: string, seen: Set<string>): ChatPart[] {
   const parts: ChatPart[] = [];
   let last = 0;
-  for (const match of text.matchAll(BARE_PATH)) {
+  for (const match of collectMatches(text, BARE_PATH)) {
     const index = match.index ?? 0;
     const prefix = match[1] ?? "";
     const path = match[2] ?? "";
@@ -231,7 +245,7 @@ function linkifyPaths(text: string, seen: Set<string>): ChatPart[] {
 function linkifyInline(text: string, seen: Set<string>): ChatPart[] {
   const parts: ChatPart[] = [];
   let last = 0;
-  for (const match of text.matchAll(BOLD)) {
+  for (const match of collectMatches(text, BOLD)) {
     const index = match.index ?? 0;
     const inner = match[1].trim();
     if (index > last) parts.push(...linkifyPlain(text.slice(last, index), seen));
@@ -248,7 +262,7 @@ function linkifyInline(text: string, seen: Set<string>): ChatPart[] {
 }
 
 function stripIncompleteBold(text: string): string {
-  const marks = [...text.matchAll(/\*\*/g)];
+  const marks = collectMatches(text, /\*\*/g);
   if (marks.length % 2 === 0) return text;
   const last = marks[marks.length - 1];
   return text.slice(0, last.index ?? text.length);
@@ -274,7 +288,7 @@ export function parseAssistantMessage(raw: string): ChatPart[] {
   const seen = new Set<string>();
   let last = 0;
 
-  for (const match of text.matchAll(MARKDOWN_LINK)) {
+  for (const match of collectMatches(text, MARKDOWN_LINK)) {
     const index = match.index ?? 0;
     const href = normalizeChatHref(match[2]);
     if (index > last) parts.push(...linkifyInline(text.slice(last, index), seen));
